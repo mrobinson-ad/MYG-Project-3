@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5164ee80f022be845a033adc097964c8, type: 3}
+  m_Name: WordList
+  m_EditorClassIdentifier: 
+  allWords:
+  - {fileID: 11400000, guid: 3d60c1c7d41475f438a1849451e7a515, type: 2}
+  - {fileID: 11400000, guid: 259f41bb6145d104e8372bc9bdf7b666, type: 2}
+  - {fileID: 11400000, guid: a3109abd2a220d84ea6348b266721c46, type: 2}
+  - {fileID: 11400000, guid: b53f2b6e05a218944a212aa0cf4c101e, type: 2}
+  flowerList:
+  - {fileID: 11400000, guid: 3d60c1c7d41475f438a1849451e7a515, type: 2}
+  - {fileID: 11400000, guid: a3109abd2a220d84ea6348b266721c46, type: 2}
+  houseplantList:
+  - {fileID: 11400000, guid: 259f41bb6145d104e8372bc9bdf7b666, type: 2}
+  aromaticList:
+  - {fileID: 11400000, guid: b53f2b6e05a218944a212aa0cf4c101e, type: 2}

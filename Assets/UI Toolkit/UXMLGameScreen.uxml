@@ -1,0 +1,64 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/USSHangFlower.uss?fileID=7433441132597879392&amp;guid=acc9c3e7efa1713408b942492efea6c6&amp;type=3#USSHangFlower" />
+    <ui:VisualElement name="root" class="root" style="flex-grow: 1; justify-content: flex-end; align-items: auto; flex-direction: row; padding-bottom: 20px; padding-right: 10px; margin-left: 0; padding-left: 10px; padding-top: 15px;">
+        <ui:VisualElement name="virtual-keyboard" picking-mode="Ignore" style="flex-grow: 1; align-items: flex-end; justify-content: space-between; height: 60%; min-height: auto; max-height: none; position: absolute; max-width: none; width: 35%; left: auto; top: auto; min-width: auto; bottom: 5%; margin-bottom: 0; padding-bottom: 0;">
+            <ui:VisualElement name="virtual-keyboard-row1" picking-mode="Ignore" class="keyboard-row">
+                <ui:Button text="A" parse-escape-sequences="true" display-tooltip-when-elided="true" name="A" usage-hints="DynamicColor" focusable="true" class="letter" style="position: relative; left: auto; top: auto;" />
+                <ui:Button text="B" parse-escape-sequences="true" display-tooltip-when-elided="true" name="B" usage-hints="DynamicColor" class="letter" style="position: relative; left: auto; top: auto;" />
+                <ui:Button text="C" parse-escape-sequences="true" display-tooltip-when-elided="true" name="C" class="letter" style="position: relative; left: auto; top: auto;" />
+                <ui:Button text="D" parse-escape-sequences="true" display-tooltip-when-elided="true" name="D" class="letter" style="position: relative; left: auto; top: auto;" />
+                <ui:Button text="E" parse-escape-sequences="true" display-tooltip-when-elided="true" name="E" class="letter" style="position: relative; left: auto; top: auto;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="virtual-keyboard-row2" picking-mode="Ignore" class="keyboard-row">
+                <ui:Button text="F" parse-escape-sequences="true" display-tooltip-when-elided="true" name="F" class="letter" style="position: relative; left: auto; top: auto;" />
+                <ui:Button text="G" parse-escape-sequences="true" display-tooltip-when-elided="true" name="G" class="letter" style="position: relative; left: auto; top: auto;" />
+                <ui:Button text="H" parse-escape-sequences="true" display-tooltip-when-elided="true" name="H" class="letter" style="position: relative; left: auto; top: auto;" />
+                <ui:Button text="I" parse-escape-sequences="true" display-tooltip-when-elided="true" name="I" class="letter" style="position: relative; left: auto; top: auto;" />
+                <ui:Button text="J" parse-escape-sequences="true" display-tooltip-when-elided="true" name="J" class="letter" style="position: relative; left: auto; top: auto;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="virtual-keyboard-row3" picking-mode="Ignore" class="keyboard-row">
+                <ui:Button text="K" parse-escape-sequences="true" display-tooltip-when-elided="true" name="K" class="letter" style="position: relative; left: auto; top: auto;" />
+                <ui:Button text="L" parse-escape-sequences="true" display-tooltip-when-elided="true" name="L" class="letter" style="position: relative; left: auto; top: auto;" />
+                <ui:Button text="M" parse-escape-sequences="true" display-tooltip-when-elided="true" name="M" class="letter" style="position: relative; left: auto; top: auto; -unity-background-image-tint-color: rgb(255, 255, 255);" />
+                <ui:Button text="N" parse-escape-sequences="true" display-tooltip-when-elided="true" name="N" class="letter" style="position: relative; left: auto; top: auto;" />
+                <ui:Button text="O" parse-escape-sequences="true" display-tooltip-when-elided="true" name="O" class="letter" style="position: relative; left: auto; top: auto;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="virtual-keyboard-row4" picking-mode="Ignore" class="keyboard-row">
+                <ui:Button text="P" parse-escape-sequences="true" display-tooltip-when-elided="true" name="P" class="letter" style="position: relative; left: auto; top: auto;" />
+                <ui:Button text="Q" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Q" class="letter" style="position: relative; left: auto; top: auto;" />
+                <ui:Button text="R" parse-escape-sequences="true" display-tooltip-when-elided="true" name="R" class="letter" style="position: relative; left: auto; top: auto;" />
+                <ui:Button text="S" parse-escape-sequences="true" display-tooltip-when-elided="true" name="S" class="letter" style="position: relative; left: auto; top: auto;" />
+                <ui:Button text="T" parse-escape-sequences="true" display-tooltip-when-elided="true" name="T" class="letter" style="position: relative; left: auto; top: auto;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="virtual-keyboard-row5" picking-mode="Ignore" class="keyboard-row">
+                <ui:Button text="U" parse-escape-sequences="true" display-tooltip-when-elided="true" name="U" class="letter" style="position: relative; left: auto; top: auto;" />
+                <ui:Button text="V" parse-escape-sequences="true" display-tooltip-when-elided="true" name="V" class="letter" style="position: relative; left: auto; top: auto;" />
+                <ui:Button text="W" parse-escape-sequences="true" display-tooltip-when-elided="true" name="W" class="letter" style="position: relative; left: auto; top: auto;" />
+                <ui:Button text="X" parse-escape-sequences="true" display-tooltip-when-elided="true" name="X" class="letter" style="position: relative; left: auto; top: auto;" />
+                <ui:Button text="Y" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Y" class="letter" style="position: relative; left: auto; top: auto;" />
+                <ui:Button text="Z" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Z" class="letter" style="position: relative; left: auto; top: auto;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:GroupBox name="hint-box" style="align-self: flex-start; flex-direction: row;">
+            <ui:Label tabindex="-1" text="&lt;b&gt;Hint:&lt;/b&gt;" parse-escape-sequences="true" display-tooltip-when-elided="true" style="font-size: 20px;" />
+            <ui:Label tabindex="-1" text="This is your hint" parse-escape-sequences="true" display-tooltip-when-elided="true" name="hint" style="-unity-text-align: lower-left; font-size: 16px;" />
+        </ui:GroupBox>
+        <ui:Button text="Restart" parse-escape-sequences="true" display-tooltip-when-elided="true" name="restart-button" style="align-self: flex-start;" />
+        <ui:GroupBox name="health-box" style="align-self: flex-start; flex-direction: row; position: absolute; left: 0;">
+            <ui:Label tabindex="-1" text="Lives left:" parse-escape-sequences="true" display-tooltip-when-elided="true" style="font-size: 20px; -unity-font-style: normal;" />
+            <ui:Label tabindex="-1" text="7" parse-escape-sequences="true" display-tooltip-when-elided="true" name="lives" style="-unity-text-align: lower-left; font-size: 20px; -unity-font-style: bold;" />
+        </ui:GroupBox>
+        <ui:VisualElement name="display-panel" style="flex-grow: 1; align-items: flex-start; left: 50px; bottom: 20px; width: 50%; max-width: 60%; height: 20%; align-self: auto; position: absolute; transform-origin: left bottom; top: auto;">
+            <ui:Label tabindex="-1" text="&lt;cspace=0.5em&gt;_____&lt;/cspace&gt;" parse-escape-sequences="true" display-tooltip-when-elided="true" name="display-word" enable-rich-text="true" style="font-size: 25px; -unity-text-align: middle-center; align-self: center; flex-wrap: wrap; flex-grow: 1; white-space: normal;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="restart-popup" focusable="false" style="flex-grow: 1; height: 100%; width: 100%; min-width: 100%; min-height: 100%; position: absolute; top: 0; visibility: visible; display: none;">
+            <ui:GroupBox name="category-box" tabindex="0" style="position: absolute; align-self: center; align-items: center; justify-content: space-around; height: 100%; width: 50%; left: 25%; background-color: rgba(0, 0, 0, 0.59); display: flex; visibility: visible; padding-top: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;">
+                <ui:Label tabindex="-1" text="Choose a category" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" style="-unity-font-style: bold; font-size: 20px; color: rgb(255, 255, 255);" />
+                <ui:Button text="All words" parse-escape-sequences="true" display-tooltip-when-elided="true" name="all-button" class="category-button" />
+                <ui:Button text="Flowers" parse-escape-sequences="true" display-tooltip-when-elided="true" name="flower-button" class="category-button" style="position: relative; top: auto;" />
+                <ui:Button text="Houseplants" parse-escape-sequences="true" display-tooltip-when-elided="true" name="houseplant-button" class="category-button" style="position: relative; top: auto;" />
+                <ui:Button text="Aromatics" parse-escape-sequences="true" display-tooltip-when-elided="true" name="aromatic-button" class="category-button" style="position: relative; top: auto;" />
+            </ui:GroupBox>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
