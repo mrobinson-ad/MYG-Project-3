@@ -10,8 +10,8 @@
         <ui:GroupBox name="volume-box" style="max-height: 100%; min-height: 100%; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; max-width: 70%; min-width: 65%; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 20px; height: 100%; justify-content: space-around; align-items: auto; align-self: flex-end;">
             <ui:Button text="Return" parse-escape-sequences="true" display-tooltip-when-elided="true" name="return-button" style="position: absolute; top: 5%; left: auto; right: 0;" />
             <ui:Label tabindex="-1" text="Volume" parse-escape-sequences="true" display-tooltip-when-elided="true" style="font-size: 25px; margin-bottom: -55px; margin-top: -20px; align-self: center; -unity-text-align: upper-center; margin-right: -110px;" />
-            <ui:Slider picking-mode="Ignore" label="Music" value="50" high-value="100" name="music-slider" class="setting-slider" />
-            <ui:Slider picking-mode="Ignore" label="Sound effects" value="50" high-value="100" name="sfx-slider" class="setting-slider" />
+            <ui:Slider picking-mode="Ignore" label="Music" value="0.5" high-value="1" name="music-slider" low-value="0.001" class="setting-slider" />
+            <ui:Slider picking-mode="Ignore" label="Sound effects" value="0.5" high-value="1" name="sfx-slider" low-value="0.001" show-input-field="false" class="setting-slider" />
         </ui:GroupBox>
     </ui:VisualElement>
 </ui:UXML>

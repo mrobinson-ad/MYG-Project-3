@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 public class Settings : MonoBehaviour
 {
-    public delegate float volumeChangeAction(VisualElement target, float volume);
+    public delegate void volumeChangeAction(VisualElement target, float volume);
     public static event volumeChangeAction OnVolumeChange;
 
     public delegate void difficultyChangeAction();
