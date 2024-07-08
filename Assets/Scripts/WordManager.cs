@@ -78,6 +78,7 @@ public class WordManager : MonoBehaviour
         aromaticCat = root.Q<Button>("aromatic-button");
         aromaticCat.clicked += () => SetNewWord(Category.Aromatic);
         SetNewWord();
+        Settings.OnDifficultyChange += SetNewWord;
     }
     // Gets a random wordSO in the specified category in the wordlistSO
     private Word_SO GetWord(List<Word_SO> wordList)

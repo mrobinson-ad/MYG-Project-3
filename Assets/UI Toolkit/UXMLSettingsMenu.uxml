@@ -1,0 +1,17 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/USSHangFlower.uss?fileID=7433441132597879392&amp;guid=acc9c3e7efa1713408b942492efea6c6&amp;type=3#USSHangFlower" />
+    <ui:VisualElement name="root" picking-mode="Ignore" style="flex-grow: 1; background-color: rgb(255, 255, 255); min-height: 100%; min-width: 100%; flex-direction: row;">
+        <ui:GroupBox name="difficulty-box" style="max-height: 100%; min-height: 100%; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; max-width: 40%; min-width: 30%; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 20px; height: 100%; justify-content: space-around; align-items: flex-start;">
+            <ui:Label tabindex="-1" text="Difficulty" parse-escape-sequences="true" display-tooltip-when-elided="true" style="font-size: 25px; margin-bottom: -20px; margin-top: -20px;" />
+            <ui:RadioButton label="Common plants" value="true" name="common-difficulty" class="radio-difficulty" />
+            <ui:RadioButton label="Rare plants" name="rare-difficulty" class="radio-difficulty" style="display: none;" />
+            <ui:RadioButton label="Scientific names" name="scientific-difficulty" class="radio-difficulty" />
+        </ui:GroupBox>
+        <ui:GroupBox name="volume-box" style="max-height: 100%; min-height: 100%; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; max-width: 70%; min-width: 65%; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 20px; height: 100%; justify-content: space-around; align-items: auto; align-self: flex-end;">
+            <ui:Button text="Return" parse-escape-sequences="true" display-tooltip-when-elided="true" name="return-button" style="position: absolute; top: 5%; left: auto; right: 0;" />
+            <ui:Label tabindex="-1" text="Volume" parse-escape-sequences="true" display-tooltip-when-elided="true" style="font-size: 25px; margin-bottom: -55px; margin-top: -20px; align-self: center; -unity-text-align: upper-center; margin-right: -110px;" />
+            <ui:Slider picking-mode="Ignore" label="Music" value="50" high-value="100" name="music-slider" class="setting-slider" />
+            <ui:Slider picking-mode="Ignore" label="Sound effects" value="50" high-value="100" name="sfx-slider" class="setting-slider" />
+        </ui:GroupBox>
+    </ui:VisualElement>
+</ui:UXML>
