@@ -53,12 +53,12 @@ public class UIManager : MonoBehaviour
     private void RegisterCallBacks()
     {
         // MouseCaptureOutEvent is called when the user stops interacting with the slider
-        musicSlider.RegisterCallback<MouseCaptureOutEvent>(evt =>
+        musicSlider.RegisterValueChangedCallback(evt =>
         {
             Settings.VolumeChange(musicSlider, musicSlider.value);
         });
 
-        sfxSlider.RegisterCallback<MouseCaptureOutEvent>(evt =>
+        sfxSlider.RegisterValueChangedCallback(evt =>
         {
             Settings.VolumeChange(sfxSlider, sfxSlider.value);
         });
@@ -155,12 +155,10 @@ public class UIManager : MonoBehaviour
         if (target == musicSlider)
         {
             AudioManager.Instance.MusicVolume = volume;
-            Debug.Log($"Music volume set to: {volume}");
         }
         else if (target == sfxSlider)
         {
             AudioManager.Instance.SfxVolume = volume;
-            Debug.Log($"SFX volume set to: {volume}");
         }
     }
 
