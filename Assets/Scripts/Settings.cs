@@ -11,7 +11,7 @@ public class Settings : MonoBehaviour
     public delegate void difficultyChangeAction();
     public static event difficultyChangeAction OnDifficultyChange;
 
-    public delegate void returnPressedAction(VisualElement target);
+    public delegate void returnPressedAction(UIDocument scene);
     public static event returnPressedAction OnReturnPressed;
 
 
@@ -26,8 +26,8 @@ public class Settings : MonoBehaviour
     }
     
 
-    public static void ReturnPressed(VisualElement target)
+    public static void ReturnPressed(UIDocument scene)
     {
-        OnReturnPressed?.Invoke(target);
+        OnReturnPressed?.Invoke(scene);
     }
 }

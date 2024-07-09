@@ -197,3 +197,6 @@
     -unity-text-align: upper-center;
     -unity-font-style: bold;
 }
+
+.navigation-button {
+}

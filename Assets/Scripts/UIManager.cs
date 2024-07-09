@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public enum PreviousScene
+public enum CurrentScene
 {
     Main,
     Game,
@@ -21,7 +21,9 @@ public class UIManager : MonoBehaviour
     public UIDocument settingsUIDocument;
     private Slider musicSlider;
     private Slider sfxSlider;
+    private Button exit;
     private GroupBox difficultyBox;
+    private CurrentScene currentScene = CurrentScene.Main;
 
     private void Awake()
     {
@@ -31,6 +33,7 @@ public class UIManager : MonoBehaviour
         difficultyBox = rootS.Q<GroupBox>("difficulty-box");
         musicSlider = rootS.Q<Slider>("music-slider");
         sfxSlider = rootS.Q<Slider> ("sfx-slider");
+        exit = rootS.Q<Button>("return-button");
         if (Instance == null)
         {
             Instance = this;
@@ -43,6 +46,11 @@ public class UIManager : MonoBehaviour
         }
         Settings.OnDifficultyChange += OnDifficultyChanged;
         Settings.OnVolumeChange += OnVolumeChange;
+        RegisterCallBacks();
+    }
+
+    private void RegisterCallBacks()
+    {
         // MouseCaptureOutEvent is called when the user stops interacting with the slider
         musicSlider.RegisterCallback<MouseCaptureOutEvent>(evt =>
         {
@@ -61,6 +69,41 @@ public class UIManager : MonoBehaviour
                 Settings.DifficultyChange();
             }
         });
+
+        exit.RegisterCallback<ClickEvent>(evt =>
+        {
+            
+            Settings.ReturnPressed(GetScene());
+        });
+        var buttons = rootMM.Query<Button>(className:"navigation-button").ToList();
+        buttons.AddRange(rootG.Query<Button>(className:"navigation-button").ToList());
+        buttons.AddRange(rootS.Query<Button>(className:"navigation-button").ToList());
+        foreach (var button in buttons)
+        {
+            button.RegisterCallback<ClickEvent>(evt => OnSceneChange(GetScene()));
+        }
+    }
+
+    private UIDocument GetScene()
+    {
+        UIDocument scene;
+        switch (currentScene)
+        {
+            case CurrentScene.Main:
+                scene = mainMenuUIDocument;
+                break;
+            case CurrentScene.Game:
+                scene = gameUIDocument;
+                break;
+            case CurrentScene.End:
+                scene = mainMenuUIDocument;
+                break;
+            default:
+                scene = mainMenuUIDocument;
+                break;
+        }
+
+        return scene;
     }
 
     private void Start()
@@ -97,13 +140,24 @@ public class UIManager : MonoBehaviour
             
             if (Enum.TryParse(difficultyText, true, out newDifficulty))
             {
-
                 WordManager.Instance.difficulty = newDifficulty;
                 Debug.Log($"WordManager difficulty set to: {WordManager.Instance.difficulty}");
             }            
             break;            
             }
         }
+    }
+
+    private void OnSceneChange(UIDocument currentScene)
+    {
+
+
+    }
+
+    private void OnReturnPressed(UIDocument scene)
+    {
+        scene.sortingOrder = 5;
+        settingsUIDocument.sortingOrder = 0;
     }
 
 }

@@ -5,13 +5,13 @@
             <ui:Label tabindex="-1" text="A FLOWERY JOURNEY" parse-escape-sequences="true" display-tooltip-when-elided="true" name="title" style="color: rgb(255, 255, 255); align-self: center; font-size: 40px; text-shadow: 1px 1px 0 rgb(0, 0, 0); -unity-font-definition: initial; -unity-font: url(&apos;project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&amp;guid=16b1150fb1f36a2408baa50aef8aba81&amp;type=3#NotInter-Regular&apos;); -unity-font-style: bold;" />
         </ui:VisualElement>
         <ui:VisualElement name="button-panel" style="flex-grow: 1; height: 100%; width: 40%; align-items: center; justify-content: space-between; padding-top: 5%; padding-left: 0; padding-bottom: 5%;">
-            <ui:Button text="Play" parse-escape-sequences="true" display-tooltip-when-elided="true" name="play-button" class="main-button" style="position: relative; top: auto; right: auto;" />
-            <ui:Button text="Stats" parse-escape-sequences="true" display-tooltip-when-elided="true" name="stats-button" class="main-button" style="margin-top: 2px; position: relative; top: auto; right: auto;" />
-            <ui:Button text="Settings" parse-escape-sequences="true" display-tooltip-when-elided="true" name="settings-button" class="main-button" style="margin-top: 2px; position: relative; top: auto; right: auto;" />
+            <ui:Button text="Play" parse-escape-sequences="true" display-tooltip-when-elided="true" name="game-button" class="main-button" style="position: relative; top: auto; right: auto;" />
+            <ui:Button text="Stats" parse-escape-sequences="true" display-tooltip-when-elided="true" name="stats-button" class="main-button navigation-button" style="margin-top: 2px; position: relative; top: auto; right: auto;" />
+            <ui:Button text="Settings" parse-escape-sequences="true" display-tooltip-when-elided="true" name="settings-button" class="main-button navigation-button" style="margin-top: 2px; position: relative; top: auto; right: auto;" />
         </ui:VisualElement>
         <ui:VisualElement name="dim-panel" style="flex-grow: 1; width: 100%; height: 100%; position: absolute; background-color: rgba(0, 0, 0, 0.59); display: none;" />
         <ui:VisualElement name="play-popup" style="flex-grow: 1; align-self: center; background-color: rgb(255, 255, 255); height: 100%; width: 50%; position: absolute; opacity: 1; align-items: center; justify-content: space-around; overflow: visible; left: 25%; display: none; right: 25%;">
-            <ui:Button text="Single Player" parse-escape-sequences="true" display-tooltip-when-elided="true" name="single-button" class="main-button" style="font-size: 35px; position: relative; top: auto;" />
+            <ui:Button text="Single Player" parse-escape-sequences="true" display-tooltip-when-elided="true" name="game-button" class="main-button navigation-button" style="font-size: 35px; position: relative; top: auto;" />
             <ui:Button text="Two players" parse-escape-sequences="true" display-tooltip-when-elided="true" name="multi-button" class="main-button" style="font-size: 35px; position: relative; top: auto;" />
             <ui:Button text="Return" parse-escape-sequences="true" display-tooltip-when-elided="true" name="return-button" class="main-button" style="font-size: 35px; position: relative; top: auto;" />
         </ui:VisualElement>
