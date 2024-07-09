@@ -200,3 +200,26 @@
 
 .navigation-button {
 }
+
+.popup {
+}
+
+.popup-box {
+    position: absolute;
+    align-self: center;
+    align-items: center;
+    justify-content: space-around;
+    height: 100%;
+    width: 50%;
+    left: 25%;
+    background-color: rgba(0, 0, 0, 0.59);
+    display: flex;
+    visibility: visible;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+}

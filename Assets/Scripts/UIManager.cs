@@ -75,13 +75,44 @@ public class UIManager : MonoBehaviour
             
             Settings.ReturnPressed(GetScene());
         });
+
         var buttons = rootMM.Query<Button>(className:"navigation-button").ToList();
         buttons.AddRange(rootG.Query<Button>(className:"navigation-button").ToList());
         buttons.AddRange(rootS.Query<Button>(className:"navigation-button").ToList());
         foreach (var button in buttons)
         {
-            button.RegisterCallback<ClickEvent>(evt => OnSceneChange(GetScene()));
+            button.RegisterCallback<ClickEvent>(evt => OnSceneChange((Button)evt.target, GetScene()));
         }
+
+        var pauseButton = rootG.Q<Button>("pause-button");
+        pauseButton.RegisterCallback<ClickEvent>(evt =>
+        {
+            rootG.Q<VisualElement>("pause-popup").style.display = DisplayStyle.Flex;
+        });
+
+        var restartButton = rootG.Q<Button>("restart-button");
+        restartButton.RegisterCallback<ClickEvent>(evt =>
+        {
+            rootG.Q<VisualElement>("restart-popup").style.display = DisplayStyle.Flex;
+            rootG.Q<VisualElement>("pause-popup").style.display = DisplayStyle.None;
+        });
+
+        var playButton = rootMM.Q<Button>("play-button");
+        playButton.RegisterCallback<ClickEvent>(evt =>
+        {
+            rootMM.Q<VisualElement>("play-popup").style.display = DisplayStyle.Flex;
+        });
+
+        var popups = rootG.Query<VisualElement>(className:"popup").ToList();
+        popups.AddRange(rootMM.Query<VisualElement>(className: "popup").ToList());
+        foreach (var popup in popups)
+        {
+            popup.RegisterCallback<PointerDownEvent>(evt =>
+            {
+                popup.style.display = DisplayStyle.None;
+            });
+        }
+
     }
 
     private UIDocument GetScene()
@@ -148,9 +179,33 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private void OnSceneChange(UIDocument currentScene)
+    private void OnSceneChange(Button target, UIDocument current)
     {
-
+        string targetScene = target.name.Split('-')[0];
+        switch (targetScene)
+        {
+            case "main":
+                mainMenuUIDocument.sortingOrder = 5;
+                current.sortingOrder = 0;
+                currentScene = CurrentScene.Main;
+                break;
+            case "game":
+                WordManager.Instance.SetNewWord();
+                gameUIDocument.sortingOrder = 5;
+                current.sortingOrder = 0;
+                currentScene = CurrentScene.Game;
+                break;
+            case "settings":
+                settingsUIDocument.sortingOrder = 5;
+                current.sortingOrder = 0;
+                break;
+            //case "end":
+            default:
+                mainMenuUIDocument.sortingOrder = 5;
+                current.sortingOrder = 0;
+                currentScene = CurrentScene.Main;
+                break;
+        }
 
     }
 

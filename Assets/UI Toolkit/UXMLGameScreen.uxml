@@ -50,8 +50,8 @@
         <ui:VisualElement name="display-panel" style="flex-grow: 1; align-items: flex-start; left: 50px; bottom: 20px; width: 50%; max-width: 60%; height: 20%; align-self: auto; position: absolute; transform-origin: left bottom; top: auto;">
             <ui:Label tabindex="-1" text="&lt;cspace=0.5em&gt;_____&lt;/cspace&gt;" parse-escape-sequences="true" display-tooltip-when-elided="true" name="display-word" enable-rich-text="true" style="font-size: 25px; -unity-text-align: middle-center; align-self: center; flex-wrap: wrap; flex-grow: 1; white-space: normal;" />
         </ui:VisualElement>
-        <ui:VisualElement name="restart-popup" focusable="false" style="flex-grow: 1; height: 100%; width: 100%; min-width: 100%; min-height: 100%; position: absolute; top: 0; visibility: visible; display: none;">
-            <ui:GroupBox name="category-box" tabindex="0" style="position: absolute; align-self: center; align-items: center; justify-content: space-around; height: 100%; width: 50%; left: 25%; background-color: rgba(0, 0, 0, 0.59); display: flex; visibility: visible; padding-top: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;">
+        <ui:VisualElement name="restart-popup" focusable="false" class="popup" style="flex-grow: 1; height: 100%; width: 100%; min-width: 100%; min-height: 100%; position: absolute; top: 0; visibility: visible; display: none;">
+            <ui:GroupBox name="category-box" tabindex="0" class="popup-box">
                 <ui:Label tabindex="-1" text="Choose a category" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" style="-unity-font-style: bold; font-size: 20px; color: rgb(255, 255, 255);" />
                 <ui:Button text="All words" parse-escape-sequences="true" display-tooltip-when-elided="true" name="all-button" class="category-button" />
                 <ui:Button text="Flowers" parse-escape-sequences="true" display-tooltip-when-elided="true" name="flower-button" class="category-button" style="position: relative; top: auto;" />
@@ -59,12 +59,12 @@
                 <ui:Button text="Aromatics" parse-escape-sequences="true" display-tooltip-when-elided="true" name="aromatic-button" class="category-button" style="position: relative; top: auto;" />
             </ui:GroupBox>
         </ui:VisualElement>
-        <ui:VisualElement name="pause-popup" focusable="false" style="flex-grow: 1; height: 100%; width: 100%; min-width: 100%; min-height: 100%; position: absolute; top: 0; visibility: visible; display: flex;">
-            <ui:GroupBox name="pause-box" tabindex="0" style="position: absolute; align-self: center; align-items: center; justify-content: space-around; height: 100%; width: 50%; left: 25%; background-color: rgba(0, 0, 0, 0.59); display: flex; visibility: visible; padding-top: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;">
+        <ui:VisualElement name="pause-popup" focusable="false" class="popup" style="flex-grow: 1; height: 100%; width: 100%; min-width: 100%; min-height: 100%; position: absolute; top: 0; visibility: visible; display: none;">
+            <ui:GroupBox name="pause-box" tabindex="0" class="popup-box" style="position: absolute; align-self: center; align-items: center; justify-content: space-around; height: 100%; width: 50%; left: 25%; background-color: rgba(0, 0, 0, 0.59); display: flex; visibility: visible; padding-top: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;">
                 <ui:Label tabindex="-1" text="Game is paused" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" style="-unity-font-style: bold; font-size: 20px; color: rgb(255, 255, 255);" />
                 <ui:Button text="Restart" parse-escape-sequences="true" display-tooltip-when-elided="true" name="restart-button" class="category-button" />
                 <ui:Button text="Settings" parse-escape-sequences="true" display-tooltip-when-elided="true" name="settings-button" class="category-button navigation-button" />
-                <ui:Button text="Main menu" parse-escape-sequences="true" display-tooltip-when-elided="true" name="mainMenu-button" class="category-button navigation-button" style="position: relative; top: auto;" />
+                <ui:Button text="Main menu" parse-escape-sequences="true" display-tooltip-when-elided="true" name="main-button" class="category-button navigation-button" style="position: relative; top: auto;" />
             </ui:GroupBox>
         </ui:VisualElement>
         <ui:Button text="Pause" parse-escape-sequences="true" display-tooltip-when-elided="true" name="pause-button" style="align-self: flex-start;" />

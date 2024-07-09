@@ -25,8 +25,6 @@ public class WordManager : MonoBehaviour
     private Button flowerCat;
     private Button houseplantCat;
     private Button aromaticCat;
-    private VisualElement restartPopup;
-
 
     #endregion
 
@@ -62,13 +60,6 @@ public class WordManager : MonoBehaviour
     {
         displayWord = root.Q<Label>("display-word");
         hint = root.Q<Label>("hint");
-        restart = root.Q<Button>("restart-button");
-        restart.clicked += OnRestartClicked;
-        restartPopup = root.Q<VisualElement>("restart-popup");
-        restartPopup.RegisterCallback<PointerDownEvent>(evt =>
-        {
-            restartPopup.style.display = DisplayStyle.None;
-        });
         allCat = root.Q<Button>("all-button");
         allCat.clicked += SetNewWord;
         flowerCat = root.Q<Button>("flower-button");
@@ -77,7 +68,6 @@ public class WordManager : MonoBehaviour
         houseplantCat.clicked += () => SetNewWord(Category.Houseplant);
         aromaticCat = root.Q<Button>("aromatic-button");
         aromaticCat.clicked += () => SetNewWord(Category.Aromatic);
-        SetNewWord();
         Settings.OnDifficultyChange += SetNewWord;
     }
     // Gets a random wordSO in the specified category in the wordlistSO
@@ -137,7 +127,7 @@ public class WordManager : MonoBehaviour
         SetEmptyWord(wordToGuess);
     }
 
-    private void SetNewWord()
+    public void SetNewWord()
     {
         flower.Lives = 7;
         ResetKeyboard();
@@ -207,10 +197,7 @@ public class WordManager : MonoBehaviour
         virtualKeyboard.Q<Button>(c.ToString()).pickingMode = PickingMode.Ignore; // disable the button after it's clicked
     }
 
-    private void OnRestartClicked()
-    {
-        restartPopup.style.display = DisplayStyle.Flex;
-    }
+
 
     private void ResetKeyboard()
     {
@@ -223,6 +210,5 @@ public class WordManager : MonoBehaviour
             letter[i].RemoveFromClassList("letter-correct");
             letter[i].RemoveFromClassList("letter-wrong");
         }
-        restartPopup.style.display = DisplayStyle.None;
     }
 }
