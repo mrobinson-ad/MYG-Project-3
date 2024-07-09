@@ -46,6 +46,7 @@ public class UIManager : MonoBehaviour
         }
         Settings.OnDifficultyChange += OnDifficultyChanged;
         Settings.OnVolumeChange += OnVolumeChange;
+        Settings.OnReturnPressed += OnReturnPressed;
         RegisterCallBacks();
     }
 
@@ -76,12 +77,18 @@ public class UIManager : MonoBehaviour
             Settings.ReturnPressed(GetScene());
         });
 
-        var buttons = rootMM.Query<Button>(className:"navigation-button").ToList();
-        buttons.AddRange(rootG.Query<Button>(className:"navigation-button").ToList());
-        buttons.AddRange(rootS.Query<Button>(className:"navigation-button").ToList());
-        foreach (var button in buttons)
+        var navigationButtons = rootMM.Query<Button>(className:"navigation-button").ToList();
+        navigationButtons.AddRange(rootG.Query<Button>(className:"navigation-button").ToList());
+        navigationButtons.AddRange(rootS.Query<Button>(className:"navigation-button").ToList());
+        foreach (var button in navigationButtons)
         {
             button.RegisterCallback<ClickEvent>(evt => OnSceneChange((Button)evt.target, GetScene()));
+        }
+
+        var categoryButtons = rootG.Query<Button>(className:"category").ToList();
+        foreach (var button in categoryButtons)
+        {
+            button.RegisterCallback<ClickEvent>(evt => OnCategoryPressed((Button)evt.target));
         }
 
         var pauseButton = rootG.Q<Button>("pause-button");
@@ -187,17 +194,20 @@ public class UIManager : MonoBehaviour
             case "main":
                 mainMenuUIDocument.sortingOrder = 5;
                 current.sortingOrder = 0;
+                rootG.Q<VisualElement>("pause-popup").style.display = DisplayStyle.None;
                 currentScene = CurrentScene.Main;
                 break;
             case "game":
                 WordManager.Instance.SetNewWord();
                 gameUIDocument.sortingOrder = 5;
                 current.sortingOrder = 0;
+                rootMM.Q<VisualElement>("play-popup").style.display = DisplayStyle.None;
                 currentScene = CurrentScene.Game;
                 break;
             case "settings":
                 settingsUIDocument.sortingOrder = 5;
                 current.sortingOrder = 0;
+                rootG.Q<VisualElement>("pause-popup").style.display = DisplayStyle.None;
                 break;
             //case "end":
             default:
@@ -209,8 +219,37 @@ public class UIManager : MonoBehaviour
 
     }
 
+        private void OnCategoryPressed(Button target)
+    {
+        string category = target.name.Split('-')[0];
+        
+        switch (category)
+        {
+            case "all":
+                WordManager.Instance.SetNewWord();
+                break;
+            case "flower":
+                var cat = Category.Flower;
+                WordManager.Instance.SetNewWord(cat);
+                break;
+            case "houseplant":
+                cat = Category.Houseplant;
+                WordManager.Instance.SetNewWord(cat);
+                break;
+            case "aromatic":
+                cat = Category.Aromatic;
+                WordManager.Instance.SetNewWord(cat);
+                break;
+            default:
+                WordManager.Instance.SetNewWord();
+                break;
+        }
+        rootG.Q<VisualElement>("restart-popup").style.display = DisplayStyle.None;
+    }
+
     private void OnReturnPressed(UIDocument scene)
     {
+        Debug.Log("Return pressed");
         scene.sortingOrder = 5;
         settingsUIDocument.sortingOrder = 0;
     }

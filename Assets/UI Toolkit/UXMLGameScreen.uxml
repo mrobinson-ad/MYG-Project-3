@@ -53,10 +53,10 @@
         <ui:VisualElement name="restart-popup" focusable="false" class="popup" style="flex-grow: 1; height: 100%; width: 100%; min-width: 100%; min-height: 100%; position: absolute; top: 0; visibility: visible; display: none;">
             <ui:GroupBox name="category-box" tabindex="0" class="popup-box">
                 <ui:Label tabindex="-1" text="Choose a category" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" style="-unity-font-style: bold; font-size: 20px; color: rgb(255, 255, 255);" />
-                <ui:Button text="All words" parse-escape-sequences="true" display-tooltip-when-elided="true" name="all-button" class="category-button" />
-                <ui:Button text="Flowers" parse-escape-sequences="true" display-tooltip-when-elided="true" name="flower-button" class="category-button" style="position: relative; top: auto;" />
-                <ui:Button text="Houseplants" parse-escape-sequences="true" display-tooltip-when-elided="true" name="houseplant-button" class="category-button" style="position: relative; top: auto;" />
-                <ui:Button text="Aromatics" parse-escape-sequences="true" display-tooltip-when-elided="true" name="aromatic-button" class="category-button" style="position: relative; top: auto;" />
+                <ui:Button text="All words" parse-escape-sequences="true" display-tooltip-when-elided="true" name="all-button" class="category-button category" />
+                <ui:Button text="Flowers" parse-escape-sequences="true" display-tooltip-when-elided="true" name="flower-button" class="category-button category" style="position: relative; top: auto;" />
+                <ui:Button text="Houseplants" parse-escape-sequences="true" display-tooltip-when-elided="true" name="houseplant-button" class="category-button category" style="position: relative; top: auto;" />
+                <ui:Button text="Aromatics" parse-escape-sequences="true" display-tooltip-when-elided="true" name="aromatic-button" class="category-button category" style="position: relative; top: auto;" />
             </ui:GroupBox>
         </ui:VisualElement>
         <ui:VisualElement name="pause-popup" focusable="false" class="popup" style="flex-grow: 1; height: 100%; width: 100%; min-width: 100%; min-height: 100%; position: absolute; top: 0; visibility: visible; display: none;">

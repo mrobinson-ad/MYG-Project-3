@@ -20,11 +20,6 @@ public class WordManager : MonoBehaviour
     private Label displayWord; // label where the underscores and guessed letters of the word to guess are displayed
     private Label hint;
     private Button[] letter; // array of Buttons containing each letter of the alphabet
-    private Button restart;
-    private Button allCat;
-    private Button flowerCat;
-    private Button houseplantCat;
-    private Button aromaticCat;
 
     #endregion
 
@@ -60,14 +55,6 @@ public class WordManager : MonoBehaviour
     {
         displayWord = root.Q<Label>("display-word");
         hint = root.Q<Label>("hint");
-        allCat = root.Q<Button>("all-button");
-        allCat.clicked += SetNewWord;
-        flowerCat = root.Q<Button>("flower-button");
-        flowerCat.clicked += () => SetNewWord(Category.Flower);
-        houseplantCat = root.Q<Button>("houseplant-button");
-        houseplantCat.clicked += () => SetNewWord(Category.Houseplant);
-        aromaticCat = root.Q<Button>("aromatic-button");
-        aromaticCat.clicked += () => SetNewWord(Category.Aromatic);
         Settings.OnDifficultyChange += SetNewWord;
     }
     // Gets a random wordSO in the specified category in the wordlistSO
@@ -94,7 +81,7 @@ public class WordManager : MonoBehaviour
         displayWord.text = "<cspace=0.25em>" + wordDisplay + "</cspace>"; // use rich text format to space the letters
     }
 
-    private void SetNewWord(Category category)
+    public void SetNewWord(Category category)
     {
         flower.Lives = 7;
         ResetKeyboard();
