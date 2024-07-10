@@ -19,7 +19,10 @@ public class Flower : MonoBehaviour
             lives = Mathf.Clamp(value, 0, 7);
             livesDisplay.text = lives.ToString();
             if (lives <= 0)
-                Debug.Log("Game Over");
+                {
+                    GameManager.Lose();
+                    Debug.Log("Game Over");
+                }
             }
     }
 

@@ -23,6 +23,7 @@ public class UIManager : MonoBehaviour
     private Slider sfxSlider;
     private Button exit;
     private GroupBox difficultyBox;
+    private VisualElement statPanel;
     private CurrentScene currentScene = CurrentScene.Main;
 
     private void Awake()
@@ -34,6 +35,7 @@ public class UIManager : MonoBehaviour
         musicSlider = rootS.Q<Slider>("music-slider");
         sfxSlider = rootS.Q<Slider> ("sfx-slider");
         exit = rootS.Q<Button>("return-button");
+        statPanel = rootMM.Q<VisualElement>("stat-panel");
         if (Instance == null)
         {
             Instance = this;
@@ -44,6 +46,7 @@ public class UIManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        statPanel.SetEnabled(false);
         Settings.OnDifficultyChange += OnDifficultyChanged;
         Settings.OnVolumeChange += OnVolumeChange;
         Settings.OnReturnPressed += OnReturnPressed;
@@ -97,6 +100,12 @@ public class UIManager : MonoBehaviour
             rootG.Q<VisualElement>("pause-popup").style.display = DisplayStyle.Flex;
         });
 
+        var statButton = rootMM.Q<Button>("stats-button");
+        statButton.RegisterCallback<ClickEvent>(evt =>
+        {
+            statPanel.SetEnabled(!statPanel.enabledSelf);
+        });
+
         var restartButton = rootG.Q<Button>("restart-button");
         restartButton.RegisterCallback<ClickEvent>(evt =>
         {
@@ -109,6 +118,7 @@ public class UIManager : MonoBehaviour
         {
             rootMM.Q<VisualElement>("play-popup").style.display = DisplayStyle.Flex;
         });
+        
 
         var popups = rootG.Query<VisualElement>(className:"popup").ToList();
         popups.AddRange(rootMM.Query<VisualElement>(className: "popup").ToList());

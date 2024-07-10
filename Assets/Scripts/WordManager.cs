@@ -173,6 +173,10 @@ public class WordManager : MonoBehaviour
             wordDisplay = new string(displayArray);
             displayWord.text = "<cspace=0.25em>" + wordDisplay + "</cspace>";
             Debug.Log(c + " appears " + timesFound + " times in the word");
+            if (wordDisplay == new string(wordToGuess))
+            {
+                GameManager.Win(difficulty);
+            }
             virtualKeyboard.Q<Button>(c.ToString()).AddToClassList("letter-correct");
         }
         else
@@ -196,6 +200,14 @@ public class WordManager : MonoBehaviour
             letter[i].pickingMode = PickingMode.Position;
             letter[i].RemoveFromClassList("letter-correct");
             letter[i].RemoveFromClassList("letter-wrong");
+        }
+    }
+
+    private void CheckWin()
+    {
+        if (wordDisplay == new string(wordToGuess))
+        {
+            GameManager.Win(difficulty);
         }
     }
 }
