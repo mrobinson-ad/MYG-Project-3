@@ -55,7 +55,6 @@ public class WordManager : MonoBehaviour
     {
         displayWord = root.Q<Label>("display-word");
         hint = root.Q<Label>("hint");
-        Settings.OnDifficultyChange += SetNewWord;
     }
     // Gets a random wordSO in the specified category in the wordlistSO
     private Word_SO GetWord(List<Word_SO> wordList)

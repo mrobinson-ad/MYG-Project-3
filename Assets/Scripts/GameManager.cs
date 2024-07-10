@@ -37,7 +37,6 @@ public class GameManager : MonoBehaviour
 
     public static void Win(Difficulty difficulty)
     {
-        OnWin?.Invoke(difficulty);
         GameManager.Instance.totalWins++;
         Debug.Log($"You won a total of {GameManager.Instance.totalWins} times");
         PlayerPrefs.SetInt("TotalWins", GameManager.Instance.totalWins);
@@ -50,13 +49,14 @@ public class GameManager : MonoBehaviour
             GameManager.Instance.scientificWins++;
             PlayerPrefs.SetInt("ScientificWins", GameManager.Instance.scientificWins);
         }
+        OnWin?.Invoke(difficulty);
     }
 
     public static void Lose()
     {
-        OnLose?.Invoke();
         GameManager.Instance.totalLosses++;
         Debug.Log($"You lost a total of {GameManager.Instance.totalLosses} times");
         PlayerPrefs.SetInt("TotalLosses", GameManager.Instance.totalLosses);
+        OnLose?.Invoke();
     }
 }

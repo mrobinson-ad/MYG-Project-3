@@ -9,9 +9,8 @@
             <ui:Label tabindex="-1" text="Total wins : 0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="total-win" class="stat-label" />
             <ui:Label tabindex="-1" text="Losses : 0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="total-loss" class="stat-label" />
             <ui:Foldout text="Categories" name="category-foldout" value="false" style="align-self: center; align-items: center; font-size: 30px; -unity-font-style: bold; transition-duration: 0s; transition-timing-function: ease-in-back;">
-                <ui:Label tabindex="-1" text="Flower wins : 0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="flower-win" class="stat-label" style="align-self: center; -unity-font-style: normal;" />
-                <ui:Label tabindex="-1" text="Houseplant wins : 0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="houseplant-win" class="stat-label" style="-unity-font-style: normal;" />
-                <ui:Label tabindex="-1" text="Aromatic wins : 0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="aromatic-win" class="stat-label" style="-unity-font-style: normal;" />
+                <ui:Label tabindex="-1" text="Common wins : 0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="common-win" class="stat-label" style="align-self: center; -unity-font-style: normal;" />
+                <ui:Label tabindex="-1" text="Scientific wins : 0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="scientific-win" class="stat-label" style="-unity-font-style: normal;" />
             </ui:Foldout>
         </ui:VisualElement>
         <ui:VisualElement name="button-panel" style="flex-grow: 1; height: 100%; width: 40%; align-items: center; justify-content: space-between; padding-top: 5%; padding-left: 0; padding-bottom: 5%;">
