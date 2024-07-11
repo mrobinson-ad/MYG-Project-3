@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using CustomAttributes;
+using DG.Tweening;
 
 public enum Difficulty
 {
@@ -80,7 +81,7 @@ public class WordManager : MonoBehaviour
         displayWord.text = "<cspace=0.25em>" + wordDisplay + "</cspace>"; // use rich text format to space the letters
     }
 
-    public void SetNewWord(Category category)
+    public void SetNewWord(Category category) // same as SetNewWord but gets a word from a specific category
     {
         flower.Lives = 7;
         ResetKeyboard();
@@ -113,7 +114,7 @@ public class WordManager : MonoBehaviour
         SetEmptyWord(wordToGuess);
     }
 
-    public void SetNewWord()
+    public void SetNewWord() // Resets lives, keyboard and gets a new random word depending on difficulty
     {
         flower.Lives = 7;
         ResetKeyboard();
@@ -182,6 +183,7 @@ public class WordManager : MonoBehaviour
         {
             Debug.Log(c + " is not part of the word.");
             virtualKeyboard.Q<Button>(c.ToString()).AddToClassList("letter-wrong");
+            virtualKeyboard.Q<VisualElement>(c.ToString()).DOShake(5);
             flower.Lives--;
         }
         virtualKeyboard.Q<Button>(c.ToString()).pickingMode = PickingMode.Ignore; // disable the button after it's clicked
@@ -189,7 +191,7 @@ public class WordManager : MonoBehaviour
 
 
 
-    private void ResetKeyboard()
+    private void ResetKeyboard() //resets the buttons' style and removes the styles that color the buttons
     {
         var buttons = virtualKeyboard.Query<Button>().ToList();
         letter = new Button[buttons.Count];

@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
 
     }
     #region Win Event
-    public static void Win(Difficulty difficulty) //
+    public static void Win(Difficulty difficulty) // updates the total and category specific wins and saves them to PlayerPrefs
     {
         GameManager.Instance.totalWins++;
         Debug.Log($"You won a total of {GameManager.Instance.totalWins} times");
@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Lose Event
-    public static void Lose()
+    public static void Lose() // updates the losses and saves them to PlayerPrefs
     {
         GameManager.Instance.totalLosses++;
         Debug.Log($"You lost a total of {GameManager.Instance.totalLosses} times");

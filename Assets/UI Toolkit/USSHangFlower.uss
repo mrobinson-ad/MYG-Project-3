@@ -70,7 +70,7 @@
     border-right-width: 0;
     border-bottom-width: 0;
     border-left-width: 0;
-    transition-property: all;
+    transition-property: color;
     transition-duration: 0.5s;
     transition-timing-function: ease-in;
     flex-grow: 2;

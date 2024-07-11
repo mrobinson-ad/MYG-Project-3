@@ -10,7 +10,7 @@ public class MainMenuCarousel : MonoBehaviour
     private VisualElement root;
     public UIDocument mainMenuUIDocument;
     private VisualElement carousel;
-    public EaseTypeWrapper carouselEase;
+    public EaseTypeWrapper carouselEase; //Serialized ease type with dropdown list selection in inspector
     float startPos = 500f;
     float endPos = 400f;
     private void Start()
@@ -21,12 +21,12 @@ public class MainMenuCarousel : MonoBehaviour
             
     }
 
-    private void StartCarousel()
+    private void StartCarousel() // DOTween sequence that loops until the last position then calls the restart
     {
         // Create a sequence
         var sequence = DOTween.Sequence()
             .SetLink(this.gameObject, LinkBehaviour.PauseOnDisablePlayOnEnable)
-            .AppendInterval(3);
+            .AppendInterval(4);
 
         sequence.Append(carousel.DOMovePercent(Side.Bottom, startPos, endPos, 2f, carouselEase.easeType))
             .OnComplete(() =>
@@ -47,10 +47,10 @@ public class MainMenuCarousel : MonoBehaviour
             });
     }
 
-    private void RestartCarousel()
+    private void RestartCarousel() // Goes back to the first image and calls the loop again
     {
         DOTween.Sequence()
-            .AppendInterval(3)
+            .AppendInterval(4)
             .Append(carousel.DOMovePercent(Side.Bottom, startPos, endPos, 3f, carouselEase.easeType))
             .OnComplete(() =>
             {

@@ -1,14 +1,14 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class StatsPanelController : MonoBehaviour
+public class StatsPanelController : MonoBehaviour // Initially sets the win/lose stats and updates them when OnWin or OnLose are called
 {
     
     Label totalWins;
     Label commonWins;
     Label scientificWins;
     Label totalLosses;        
-    private void Awake()
+    private void Awake() 
     {
         var root = GetComponent<UIDocument>().rootVisualElement;
         totalWins = root.Q<Label>("total-win");
