@@ -6,11 +6,12 @@ using UnityEngine.Audio;
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set;} // Singleton
+    // The Volume properties use log(i)*20 to get a value from -80 to 0 in order to set the attenuation in the mixer and saves the pre log value to PlayerPrefs
     public float MusicVolume
     {   
         get => musicVolume;
         set {
-            musicVolume = Mathf.Log(value)*20;
+            musicVolume = Mathf.Log(value)*20; 
             PlayerPrefs.SetFloat("Music", value);
             audioMixer.SetFloat("Music",musicVolume);
             }
@@ -31,7 +32,7 @@ public class AudioManager : MonoBehaviour
     private float musicVolume;
     private float sfxVolume;
 
-    private void Awake()
+    private void Awake() // Gets the saved volume settings from playerprefs with a 0.5f default
     {
         if (Instance == null)
         {
@@ -42,13 +43,13 @@ public class AudioManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        MusicVolume = PlayerPrefs.GetFloat("Music", 0.5f);
+        MusicVolume = PlayerPrefs.GetFloat("Music", 0.5f); 
        
         SfxVolume = PlayerPrefs.GetFloat("SFX", 0.5f);
         
     }
 
-    private void Start()
+    private void Start() // Sets the audioMixer volume to the saved volume settings
     {
         audioMixer.SetFloat("Music",MusicVolume);
         Debug.Log("the music volume is" + MusicVolume);

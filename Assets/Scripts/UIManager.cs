@@ -25,6 +25,7 @@ public class UIManager : MonoBehaviour
     private GroupBox difficultyBox;
     private VisualElement statPanel;
     private CurrentScene currentScene = CurrentScene.Main;
+    public GameObject carouselHandler;
 
     private void Awake()
     {
@@ -204,6 +205,7 @@ public class UIManager : MonoBehaviour
                 current.sortingOrder = 0;
                 rootG.Q<VisualElement>("pause-popup").style.display = DisplayStyle.None;
                 currentScene = CurrentScene.Main;
+                carouselHandler.SetActive(true);
                 break;
             case "game":
                 WordManager.Instance.SetNewWord();
@@ -211,11 +213,13 @@ public class UIManager : MonoBehaviour
                 current.sortingOrder = 0;
                 rootMM.Q<VisualElement>("play-popup").style.display = DisplayStyle.None;
                 currentScene = CurrentScene.Game;
+                carouselHandler.SetActive(false);
                 break;
             case "settings":
                 settingsUIDocument.sortingOrder = 5;
                 current.sortingOrder = 0;
                 rootG.Q<VisualElement>("pause-popup").style.display = DisplayStyle.None;
+                carouselHandler.SetActive(false);
                 break;
             //case "end":
             default:
@@ -260,6 +264,7 @@ public class UIManager : MonoBehaviour
         Debug.Log("Return pressed");
         scene.sortingOrder = 5;
         settingsUIDocument.sortingOrder = 0;
+        if (scene = mainMenuUIDocument) carouselHandler.SetActive(true);
     }
 
 }

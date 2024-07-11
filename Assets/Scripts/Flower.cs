@@ -4,6 +4,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+//Handles lives, lose state and flower animations in the future
 public class Flower : MonoBehaviour
 {
     private VisualElement root;
@@ -11,8 +12,7 @@ public class Flower : MonoBehaviour
     private Label livesDisplay;
 
     private int lives = 7;
-
-    public int Lives
+    public int Lives //Lives property updates the lives display on change and triggers the Lose event when = 0
     {   
         get => lives;
         set {

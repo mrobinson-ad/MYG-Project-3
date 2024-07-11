@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; } // Singleton
-
+    #region Win/Lose events
     private int totalWins;
     private int commonWins;
     private int scientificWins;
@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
 
     public delegate void loseAction();
     public static event loseAction OnLose;
+
+    #endregion
 
     private void Awake()
     {
@@ -34,8 +36,8 @@ public class GameManager : MonoBehaviour
         totalLosses = PlayerPrefs.GetInt("TotalLosses", 0);
 
     }
-
-    public static void Win(Difficulty difficulty)
+    #region Win Event
+    public static void Win(Difficulty difficulty) //
     {
         GameManager.Instance.totalWins++;
         Debug.Log($"You won a total of {GameManager.Instance.totalWins} times");
@@ -51,7 +53,9 @@ public class GameManager : MonoBehaviour
         }
         OnWin?.Invoke(difficulty);
     }
+    #endregion
 
+    #region Lose Event
     public static void Lose()
     {
         GameManager.Instance.totalLosses++;
@@ -59,4 +63,5 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetInt("TotalLosses", GameManager.Instance.totalLosses);
         OnLose?.Invoke();
     }
+    #endregion 
 }
