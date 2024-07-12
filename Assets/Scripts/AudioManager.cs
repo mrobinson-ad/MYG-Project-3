@@ -26,12 +26,20 @@ public class AudioManager : MonoBehaviour
             }
     }
     public AudioMixer audioMixer;
-    private AudioClip audioClip;
-    private GameObject audioPoolObject;
+    public BGMusic_SO[] backgroundMusics;
+    public SFX_SO[] soundEffects;
+    public GameObject BGMPrefab;
+    public GameObject SFXPrefab;
+
+    private GameObject currentBGMusic;
 
     private float musicVolume;
     private float sfxVolume;
 
+    public delegate void musicChangeAction(string name);
+    public static event musicChangeAction OnMusicChange;
+    public delegate void sfxPressedAction(string name);
+    public static event sfxPressedAction OnSFXPressed;
     private void Awake() // Gets the saved volume settings from playerprefs with a 0.5f default
     {
         if (Instance == null)
@@ -55,5 +63,68 @@ public class AudioManager : MonoBehaviour
         Debug.Log("the music volume is" + MusicVolume);
         audioMixer.SetFloat("SFX",SfxVolume);
         Debug.Log("the SFX volume is" + SfxVolume);
+        MusicChange("BGMainMenu");
     }
+
+    public static void MusicChange(string name)
+    {
+        if (AudioManager.Instance.currentBGMusic != null)
+        {
+            AudioSource currentAudioSource = AudioManager.Instance.currentBGMusic.GetComponent<AudioSource>();
+            currentAudioSource.Pause();
+        }
+
+        AudioSource audioSource;
+        GameObject BGMusic = GameObject.Find(name);
+        if (BGMusic == null)
+        {
+            BGMusic = Instantiate(AudioManager.Instance.BGMPrefab);
+            BGMusic.name = name;
+            audioSource = BGMusic.GetComponent<AudioSource>();
+            BGMusic_SO bgm = System.Array.Find(AudioManager.Instance.backgroundMusics, bgm => bgm.name == name);
+            if (bgm != null)
+            {
+                audioSource.clip = bgm.values.audioClip;
+                audioSource.outputAudioMixerGroup = bgm.values.output;
+                audioSource.Play();
+            }
+            else
+            {
+                Debug.LogError("Music with name " + name + " not found!");
+            }
+        }
+        else
+        {
+            audioSource = BGMusic.GetComponent<AudioSource>();
+            audioSource.Play();
+        }
+
+        AudioManager.Instance.currentBGMusic = BGMusic;
+
+        OnMusicChange?.Invoke(name);
+    }
+
+    public static void SFXPressed(string name)
+    {
+        AudioSource audioSource;
+        GameObject mySFX = GameObject.Find(name);
+        if (mySFX == null)
+        {
+            mySFX = Instantiate(AudioManager.Instance.SFXPrefab);
+            mySFX.name = name;
+            audioSource = mySFX.GetComponent<AudioSource>();
+            SFX_SO sfx = System.Array.Find(AudioManager.Instance.soundEffects, sfx => sfx.name == name);
+            audioSource.clip = sfx.values.audioClip;
+            audioSource.outputAudioMixerGroup = sfx.values.output;
+            audioSource.Play();
+        }
+        else
+        {
+            audioSource = mySFX.GetComponent<AudioSource>();
+            audioSource.Play();
+        }
+        OnSFXPressed?.Invoke(name);
+    }
+
+    
 }

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e57769353ff6664497b914b9a152e79, type: 3}
+  m_Name: SFXWrong
+  m_EditorClassIdentifier: 
+  values:
+    name: wrongLetter
+    audioClip: {fileID: 8300000, guid: b67ea1a82e2dcdf42b1609cd03c500aa, type: 3}
+    output: {fileID: -1279474584668367920, guid: ead411df7dc9601499dc0d08b6160b95, type: 2}
+    volume: 1
+    isLoop: 0
+    pitch: 1

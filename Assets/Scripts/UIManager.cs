@@ -54,6 +54,8 @@ public class UIManager : MonoBehaviour
         RegisterCallBacks();
     }
 
+
+
     private void RegisterCallBacks()
     {
         // MouseCaptureOutEvent is called when the user stops interacting with the slider
@@ -77,7 +79,7 @@ public class UIManager : MonoBehaviour
 
         exit.RegisterCallback<ClickEvent>(evt =>
         {
-            
+            AudioManager.SFXPressed("SFXButton");
             Settings.ReturnPressed(GetScene());
         });
 
@@ -86,30 +88,41 @@ public class UIManager : MonoBehaviour
         navigationButtons.AddRange(rootS.Query<Button>(className:"navigation-button").ToList());
         foreach (var button in navigationButtons)
         {
-            button.RegisterCallback<ClickEvent>(evt => OnSceneChange((Button)evt.target, GetScene()));
+            button.RegisterCallback<ClickEvent>(evt => 
+            { 
+                OnSceneChange((Button)evt.target, GetScene());
+                AudioManager.SFXPressed("SFXButton"); 
+            });
         }
 
         var categoryButtons = rootG.Query<Button>(className:"category").ToList();
         foreach (var button in categoryButtons)
         {
-            button.RegisterCallback<ClickEvent>(evt => OnCategoryPressed((Button)evt.target));
+            button.RegisterCallback<ClickEvent>(evt =>
+            {
+                AudioManager.SFXPressed("SFXButton");
+                OnCategoryPressed((Button)evt.target);
+            });
         }
 
         var pauseButton = rootG.Q<Button>("pause-button");
         pauseButton.RegisterCallback<ClickEvent>(evt =>
         {
+            AudioManager.SFXPressed("SFXButton");
             rootG.Q<VisualElement>("pause-popup").style.display = DisplayStyle.Flex;
         });
 
         var statButton = rootMM.Q<Button>("stats-button");
         statButton.RegisterCallback<ClickEvent>(evt =>
         {
+            AudioManager.SFXPressed("SFXButton");
             statPanel.SetEnabled(!statPanel.enabledSelf);
         });
 
         var restartButton = rootG.Q<Button>("restart-button");
         restartButton.RegisterCallback<ClickEvent>(evt =>
         {
+            AudioManager.SFXPressed("SFXButton");
             rootG.Q<VisualElement>("restart-popup").style.display = DisplayStyle.Flex;
             rootG.Q<VisualElement>("pause-popup").style.display = DisplayStyle.None;
         });
@@ -117,6 +130,7 @@ public class UIManager : MonoBehaviour
         var playButton = rootMM.Q<Button>("play-button");
         playButton.RegisterCallback<ClickEvent>(evt =>
         {
+            AudioManager.SFXPressed("SFXButton");
             rootMM.Q<VisualElement>("play-popup").style.display = DisplayStyle.Flex;
         });
         
@@ -205,6 +219,7 @@ public class UIManager : MonoBehaviour
                 current.sortingOrder = 0;
                 rootG.Q<VisualElement>("pause-popup").style.display = DisplayStyle.None;
                 currentScene = CurrentScene.Main;
+                AudioManager.MusicChange("BGMainMenu");
                 carouselHandler.SetActive(true);
                 break;
             case "game":
@@ -212,6 +227,7 @@ public class UIManager : MonoBehaviour
                 gameUIDocument.sortingOrder = 5;
                 current.sortingOrder = 0;
                 rootMM.Q<VisualElement>("play-popup").style.display = DisplayStyle.None;
+                AudioManager.MusicChange("BGGame");
                 currentScene = CurrentScene.Game;
                 carouselHandler.SetActive(false);
                 break;
@@ -266,5 +282,6 @@ public class UIManager : MonoBehaviour
         settingsUIDocument.sortingOrder = 0;
         if (scene = mainMenuUIDocument) carouselHandler.SetActive(true);
     }
+
 
 }

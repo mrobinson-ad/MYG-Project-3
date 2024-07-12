@@ -177,13 +177,15 @@ public class WordManager : MonoBehaviour
             {
                 GameManager.Win(difficulty);
             }
+            AudioManager.SFXPressed("SFXRight");
             virtualKeyboard.Q<Button>(c.ToString()).AddToClassList("letter-correct");
         }
         else
         {
             Debug.Log(c + " is not part of the word.");
             virtualKeyboard.Q<Button>(c.ToString()).AddToClassList("letter-wrong");
-            virtualKeyboard.Q<VisualElement>(c.ToString()).DOShake(5);
+            AudioManager.SFXPressed("SFXWrong");
+            virtualKeyboard.Q<VisualElement>(c.ToString());
             flower.Lives--;
         }
         virtualKeyboard.Q<Button>(c.ToString()).pickingMode = PickingMode.Ignore; // disable the button after it's clicked
