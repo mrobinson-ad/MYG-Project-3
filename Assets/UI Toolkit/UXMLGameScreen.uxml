@@ -39,7 +39,7 @@
                 <ui:Button text="Z" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Z" class="letter" style="position: relative; left: auto; top: auto;" />
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:GroupBox name="hint-box" style="align-self: flex-start; flex-direction: row;">
+        <ui:GroupBox name="hint-box" style="align-self: flex-start; flex-direction: row; top: 60px; left: 0; position: absolute;">
             <ui:Label tabindex="-1" text="&lt;b&gt;Hint:&lt;/b&gt;" parse-escape-sequences="true" display-tooltip-when-elided="true" style="font-size: 20px;" />
             <ui:Label tabindex="-1" text="This is your hint" parse-escape-sequences="true" display-tooltip-when-elided="true" name="hint" style="-unity-text-align: lower-left; font-size: 16px;" />
         </ui:GroupBox>
@@ -67,6 +67,6 @@
                 <ui:Button text="Main menu" parse-escape-sequences="true" display-tooltip-when-elided="true" name="main-button" class="category-button navigation-button" style="position: relative; top: auto;" />
             </ui:GroupBox>
         </ui:VisualElement>
-        <ui:Button text="Pause" parse-escape-sequences="true" display-tooltip-when-elided="true" name="pause-button" style="align-self: flex-start;" />
+        <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="pause-button" style="align-self: flex-start; background-color: rgba(188, 188, 188, 0); background-image: url(&apos;project://database/Assets/Graphism/exit.png?fileID=21300000&amp;guid=d2fd7242291a6284e8ea8b85941e1b50&amp;type=3#exit&apos;); -unity-background-scale-mode: scale-to-fit; border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0); height: 40px; width: 40px;" />
     </ui:VisualElement>
 </ui:UXML>

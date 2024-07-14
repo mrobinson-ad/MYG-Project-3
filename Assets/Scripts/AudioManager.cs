@@ -86,6 +86,7 @@ public class AudioManager : MonoBehaviour
             {
                 audioSource.clip = bgm.values.audioClip;
                 audioSource.outputAudioMixerGroup = bgm.values.output;
+                audioSource.loop = bgm.values.isLoop;
                 audioSource.Play();
             }
             else

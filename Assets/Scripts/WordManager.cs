@@ -27,7 +27,7 @@ public class WordManager : MonoBehaviour
     [ReadOnly]
     public string wordDisplay; // the word that the player needs to guess
     public WordList_SO wordListSO; // the scriptable object containing lists of wordSO separated by categories
-    private Word_SO wordSO; // the scriptable object containing the word to guess and all its relevant data
+    public Word_SO wordSO; // the scriptable object containing the word to guess and all its relevant data
     public char[] wordToGuess; // the word that the player has to guess converted to an array for easier comparison
     public Difficulty difficulty;
 
