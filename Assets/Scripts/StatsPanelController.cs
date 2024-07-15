@@ -7,7 +7,8 @@ public class StatsPanelController : MonoBehaviour // Initially sets the win/lose
     Label totalWins;
     Label commonWins;
     Label scientificWins;
-    Label totalLosses;        
+    Label totalLosses;
+    Label winRate;        
     private void Awake() 
     {
         var root = GetComponent<UIDocument>().rootVisualElement;
@@ -15,6 +16,7 @@ public class StatsPanelController : MonoBehaviour // Initially sets the win/lose
         commonWins = root.Q<Label>("common-win");
         scientificWins = root.Q<Label>("scientific-win");
         totalLosses = root.Q<Label>("total-loss");
+        winRate = root.Q<Label>("win-rate");
         GameManager.OnWin += UpdateWins;
         GameManager.OnLose += UpdateLoss; 
     }
@@ -22,6 +24,8 @@ public class StatsPanelController : MonoBehaviour // Initially sets the win/lose
     void Start()
     {        
         totalWins.text = $"Total wins: {PlayerPrefs.GetInt("TotalWins", 0)}";
+
+        winRate.text = $"Win rate: {GameManager.Instance.GetWinRate()}%";
 
         commonWins.text = $"Common wins: {PlayerPrefs.GetInt("CommonWins", 0)}";
         
@@ -41,10 +45,14 @@ public class StatsPanelController : MonoBehaviour // Initially sets the win/lose
         {
             scientificWins.text = $"Scientific wins: {PlayerPrefs.GetInt("ScientificWins", 0)}";
         }
+        winRate.text = $"Win rate: {GameManager.Instance.GetWinRate()}%";
+        PlayFabManager.UpdateWinRate(GameManager.Instance.GetWinRate());    
     }
 
     private void UpdateLoss()
     {
         totalLosses.text = $"Total Losses: {PlayerPrefs.GetInt("TotalLosses", 0)}";
+        winRate.text = $"Win rate: {GameManager.Instance.GetWinRate()}%";
+        PlayFabManager.UpdateWinRate(GameManager.Instance.GetWinRate());
     }
 }

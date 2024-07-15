@@ -741,6 +741,7 @@ MonoBehaviour:
   settingsUIDocument: {fileID: 1079625494}
   endUIDocument: {fileID: 991925703}
   carouselHandler: {fileID: 1036768230}
+  leaderboardEntryTemplate: {fileID: 9197481963319205126, guid: d09710857f47c4b47a53afc2130ccfca, type: 3}
 --- !u!4 &1997225374
 Transform:
   m_ObjectHideFlags: 0

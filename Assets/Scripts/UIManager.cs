@@ -1,8 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 using UnityEngine.UIElements;
+using PlayFab.ClientModels;
+using DG.Tweening;
 
 public enum CurrentScene
 {
@@ -28,6 +31,7 @@ public class UIManager : MonoBehaviour
     private VisualElement statPanel;
     private CurrentScene currentScene = CurrentScene.Main;
     public GameObject carouselHandler;
+    public VisualTreeAsset leaderboardEntryTemplate;
 
     private void Awake()
     {
@@ -37,14 +41,14 @@ public class UIManager : MonoBehaviour
         rootE = endUIDocument.rootVisualElement;
         difficultyBox = rootS.Q<GroupBox>("difficulty-box");
         musicSlider = rootS.Q<Slider>("music-slider");
-        sfxSlider = rootS.Q<Slider> ("sfx-slider");
+        sfxSlider = rootS.Q<Slider>("sfx-slider");
         exit = rootS.Q<Button>("return-button");
         statPanel = rootMM.Q<VisualElement>("stat-panel");
         if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-           
+
         }
         else
         {
@@ -88,20 +92,33 @@ public class UIManager : MonoBehaviour
             Settings.ReturnPressed(GetScene());
         });
 
-        var navigationButtons = rootMM.Query<Button>(className:"navigation-button").ToList();
-        navigationButtons.AddRange(rootG.Query<Button>(className:"navigation-button").ToList());
-        navigationButtons.AddRange(rootS.Query<Button>(className:"navigation-button").ToList());
-        navigationButtons.AddRange(rootE.Query<Button>(className:"navigation-button").ToList());
+        var leaderArrow = rootMM.Q<Button>("winrate-arrow");
+        leaderArrow.RegisterCallback<ClickEvent>(evt =>
+        {
+            rootMM.Q<VisualElement>("solo-stats").DOMovePercent(Side.Left, 0, -100, 1f, Ease.InBack);
+            rootMM.Q<VisualElement>("Leaderboard").DOMovePercent(Side.Left, 100, 0, 1f, Ease.InBack);
+        });
+        var statsArrow = rootMM.Q<Button>("stat-arrow");
+        statsArrow.RegisterCallback<ClickEvent>(evt =>
+        {
+            rootMM.Q<VisualElement>("solo-stats").DOMovePercent(Side.Left, -100, 0, 1f, Ease.InBack);
+            rootMM.Q<VisualElement>("Leaderboard").DOMovePercent(Side.Left, 0, 100, 1f, Ease.InBack);
+        });
+
+        var navigationButtons = rootMM.Query<Button>(className: "navigation-button").ToList();
+        navigationButtons.AddRange(rootG.Query<Button>(className: "navigation-button").ToList());
+        navigationButtons.AddRange(rootS.Query<Button>(className: "navigation-button").ToList());
+        navigationButtons.AddRange(rootE.Query<Button>(className: "navigation-button").ToList());
         foreach (var button in navigationButtons)
         {
-            button.RegisterCallback<ClickEvent>(evt => 
-            { 
+            button.RegisterCallback<ClickEvent>(evt =>
+            {
                 OnSceneChange((Button)evt.target, GetScene());
-                AudioManager.SFXPressed("SFXButton"); 
+                AudioManager.SFXPressed("SFXButton");
             });
         }
 
-        var categoryButtons = rootG.Query<Button>(className:"category").ToList();
+        var categoryButtons = rootG.Query<Button>(className: "category").ToList();
         foreach (var button in categoryButtons)
         {
             button.RegisterCallback<ClickEvent>(evt =>
@@ -139,9 +156,9 @@ public class UIManager : MonoBehaviour
             AudioManager.SFXPressed("SFXButton");
             rootMM.Q<VisualElement>("play-popup").style.display = DisplayStyle.Flex;
         });
-        
 
-        var popups = rootG.Query<VisualElement>(className:"popup").ToList();
+
+        var popups = rootG.Query<VisualElement>(className: "popup").ToList();
         popups.AddRange(rootMM.Query<VisualElement>(className: "popup").ToList());
         foreach (var popup in popups)
         {
@@ -158,7 +175,7 @@ public class UIManager : MonoBehaviour
             {
                 PlayFabManager.UpdateDisplayName(displayName);
                 rootMM.Q<VisualElement>("first-login").style.display = DisplayStyle.None;
-                 rootMM.Q<Label>("current-user").text = $"Current user:{displayName}";
+                rootMM.Q<Label>("current-user").text = $"Current user: {displayName}";
             }
         });
 
@@ -188,11 +205,6 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        if (PlayFabManager.hasName == true)
-        {
-            rootMM.Q<Label>("current-user").text = $"Current user: {PlayFabManager.currentUser}";
-            rootMM.Q<VisualElement>("first-login").style.display = DisplayStyle.None;
-        }
         sfxSlider.value = PlayerPrefs.GetFloat("SFX", 0.5f);
         musicSlider.value = PlayerPrefs.GetFloat("Music", 0.5f);
     }
@@ -217,16 +229,16 @@ public class UIManager : MonoBehaviour
         {
             if (radioButton.value)
             {
-            
-            string difficultyText = radioButton.label.Split()[0];
-            Difficulty newDifficulty;
-            
-            if (Enum.TryParse(difficultyText, true, out newDifficulty))
-            {
-                WordManager.Instance.difficulty = newDifficulty;
-                Debug.Log($"WordManager difficulty set to: {WordManager.Instance.difficulty}");
-            }            
-            break;            
+
+                string difficultyText = radioButton.label.Split()[0];
+                Difficulty newDifficulty;
+
+                if (Enum.TryParse(difficultyText, true, out newDifficulty))
+                {
+                    WordManager.Instance.difficulty = newDifficulty;
+                    Debug.Log($"WordManager difficulty set to: {WordManager.Instance.difficulty}");
+                }
+                break;
             }
         }
     }
@@ -270,10 +282,10 @@ public class UIManager : MonoBehaviour
 
     }
 
-        private void OnCategoryPressed(Button target)
+    private void OnCategoryPressed(Button target)
     {
         string category = target.name.Split('-')[0];
-        
+
         switch (category)
         {
             case "all":
@@ -344,5 +356,37 @@ public class UIManager : MonoBehaviour
         return lostDisplay;
     }
 
+    public void GameLoaded()
+    {
+        rootMM.Q<VisualElement>("loading-panel").style.display = DisplayStyle.None;
+        if (PlayFabManager.hasName == true)
+        {
+            rootMM.Q<Label>("current-user").text = $"Current user: {PlayFabManager.currentUser}";
+            rootMM.Q<VisualElement>("first-login").style.display = DisplayStyle.None;
+        }
+        PlayFabManager.GetLeaderBoard();
+    }
+
+
+    public void DisplayLeaderboard(List<PlayerLeaderboardEntry> leaderboard)
+    {
+        VisualElement leaderboardPanel = rootMM.Q<VisualElement>("Leaderboard");
+
+        var oldEntries = leaderboardPanel.Query<VisualElement>(className: "leaderboard-entry").ToList();
+        foreach (var oldEntry in oldEntries)
+        {
+            leaderboardPanel.Remove(oldEntry);
+        }
+
+        foreach (var entry in leaderboard)
+        {
+            VisualElement entryElement = leaderboardEntryTemplate.Instantiate();
+            entryElement.AddToClassList("leaderboard-entry");
+            entryElement.Q<Label>("position").text = (entry.Position + 1).ToString();
+            entryElement.Q<Label>("name").text = entry.DisplayName;
+            entryElement.Q<Label>("winrate").text = entry.StatValue.ToString() + "%";
+            leaderboardPanel.Add(entryElement);
+        }
+    }
 
 }

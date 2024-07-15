@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     private int commonWins;
     private int scientificWins;
     private int totalLosses;
+    private int winRate;
 
     public delegate void winAction(Difficulty difficulty);
     public static event winAction OnWin;
@@ -63,5 +64,13 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetInt("TotalLosses", GameManager.Instance.totalLosses);
         OnLose?.Invoke();
     }
-    #endregion 
+    #endregion
+
+    public int GetWinRate()
+    {
+        float winRatio = (float) totalWins / (totalWins + totalLosses) * 100;
+        Debug.Log($"Win Rate: {winRate}");
+        winRate = (int)winRatio;
+        return winRate;
+    }
 }

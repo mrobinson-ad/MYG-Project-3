@@ -298,3 +298,18 @@
     border-top-color: rgba(0, 0, 0, 0);
     border-bottom-color: rgba(0, 0, 0, 0);
 }
+
+.arrow-nav {
+    position: absolute;
+    top: 13px;
+    left: 51px;
+    background-image: url('project://database/Assets/Graphism/Double/arrow_decorative_w.png?fileID=21300000&guid=e6ae4155b9688cc4484658b0bc44a84a&type=3#arrow_decorative_w');
+    -unity-background-scale-mode: scale-to-fit;
+    width: 40px;
+    height: 40px;
+    border-left-color: rgba(255, 249, 249, 0);
+    border-right-color: rgba(255, 249, 249, 0);
+    border-top-color: rgba(255, 249, 249, 0);
+    border-bottom-color: rgba(255, 249, 249, 0);
+    background-color: rgba(255, 255, 255, 0);
+}
