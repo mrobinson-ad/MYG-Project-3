@@ -151,6 +151,17 @@ public class UIManager : MonoBehaviour
             });
         }
 
+        rootMM.Q<Button>("confirm-user").RegisterCallback<ClickEvent>(evt =>
+        {
+            string displayName = rootMM.Q<TextField>("user-field").value;
+            if (displayName != null)
+            {
+                PlayFabManager.UpdateDisplayName(displayName);
+                rootMM.Q<VisualElement>("first-login").style.display = DisplayStyle.None;
+                 rootMM.Q<Label>("current-user").text = $"Current user:{displayName}";
+            }
+        });
+
     }
 
     private UIDocument GetScene()
@@ -177,6 +188,11 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
+        if (PlayFabManager.hasName == true)
+        {
+            rootMM.Q<Label>("current-user").text = $"Current user: {PlayFabManager.currentUser}";
+            rootMM.Q<VisualElement>("first-login").style.display = DisplayStyle.None;
+        }
         sfxSlider.value = PlayerPrefs.GetFloat("SFX", 0.5f);
         musicSlider.value = PlayerPrefs.GetFloat("Music", 0.5f);
     }
