@@ -260,6 +260,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameUIDocument: {fileID: 1040155363}
+  petalEase:
+    easeType: 11
 --- !u!1 &986899852
 GameObject:
   m_ObjectHideFlags: 0

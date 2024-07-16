@@ -56,4 +56,27 @@ public static class DOTweenExtensions
         }, endValue, duration).SetEase(easeType);
     }
 
+        public static Tweener DOMove(this VisualElement ve, Side side, float startValue, float endValue, float duration, Ease easeType) 
+    {
+        return DOTween.To(() => startValue, x  =>
+        {
+            startValue = x;
+            switch (side) 
+            {
+                case Side.Bottom:
+                    ve.style.bottom  = new Length(x, LengthUnit.Pixel);
+                    break;
+                case Side.Top:
+                    ve.style.top  = new Length(x, LengthUnit.Pixel);
+                    break;
+                case Side.Left:
+                    ve.style.left  = new Length(x, LengthUnit.Pixel);
+                    break;
+                case Side.Right:
+                    ve.style.right  = new Length(x, LengthUnit.Pixel);
+                    break;
+            }
+        }, endValue, duration).SetEase(easeType);
+    }
+
 }
