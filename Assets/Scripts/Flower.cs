@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.UIElements;
 using DG.Tweening;
 
-//Handles lives, lose state and flower animations in the future
+// Handles lives, lose state, and flower animations in the future
 public class Flower : MonoBehaviour
 {
     private VisualElement root;
@@ -13,24 +12,26 @@ public class Flower : MonoBehaviour
     private Label livesDisplay;
     private List<VisualElement> petals;
     private List<Vector2> petalPos;
-    public EaseTypeWrapper petalEase;
-
+    public AnimationCurve easePetal;
 
     private int lives = 7;
-    public int Lives //Lives property updates the lives display on change and triggers the Lose event when = 0
-    {   
+    public int Lives // Lives property updates the lives display on change and triggers the Lose event when = 0
+    {
         get => lives;
-        set {
+        set
+        {
             if (lives > value)
-            LoseRandomPetal();
+                LoseRandomPetal();
             lives = Mathf.Clamp(value, 0, 7);
             livesDisplay.text = lives.ToString();
+            if (lives == 7)
+                ResetPetals();
             if (lives <= 0)
-                {
-                    GameManager.Lose();
-                    Debug.Log("Game Over");
-                }
+            {
+                GameManager.Lose();
+                Debug.Log("Game Over");
             }
+        }
     }
 
     private void Awake()
@@ -40,9 +41,16 @@ public class Flower : MonoBehaviour
         petals = new List<VisualElement>();
         petals.AddRange(root.Query<VisualElement>(className: "petal").ToList());
         petalPos = new List<Vector2>();
+        StartCoroutine(CaptureInitialPositions());
+    }
+
+    private IEnumerator CaptureInitialPositions()
+    {
+        yield return new WaitForEndOfFrame();
+
         foreach (var petal in petals)
         {
-            petalPos.Add(petal.layout.position);
+            petalPos.Add(new Vector2(petal.resolvedStyle.left, petal.resolvedStyle.top));
         }
     }
 
@@ -50,8 +58,28 @@ public class Flower : MonoBehaviour
     {
         int randomIndex = Random.Range(0, petals.Count);
         VisualElement petal = petals[randomIndex];
-        float startPos = petal.layout.position.y;
-        petal.DOMove(Side.Top, startPos, 400, 3f, petalEase.easeType);
+        Vector2 startPos = new Vector2(petal.resolvedStyle.left, petal.resolvedStyle.top);
+        Vector3[] endValues = new[]
+        {
+            new Vector3(startPos.x - 100, startPos.y + 100),
+            new Vector3(startPos.x +100, startPos.y + 200),
+             new Vector3(startPos.x -100, startPos.y + 300),
+            new Vector3(startPos.x , startPos.y + 400)
+        };
+
+        float[] durations = new[] { 1.5f, 1.5f, 1.5f, 1.5f };
+
+        Tween t = DOTween.ToArray(
+            () => new Vector2(petal.resolvedStyle.left, petal.resolvedStyle.top),
+            x =>
+            {
+                petal.style.left = x.x;
+                petal.style.top = x.y;
+            },
+            endValues,
+            durations
+        );
+        t.SetEase(easePetal);
         petals.RemoveAt(randomIndex);
     }
 
@@ -62,8 +90,8 @@ public class Flower : MonoBehaviour
         int i = 0;
         foreach (var petal in petals)
         {
-            petals[i].style.left = petalPos[i].x;
-            petals[i].style.top = petalPos[i].y;
+            petal.style.left = petalPos[i].x;
+            petal.style.top = petalPos[i].y;
             i++;
         }
     }
