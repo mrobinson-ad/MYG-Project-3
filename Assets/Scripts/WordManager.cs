@@ -32,9 +32,6 @@ public class WordManager : MonoBehaviour
     public Difficulty difficulty;
 
     public Flower flower;
-    public int fontSize_c = 25;
-    public int fontSize_s = 20;
-
 
     private void Awake()
     {
@@ -102,12 +99,12 @@ public class WordManager : MonoBehaviour
         {
             case Difficulty.Common:
             wordToGuess = wordSO.values.common.ToCharArray();
-            displayWord.style.fontSize = fontSize_c;
+            displayWord.style.fontSize = SetFontSize(wordSO.values.common);
             Debug.Log(wordSO.values.common);
                 break;
             case Difficulty.Scientific:
             wordToGuess = wordSO.values.scientific.ToCharArray();
-            displayWord.style.fontSize = fontSize_s;
+            displayWord.style.fontSize = SetFontSize(wordSO.values.scientific);
             Debug.Log(wordSO.values.scientific);
                 break;
         }
@@ -124,16 +121,45 @@ public class WordManager : MonoBehaviour
         {
             case Difficulty.Common:
             wordToGuess = wordSO.values.common.ToCharArray();
-            displayWord.style.fontSize = fontSize_c;
+            displayWord.style.fontSize = SetFontSize(wordSO.values.common);
             Debug.Log(wordSO.values.common);
                 break;
             case Difficulty.Scientific:
             wordToGuess = wordSO.values.scientific.ToCharArray();
-            displayWord.style.fontSize = fontSize_s;
+            displayWord.style.fontSize = SetFontSize(wordSO.values.scientific);
             Debug.Log(wordSO.values.scientific);
                 break;
         }
         SetEmptyWord(wordToGuess);
+    }
+
+    int  SetFontSize(string word)
+    {
+        int fontSize;
+
+        switch (word.Length)
+        {
+            case int n when (n < 5):
+                fontSize = 35;
+                break;
+            case int n when (n < 10):
+                fontSize = 30;
+                break;
+            case int n when (n < 15):
+                fontSize = 25;
+                break;
+            case int n when (n < 20):
+                fontSize = 22;
+                break;
+            case int n when (n >= 20):
+                fontSize = 18;
+                break;
+            default:
+                fontSize = 28; 
+                break;
+        }
+
+        return fontSize;
     }
 
     // Add each character button in virtual keyboard to the letters array

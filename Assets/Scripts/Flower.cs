@@ -9,7 +9,6 @@ public class Flower : MonoBehaviour
 {
     private VisualElement root;
     public UIDocument gameUIDocument;
-    private Label livesDisplay;
     private List<VisualElement> petals;
     private List<Vector2> petalPos;
     public AnimationCurve easePetal;
@@ -23,7 +22,6 @@ public class Flower : MonoBehaviour
             if (lives > value)
                 LoseRandomPetal();
             lives = Mathf.Clamp(value, 0, 7);
-            livesDisplay.text = lives.ToString();
             if (lives == 7)
                 ResetPetals();
             if (lives <= 0)
@@ -37,7 +35,6 @@ public class Flower : MonoBehaviour
     private void Awake()
     {
         root = gameUIDocument.rootVisualElement;
-        livesDisplay = root.Q<Label>("lives");
         petals = new List<VisualElement>();
         petals.AddRange(root.Query<VisualElement>(className: "petal").ToList());
         petalPos = new List<Vector2>();
@@ -67,7 +64,7 @@ public class Flower : MonoBehaviour
             new Vector3(startPos.x , startPos.y + 400)
         };
 
-        float[] durations = new[] { 1.5f, 1.5f, 1.5f, 1.5f };
+        float[] durations = new[] { 1f, 1f, 1f, 1f };
 
         Tween t = DOTween.ToArray(
             () => new Vector2(petal.resolvedStyle.left, petal.resolvedStyle.top),
