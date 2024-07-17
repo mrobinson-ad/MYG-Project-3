@@ -260,8 +260,48 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameUIDocument: {fileID: 1040155363}
-  petalEase:
-    easeType: 11
+  easePetal:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.42653036
+      value: 0.43603745
+      inSlope: 1.1610342
+      outSlope: 1.1610342
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.21228285
+      outWeight: 0.38613296
+    - serializedVersion: 3
+      time: 0.78190625
+      value: 0.7200126
+      inSlope: 0.8793448
+      outSlope: 0.8793448
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.0000324
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &986899852
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,6 +331,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fde3f05c805e02479ddac7974a418b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wordList: {fileID: 11400000, guid: fee9756e6409964489c55f26e56c2bde, type: 2}
 --- !u!4 &986899854
 Transform:
   m_ObjectHideFlags: 0

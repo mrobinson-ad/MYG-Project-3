@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using PlayFab;
 using PlayFab.ClientModels;
+using System.IO;
 using System;
 using PlayFab.MultiplayerModels;
 using Unity.VisualScripting;
@@ -40,7 +41,7 @@ public class PlayFabManager : MonoBehaviour
         }
         else
             hasName = false;
-
+        GetWordData();
         UIManager.Instance.GameLoaded();
     }
 
@@ -100,4 +101,25 @@ public class PlayFabManager : MonoBehaviour
         GetLeaderBoard();
 
     }
+
+    private void GetWordData()
+    {
+        PlayFabClientAPI.GetTitleData(new GetTitleDataRequest(), OnGetWordData, OnError);
+    }
+    // if WordData.json doesn't exist or is different from the WordData we get from TitleData, create wordData.json
+    private void OnGetWordData(GetTitleDataResult result)
+    {
+        if (result.Data == null || !result.Data.ContainsKey("WordData"))
+        {
+            Debug.Log("No word data found");
+            return;
+        }
+        if (!File.Exists(Application.persistentDataPath + "/WordData.json")||File.ReadAllText(Application.persistentDataPath + "/WordData.json") != result.Data["WordData"])
+        {
+            string wordjson = result.Data["WordData"];
+            File.WriteAllText(Application.persistentDataPath + "/WordData.json", wordjson);
+        }
+        GameManager.Instance.DeserializeJson(); // starts deserialization so the data can be used
+    }
+
 }

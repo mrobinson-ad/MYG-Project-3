@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using System.IO;
 
 public class GameManager : MonoBehaviour
 {
+
+    public WordList_SO wordList;
     public static GameManager Instance { get; private set; } // Singleton
     #region Win/Lose events
     private int totalWins;
@@ -73,4 +77,38 @@ public class GameManager : MonoBehaviour
         winRate = (int)winRatio;
         return winRate;
     }
+
+public void DeserializeJson()
+    {
+        string filePath = Path.Combine(Application.persistentDataPath, "WordData.json");
+
+        if (File.Exists(filePath))
+        {
+            string json = File.ReadAllText(filePath);
+
+            WordSOContainer wordSOContainer = JsonUtility.FromJson<WordSOContainer>(json);
+
+            // Clear existing list
+            wordList.allWords.Clear();
+
+            // Create Word_SO instances and add to WordList_SO
+            foreach (var wordData in wordSOContainer.values)
+            {
+                Word_SO wordSO = ScriptableObject.CreateInstance<Word_SO>();
+                wordSO.values = wordData;
+                wordSO.name =wordData.common;
+                wordSO.values.UpdateCommonLength();
+                wordSO.values.UpdateScientificLength();
+                wordSO.values.id = System.Guid.NewGuid().ToString();
+
+                wordList.allWords.Add(wordSO);
+            }
+            wordList.BuildCategoryLists();
+        }
+        else
+        {
+            Debug.LogError("WordData.json not found at: " + filePath);
+        }
+    }
+
 }

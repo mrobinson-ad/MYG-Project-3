@@ -1,20 +1,21 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using CustomAttributes;
 
-public enum Category 
+
+public enum Category
 {
     Flower,
     Houseplant,
     Aromatic
 }
 
-
 [CreateAssetMenu(fileName = "Word", menuName = "Scriptable Objects/Word")]
 public class Word_SO : ScriptableObject
 {
     public SerializableWord values;
+
     private void OnValidate() // makes sure the Length is updated when changing the value the word
     {
         values.UpdateCommonLength();
@@ -22,16 +23,22 @@ public class Word_SO : ScriptableObject
     }
 }
 
-[System.Serializable]
-public class SerializableWord 
+[Serializable]
+public class WordSOContainer
 {
-    public int id;
+    public List<SerializableWord> values;
+}
+
+[Serializable]
+public class SerializableWord
+{
+    public string id;
     public string common;
     public string scientific;
     public string description;
     public string hint;
     public Category category;
-    
+
     [ReadOnly]
     public int common_length;
 
@@ -39,6 +46,7 @@ public class SerializableWord
     {
         common_length = common.Length;
     }
+
     [ReadOnly]
     public int scientific_length;
 

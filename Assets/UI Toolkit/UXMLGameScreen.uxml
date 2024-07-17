@@ -50,9 +50,9 @@
                 <ui:Button text="Z" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Z" class="letter" style="position: relative; left: auto; top: auto;" />
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:GroupBox name="hint-box" style="align-self: flex-start; flex-direction: row; top: 64px; left: 574px; position: absolute;">
+        <ui:GroupBox name="hint-box" style="align-self: flex-start; flex-direction: row; top: 20%; left: auto; position: absolute; right: auto;">
             <ui:Label tabindex="-1" text="&lt;b&gt;Hint:&lt;/b&gt;" parse-escape-sequences="true" display-tooltip-when-elided="true" style="font-size: 20px;" />
-            <ui:Label tabindex="-1" text="This is your hint" parse-escape-sequences="true" display-tooltip-when-elided="true" name="hint" style="-unity-text-align: lower-left; font-size: 16px; white-space: normal;" />
+            <ui:Label tabindex="-1" text="This is your hint" parse-escape-sequences="true" display-tooltip-when-elided="true" name="hint" style="-unity-text-align: lower-left; font-size: 16px; white-space: normal; flex-wrap: wrap;" />
         </ui:GroupBox>
         <ui:GroupBox name="health-box" style="align-self: flex-start; flex-direction: row; position: absolute; left: 0; top: 0;">
             <ui:Label tabindex="-1" text="Lives left:" parse-escape-sequences="true" display-tooltip-when-elided="true" style="font-size: 20px; -unity-font-style: normal;" />
