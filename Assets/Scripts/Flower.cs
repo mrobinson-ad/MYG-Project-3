@@ -11,7 +11,6 @@ public class Flower : MonoBehaviour
     public UIDocument gameUIDocument;
     private List<VisualElement> petals;
     private List<Vector2> petalPos;
-    public AnimationCurve easePetal;
 
     private int lives = 7;
     public int Lives // Lives property updates the lives display on change and triggers the Lose event when = 0
@@ -52,33 +51,55 @@ public class Flower : MonoBehaviour
     }
 
     private void LoseRandomPetal()
+{
+    int randomIndex = Random.Range(0, petals.Count);
+    VisualElement petal = petals[randomIndex];
+    Vector2 startPos = new Vector2(petal.resolvedStyle.left, petal.resolvedStyle.top);
+
+    Vector3[] endValues = new[]
     {
-        int randomIndex = Random.Range(0, petals.Count);
-        VisualElement petal = petals[randomIndex];
-        Vector2 startPos = new Vector2(petal.resolvedStyle.left, petal.resolvedStyle.top);
-        Vector3[] endValues = new[]
+        new Vector3(startPos.x + Random.Range(-150, -50), startPos.y + 100),
+        new Vector3(startPos.x + Random.Range(50, 150), startPos.y + 200),
+        new Vector3(startPos.x + Random.Range(-150, -50), startPos.y + 300),
+        new Vector3(startPos.x + Random.Range(-50, 50), startPos.y + 400)
+    };
+
+    float[] durations = new[]
+    {
+        Random.Range(1f, 1.5f),
+        Random.Range(1f, 1.5f),
+        Random.Range(1f, 1.5f),
+        Random.Range(1f, 1.5f)
+    };
+
+    Tween t = DOTween.ToArray(
+        () => new Vector2(petal.resolvedStyle.left, petal.resolvedStyle.top),
+        x =>
         {
-            new Vector3(startPos.x - 100, startPos.y + 100),
-            new Vector3(startPos.x +100, startPos.y + 200),
-             new Vector3(startPos.x -100, startPos.y + 300),
-            new Vector3(startPos.x , startPos.y + 400)
-        };
+            petal.style.left = x.x;
+            petal.style.top = x.y;
+        },
+        endValues,
+        durations
+    );
 
-        float[] durations = new[] { 1f, 1f, 1f, 1f };
 
-        Tween t = DOTween.ToArray(
-            () => new Vector2(petal.resolvedStyle.left, petal.resolvedStyle.top),
-            x =>
-            {
-                petal.style.left = x.x;
-                petal.style.top = x.y;
-            },
-            endValues,
-            durations
-        );
-        t.SetEase(easePetal);
-        petals.RemoveAt(randomIndex);
-    }
+    t.SetEase(Ease.InOutSine);
+
+    float rotationDuration = Random.Range(3f, 6f);
+    float rotationEndValue = Random.Range(-45f, -10f);
+
+    float currentRotation = 0f;
+    DOTween.To(() => currentRotation, x =>
+    {
+        currentRotation = x;
+        petal.transform.rotation = Quaternion.Euler(0, 0, currentRotation);
+    }, rotationEndValue, rotationDuration).SetEase(Ease.InOutSine);
+
+    t.SetDelay(Random.Range(0f, 0.5f));
+
+    petals.RemoveAt(randomIndex);
+}
 
     private void ResetPetals()
     {
@@ -89,6 +110,7 @@ public class Flower : MonoBehaviour
         {
             petal.style.left = petalPos[i].x;
             petal.style.top = petalPos[i].y;
+            petal.transform.rotation = Quaternion.Euler(0, 0, 0);
             i++;
         }
     }
