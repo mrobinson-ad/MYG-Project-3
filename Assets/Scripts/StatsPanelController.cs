@@ -8,7 +8,8 @@ public class StatsPanelController : MonoBehaviour // Initially sets the win/lose
     Label commonWins;
     Label scientificWins;
     Label totalLosses;
-    Label winRate;        
+    Label winRate;
+  
     private void Awake() 
     {
         var root = GetComponent<UIDocument>().rootVisualElement;
@@ -37,6 +38,7 @@ public class StatsPanelController : MonoBehaviour // Initially sets the win/lose
     private void UpdateWins(Difficulty difficulty)
     {
         totalWins.text = $"Total wins: {PlayerPrefs.GetInt("TotalWins", 0)}";
+        
         if (difficulty == Difficulty.Common)
         {
             commonWins.text = $"Common wins: {PlayerPrefs.GetInt("CommonWins", 0)}";

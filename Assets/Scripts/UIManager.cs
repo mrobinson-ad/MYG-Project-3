@@ -19,7 +19,6 @@ public class UIManager : MonoBehaviour
     private VisualElement rootMM;
     private VisualElement rootG;
     private VisualElement rootS;
-    private VisualElement rootE;
     public UIDocument mainMenuUIDocument;
     public UIDocument gameUIDocument;
     public UIDocument settingsUIDocument;
@@ -38,7 +37,6 @@ public class UIManager : MonoBehaviour
         rootMM = mainMenuUIDocument.rootVisualElement;
         rootG = gameUIDocument.rootVisualElement;
         rootS = settingsUIDocument.rootVisualElement;
-        rootE = endUIDocument.rootVisualElement;
         difficultyBox = rootS.Q<GroupBox>("difficulty-box");
         musicSlider = rootS.Q<Slider>("music-slider");
         sfxSlider = rootS.Q<Slider>("sfx-slider");
@@ -108,7 +106,6 @@ public class UIManager : MonoBehaviour
         var navigationButtons = rootMM.Query<Button>(className: "navigation-button").ToList();
         navigationButtons.AddRange(rootG.Query<Button>(className: "navigation-button").ToList());
         navigationButtons.AddRange(rootS.Query<Button>(className: "navigation-button").ToList());
-        navigationButtons.AddRange(rootE.Query<Button>(className: "navigation-button").ToList());
         foreach (var button in navigationButtons)
         {
             button.RegisterCallback<ClickEvent>(evt =>
@@ -142,8 +139,9 @@ public class UIManager : MonoBehaviour
             statPanel.SetEnabled(!statPanel.enabledSelf);
         });
 
-        var restartButton = rootG.Q<Button>("restart-button");
-        restartButton.RegisterCallback<ClickEvent>(evt =>
+        var restartButtons = rootG.Query<Button>("restart-button").ToList();
+        foreach (var button in restartButtons)
+            button.RegisterCallback<ClickEvent>(evt =>
         {
             AudioManager.SFXPressed("SFXButton");
             rootG.Q<VisualElement>("restart-popup").style.display = DisplayStyle.Flex;
@@ -256,6 +254,16 @@ public class UIManager : MonoBehaviour
                 AudioManager.MusicChange("BGMainMenu");
                 carouselHandler.SetActive(true);
                 break;
+            case "mainend":
+                mainMenuUIDocument.sortingOrder = 5;
+                current.sortingOrder = 0;
+                rootG.Q<VisualElement>("end-panel").style.display = DisplayStyle.None;
+                rootG.Q<VisualElement>("display-panel").style.display = DisplayStyle.Flex;
+                rootG.Q<VisualElement>("pause-popup").style.display = DisplayStyle.None;
+                currentScene = CurrentScene.Main;
+                AudioManager.MusicChange("BGMainMenu");
+                carouselHandler.SetActive(true);
+                break;
             case "game":
                 WordManager.Instance.SetNewWord();
                 gameUIDocument.sortingOrder = 5;
@@ -307,6 +315,8 @@ public class UIManager : MonoBehaviour
                 WordManager.Instance.SetNewWord();
                 break;
         }
+        rootG.Q<VisualElement>("end-panel").style.display = DisplayStyle.None;
+        rootG.Q<VisualElement>("display-panel").style.display = DisplayStyle.Flex;
         rootG.Q<VisualElement>("restart-popup").style.display = DisplayStyle.None;
     }
 
@@ -320,22 +330,26 @@ public class UIManager : MonoBehaviour
 
     private void OnLose()
     {
-        currentScene = CurrentScene.End;
-        gameUIDocument.sortingOrder = 0;
-        endUIDocument.sortingOrder = 5;
-        rootE.Q<Label>("end-message").text = "You lost";
-        rootE.Q<Label>("display-word").text = GetLostWordDisplay(WordManager.Instance.wordToGuess, WordManager.Instance.wordDisplay);
-        rootE.Q<Label>("description-label").text = WordManager.Instance.wordSO.values.description;
+        rootG.Q<VisualElement>("display-panel").style.display = DisplayStyle.None;
+        rootG.Q<VisualElement>("end-panel").style.display = DisplayStyle.Flex;
+        rootG.Q<Label>("end-message").text = "Better luck next time...";
+        rootG.Q<Label>("total-win").text = $"Total wins: {PlayerPrefs.GetInt("TotalWins", 0)}";
+        rootG.Q<Label>("win-rate").text = $"Win rate: {GameManager.Instance.GetWinRate()}%";
+        rootG.Q<Label>("total-loss").text = $"Total Losses: {PlayerPrefs.GetInt("TotalLosses", 0)}";
+        rootG.Q<Label>("description-label").text = WordManager.Instance.wordSO.values.description;
+        rootG.Q<Label>("display-end").text = GetLostWordDisplay(WordManager.Instance.wordToGuess, WordManager.Instance.wordDisplay);
     }
 
     private void OnWin(Difficulty difficulty)
     {
-        currentScene = CurrentScene.End;
-        gameUIDocument.sortingOrder = 0;
-        endUIDocument.sortingOrder = 5;
-        rootE.Q<Label>("end-message").text = "You won!";
-        rootE.Q<Label>("display-word").text = new string(WordManager.Instance.wordToGuess);
-        rootE.Q<Label>("description-label").text = WordManager.Instance.wordSO.values.description;
+        rootG.Q<VisualElement>("display-panel").style.display = DisplayStyle.None;
+        rootG.Q<VisualElement>("end-panel").style.display = DisplayStyle.Flex;
+        rootG.Q<Label>("end-message").text = "You won!";
+        rootG.Q<Label>("total-win").text = $"Total wins: {PlayerPrefs.GetInt("TotalWins", 0)}";
+        rootG.Q<Label>("win-rate").text = $"Win rate: {GameManager.Instance.GetWinRate()}%";
+        rootG.Q<Label>("total-loss").text = $"Total Losses: {PlayerPrefs.GetInt("TotalLosses", 0)}";
+        rootG.Q<Label>("display-end").text = new string(WordManager.Instance.wordToGuess);
+        rootG.Q<Label>("description-label").text = WordManager.Instance.wordSO.values.description;
     }
 
     // Method to return a string with unguessed letters in red
