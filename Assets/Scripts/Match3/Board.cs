@@ -23,6 +23,8 @@ public sealed class Board : MonoBehaviour
 
     public Button resetButton;
 
+    private bool canMove = true;
+
     List<Tile> tilesToRemove = new();
 
     private const float TweenDuration = 0.25f;
@@ -113,9 +115,12 @@ public sealed class Board : MonoBehaviour
 
     public async Task ProcessTurnOnMatchedBoard()
     {
+        canMove = false;
         foreach (Tile tileToRemove in tilesToRemove)
+        {
             tileToRemove.isMatched = false;
-
+            OnIncreaseScore?.Invoke(tileToRemove.Item.value, tileToRemove.Item.itemType);
+        }
         await RemoveAndRefill(tilesToRemove);
 
         await Task.Delay(400); // Equivalent to WaitForSeconds(0.4f)
@@ -124,6 +129,7 @@ public sealed class Board : MonoBehaviour
         {
             await ProcessTurnOnMatchedBoard();
         }
+        canMove = true;
     }
 
     #region Removing/Filling logic
@@ -134,7 +140,6 @@ public sealed class Board : MonoBehaviour
 
         foreach (Tile tile in tilesToRemove)
         {
-            OnIncreaseScore?.Invoke(tile.Item.value, tile.Item.itemType);
             tile.Item = nullItem;
             tile.icon.transform.localScale = Vector3.one; // Reset the scale to Vector3.one
             tile.icon.GetComponent<RectTransform>().anchoredPosition = Vector2.zero; // Reset the anchored position to default
@@ -427,7 +432,8 @@ public sealed class Board : MonoBehaviour
 
     public void Select(Tile tile)
     {
-        Debug.Log(tile.x + " " + tile.y);
+        if (!canMove)
+            return;
         if (tile.IsSelected)
         {
             tile.IsSelected = false;
@@ -442,6 +448,7 @@ public sealed class Board : MonoBehaviour
         else if (selectedTile != tile)
         {
             Swap(selectedTile, tile);
+            canMove = false;
             selectedTile.IsSelected = false;
             selectedTile = null;
         }
@@ -452,6 +459,7 @@ public sealed class Board : MonoBehaviour
         if (!IsAdjacent(tile1, tile2))
         {
             await WrongSwap(tile1, tile2);
+            canMove = true;
             return;
         }
 
@@ -493,6 +501,7 @@ public sealed class Board : MonoBehaviour
                 .Join(tile2.icon.rectTransform.DOShakeAnchorPos(0.4f, 2, 10, 90, false, true, ShakeRandomnessMode.Harmonic))
                 .AppendInterval(TweenDuration);
         await sequence.Play().AsyncWaitForCompletion();
+        canMove = true;
     }
 
     private async Task ProcessMatches(Tile tile1, Tile tile2)

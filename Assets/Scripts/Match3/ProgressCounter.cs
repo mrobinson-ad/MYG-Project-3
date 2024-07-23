@@ -30,8 +30,9 @@ public class ProgressCounter : MonoBehaviour
          set
          {
             currentConsonant = value;
+            Debug.Log(currentConsonant);
             sliderConsonant.DOValue(Remap.RemapScore(maxConsonant,currentConsonant), TweenDuration);
-            if (currentConsonant >= maxVowel)
+            if (currentConsonant >= maxConsonant)
             {
                 //Move to OnProgressFilled(new ItemType.Consonant)
                 CurrentConsonant = currentConsonant - maxConsonant; //Add delay before this
