@@ -25,6 +25,8 @@ public sealed class Board : MonoBehaviour
 
     private bool canMove = true;
 
+    public bool isStarting = true; // temporary bool for temporary board scramble powerup usage
+
     List<Tile> tilesToRemove = new();
 
     private const float TweenDuration = 0.25f;
@@ -32,14 +34,26 @@ public sealed class Board : MonoBehaviour
     public delegate void increaseScore(float scoreIncrease, ItemType type);
     public static event increaseScore OnIncreaseScore;
 
-    private void Awake() => Instance = this;
-
-    private void Start()
+    private void Awake()
     {
-        InitializeBoard();
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
-    private void InitializeBoard()
+    private async void Start()
+    {
+       await InitializeBoard();
+        isStarting = false;
+    }
+
+    private async Task InitializeBoard()
     {
         int width = rows.Max(row => row.tiles.Length);
         int height = rows.Length;
@@ -102,15 +116,27 @@ public sealed class Board : MonoBehaviour
         return hasMatched;
     }
 
-    private void ReinitializeBoard()
+    public async void ReinitializeBoard()
     {
+        if (!canMove)
+            return;
         Debug.Log("Board has been reinitialized");
         foreach(Tile tile in Tiles)
         {
             tile.Item = ItemDatabase.Items[UnityEngine.Random.Range(0, ItemDatabase.Items.Length)];
         }
+        if (!isStarting) // this has to be moved when I properly implement powerups
+        {
+            ProgressCounter.Instance.CurrentMinus = 5;
+            ProgressCounter.Instance.Lives -= 1;
+            if (CheckBoard())
+                await ProcessTurnOnMatchedBoard();
+            return;
+        }
         if (CheckBoard())
+        {
             ReinitializeBoard();
+        }
     }
 
     public async Task ProcessTurnOnMatchedBoard()
@@ -520,6 +546,33 @@ public sealed class Board : MonoBehaviour
         return Mathf.Abs(currentTile.x - targetTile.x) + Mathf.Abs(currentTile.y - targetTile.y) == 1;
     }
 
+    #endregion
+
+    #region PowerUps Logic
+
+    public async void DeleteMinus()
+    {
+        if (!canMove || !ProgressCounter.Instance.canUsePower)
+            return;
+        canMove = false;
+        ProgressCounter.Instance.CurrentPower = 0;
+        ProgressCounter.Instance.maxPower = ProgressCounter.Instance.maxPower * 1.5f;
+        tilesToRemove.Clear();
+        foreach (Tile tile in Tiles)
+            if (tile.Item.itemType == ItemType.Minus)
+                tilesToRemove.Add(tile);
+
+        await RemoveAndRefill(tilesToRemove);
+
+        await Task.Delay(400);
+
+        while (CheckBoard())
+        {
+            await ProcessTurnOnMatchedBoard();
+        }
+        canMove = true;
+            
+    }
     #endregion
 
 }

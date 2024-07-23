@@ -58,9 +58,9 @@ public class Flower : MonoBehaviour
 
     Vector3[] endValues = new[]
     {
-        new Vector3(startPos.x + Random.Range(-150, -50), startPos.y + 100),
-        new Vector3(startPos.x + Random.Range(50, 150), startPos.y + 200),
-        new Vector3(startPos.x + Random.Range(-150, -50), startPos.y + 300),
+        new Vector3(startPos.x + Random.Range(-100, -50), startPos.y + 100),
+        new Vector3(startPos.x + Random.Range(50, 100), startPos.y + 200),
+        new Vector3(startPos.x + Random.Range(-100, -50), startPos.y + 300),
         new Vector3(startPos.x + Random.Range(-50, 50), startPos.y + 400)
     };
 
