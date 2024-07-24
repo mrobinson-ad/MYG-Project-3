@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using DG.Tweening;
@@ -15,6 +16,7 @@ public sealed class Board : MonoBehaviour
     public Tile[,] Tiles { get; private set; }
     private RectTransform[,] iconTransforms;
 
+
     public int Width => Tiles.GetLength(0);
     public int Height => Tiles.GetLength(1);
 
@@ -25,6 +27,7 @@ public sealed class Board : MonoBehaviour
     public Button resetButton;
 
     private bool canMove = true;
+    private bool usingMinusDelete = false;
 
     public bool isStarting = true; // temporary bool for temporary board scramble powerup usage
 
@@ -41,7 +44,6 @@ public sealed class Board : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -168,10 +170,22 @@ public sealed class Board : MonoBehaviour
 
     private async Task AnimateRemoval(List<Tile> tilesToRemove)
     {
+        // Dictionary to accumulate scores for each item type
+        var scoreAccumulator = new Dictionary<ItemType, float>();
+            
         var inflateSequence = DOTween.Sequence();
         var deflateSequence = DOTween.Sequence();
         foreach (Tile tile in tilesToRemove)
         {
+            if (!usingMinusDelete)
+            {
+                // Accumulate scores based on the item type
+                if (!scoreAccumulator.ContainsKey(tile.Item.itemType))
+                {
+                    scoreAccumulator[tile.Item.itemType] = 0;
+                }
+                scoreAccumulator[tile.Item.itemType] += tile.Item.value;
+            }
             inflateSequence.Append(tile.icon.transform.DOScale(new Vector3(1.5f, 1.5f, 1.5f), TweenDuration));
             deflateSequence.Join(tile.icon.transform.DOScale(Vector3.zero, TweenDuration));
         }
@@ -179,6 +193,13 @@ public sealed class Board : MonoBehaviour
         inflateSequence.Append(deflateSequence);
 
         await inflateSequence.Play().AsyncWaitForCompletion();
+
+        // Invoke OnIncreaseScore for each item type after the removal and refill
+        foreach (var score in scoreAccumulator)
+        {
+            OnIncreaseScore?.Invoke(score.Value, score.Key);
+        }
+
 
         foreach (Tile tile in tilesToRemove)
         {
@@ -317,7 +338,9 @@ public sealed class Board : MonoBehaviour
                     return new MatchResult
                     {
                         connectedTiles = extraConnectedTiles,
-                        direction = MatchDirection.Super
+                        direction = MatchDirection.Super,
+                        matchType = _matchedResults.matchType,
+                        matchValue = extraConnectedTiles.Count() * extraConnectedTiles[0].Item.value
                     };
                 }
             }
@@ -339,7 +362,9 @@ public sealed class Board : MonoBehaviour
                     return new MatchResult
                     {
                         connectedTiles = extraConnectedTiles,
-                        direction = MatchDirection.Super
+                        direction = MatchDirection.Super,
+                        matchType = _matchedResults.matchType,
+                        matchValue = extraConnectedTiles.Count() * extraConnectedTiles[0].Item.value
                     };
                 }
             }
@@ -367,7 +392,9 @@ public sealed class Board : MonoBehaviour
             return new MatchResult
             {
                 connectedTiles = connectedTiles,
-                direction = MatchDirection.Horizontal
+                direction = MatchDirection.Horizontal,
+                matchType = connectedTiles[0].Item.itemType,
+                matchValue = connectedTiles.Count() * connectedTiles[0].Item.value
             };
         }
         else if (connectedTiles.Count > 3)
@@ -376,7 +403,9 @@ public sealed class Board : MonoBehaviour
             return new MatchResult
             {
                 connectedTiles = connectedTiles,
-                direction = MatchDirection.LongHorizontal
+                direction = MatchDirection.LongHorizontal,
+                matchType = connectedTiles[0].Item.itemType,
+                matchValue = connectedTiles.Count() * connectedTiles[0].Item.value
             };
         }
 
@@ -392,7 +421,9 @@ public sealed class Board : MonoBehaviour
             return new MatchResult
             {
                 connectedTiles = connectedTiles,
-                direction = MatchDirection.Vertical
+                direction = MatchDirection.Vertical,
+                matchType = connectedTiles[0].Item.itemType,
+                matchValue = connectedTiles.Count() * connectedTiles[0].Item.value
             };
         }
         else if (connectedTiles.Count > 3)
@@ -401,7 +432,9 @@ public sealed class Board : MonoBehaviour
             return new MatchResult
             {
                 connectedTiles = connectedTiles,
-                direction = MatchDirection.LongVertical
+                direction = MatchDirection.LongVertical,
+                matchType = connectedTiles[0].Item.itemType,
+                matchValue = connectedTiles.Count() * connectedTiles[0].Item.value
             };
         }
 
@@ -532,15 +565,18 @@ public sealed class Board : MonoBehaviour
     private async Task ProcessTurnOnMatchedBoard()
     {
         canMove = false;
+
+
         foreach (Tile tileToRemove in tilesToRemove)
         {
             tileToRemove.isMatched = false;
-            OnIncreaseScore?.Invoke(tileToRemove.Item.value, tileToRemove.Item.itemType);
         }
-        await RemoveAndRefill(tilesToRemove);
 
+        await RemoveAndRefill(tilesToRemove);
+        
         await Task.Delay(400); // Equivalent to WaitForSeconds(0.4f)
 
+        // Repeat the process if there are more matches
         while (CheckBoard())
         {
             await ProcessTurnOnMatchedBoard();
@@ -559,6 +595,7 @@ public sealed class Board : MonoBehaviour
 
     public async void DeleteMinus()
     {
+        usingMinusDelete = true;
         if (!canMove || !ProgressCounter.Instance.canUsePower)
             return;
         canMove = false;
@@ -573,6 +610,7 @@ public sealed class Board : MonoBehaviour
 
         await Task.Delay(400);
 
+        usingMinusDelete = false;
         while (CheckBoard())
         {
             await ProcessTurnOnMatchedBoard();
@@ -588,6 +626,10 @@ public class MatchResult
 {
     public List<Tile> connectedTiles;
     public MatchDirection direction;
+
+    public ItemType matchType;
+
+    public float matchValue;
 }
 
 public enum MatchDirection

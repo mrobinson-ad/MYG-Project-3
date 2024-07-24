@@ -10,7 +10,7 @@ using Unity.VisualScripting;
 
 public class PlayFabManager : MonoBehaviour
 {
-
+    public static PlayFabManager Instance { get; private set; }
     public delegate void updateDisplayName(string displayName);
     public static event updateDisplayName OnUpdateDisplayName;
 
@@ -20,6 +20,15 @@ public class PlayFabManager : MonoBehaviour
    
     private void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        } else
+        {
+            Destroy(gameObject);
+        }
+
         var request = new LoginWithCustomIDRequest
         {
             CustomId = SystemInfo.deviceUniqueIdentifier,

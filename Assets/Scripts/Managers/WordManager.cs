@@ -40,13 +40,9 @@ public class WordManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
             InitializeVirtualKeyboard();
         }
-        else
-        {
-            Destroy(gameObject);
-        }
+
     }
 
     private void Start()

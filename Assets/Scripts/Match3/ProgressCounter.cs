@@ -39,10 +39,7 @@ public class ProgressCounter : MonoBehaviour
             sliderConsonant.DOValue(Remap.RemapScore(maxConsonant,currentConsonant), TweenDuration);
             if (currentConsonant >= maxConsonant)
             {
-                //Move to OnProgressFilled(new ItemType.Consonant)
-                CurrentConsonant = currentConsonant - maxConsonant; //Add delay before this
-                maxConsonant = Mathf.Clamp(maxConsonant * 1.25f,0,250);
-                WordRevealer.Instance.RevealConsonant();
+                StartCoroutine(OnProgressFilled(ItemType.Consonant, currentConsonant - maxConsonant));
             }
          }}
     public float CurrentVowel {
@@ -53,10 +50,7 @@ public class ProgressCounter : MonoBehaviour
             sliderVowel.DOValue(Remap.RemapScore(maxVowel,currentVowel), TweenDuration);
             if (currentVowel >= maxVowel)
             {
-                //Move to OnProgressFilled(new ItemType.Vowel)
-                CurrentVowel = currentVowel - maxVowel; //Add delay before this
-                maxVowel = Mathf.Clamp(maxVowel * 1.25f, 0 ,250);
-                WordRevealer.Instance.RevealVowel();
+                StartCoroutine(OnProgressFilled(ItemType.Vowel, currentVowel - maxVowel));
             }
 
          }}
@@ -124,7 +118,6 @@ public class ProgressCounter : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -159,6 +152,36 @@ public class ProgressCounter : MonoBehaviour
                 CurrentVowel += score;
                 CurrentPower += score/2;
                 break;
+        }
+    }
+
+    private IEnumerator OnProgressFilled(ItemType itemType, float progress)
+    {
+        var sequence = DOTween.Sequence();
+        if (itemType == ItemType.Consonant)
+        {
+            sequence.Append(sliderConsonant.DOValue(0, 1f))
+                    .JoinCallback(() =>WordRevealer.Instance.RevealConsonant())
+                    .JoinCallback(() =>AudioManager.SFXPressed("SFXRight"))
+                    .PrependInterval(TweenDuration)
+                    .AppendInterval(TweenDuration);
+            sequence.Play();
+            yield return sequence.WaitForCompletion();
+            maxConsonant = Mathf.Clamp(maxConsonant * 1.25f, 0 ,250);
+            CurrentConsonant = progress;
+            yield break;
+        } else if (itemType == ItemType.Vowel)
+        {
+            sequence.Append(sliderVowel.DOValue(0, 1f))
+                    .AppendCallback(() =>WordRevealer.Instance.RevealVowel())
+                    .AppendCallback(() =>AudioManager.SFXPressed("SFXRight"))
+                    .PrependInterval(TweenDuration)
+                    .AppendInterval(TweenDuration);
+            sequence.Play();
+            yield return sequence.WaitForCompletion();
+            maxVowel = Mathf.Clamp(maxVowel * 1.25f, 0 ,250);
+            CurrentVowel = progress;
+            yield break;
         }
     }
 

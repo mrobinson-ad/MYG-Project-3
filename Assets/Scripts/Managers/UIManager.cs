@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using PlayFab.ClientModels;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 public enum CurrentScene
 {
@@ -22,7 +23,6 @@ public class UIManager : MonoBehaviour
     public UIDocument mainMenuUIDocument;
     public UIDocument gameUIDocument;
     public UIDocument settingsUIDocument;
-    public UIDocument endUIDocument;
     private Slider musicSlider;
     private Slider sfxSlider;
     private Button exit;
@@ -43,15 +43,7 @@ public class UIManager : MonoBehaviour
         exit = rootS.Q<Button>("return-button");
         statPanel = rootMM.Q<VisualElement>("stat-panel");
         if (Instance == null)
-        {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
-
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
         statPanel.SetEnabled(false);
         Settings.OnDifficultyChange += OnDifficultyChanged;
         Settings.OnVolumeChange += OnVolumeChange;
@@ -190,9 +182,6 @@ public class UIManager : MonoBehaviour
             case CurrentScene.Game:
                 scene = gameUIDocument;
                 break;
-            case CurrentScene.End:
-                scene = endUIDocument;
-                break;
             default:
                 scene = mainMenuUIDocument;
                 break;
@@ -254,15 +243,13 @@ public class UIManager : MonoBehaviour
                 AudioManager.MusicChange("BGMainMenu");
                 carouselHandler.SetActive(true);
                 break;
-            case "mainend":
-                mainMenuUIDocument.sortingOrder = 5;
-                current.sortingOrder = 0;
-                rootG.Q<VisualElement>("end-panel").style.display = DisplayStyle.None;
-                rootG.Q<VisualElement>("display-panel").style.display = DisplayStyle.Flex;
-                rootG.Q<VisualElement>("pause-popup").style.display = DisplayStyle.None;
-                currentScene = CurrentScene.Main;
-                AudioManager.MusicChange("BGMainMenu");
-                carouselHandler.SetActive(true);
+            case "match":
+                statPanel.SetEnabled(false);
+                rootMM.Q<VisualElement>("play-popup").style.display = DisplayStyle.None;
+                AudioManager.MusicChange("BGGame");
+                currentScene = CurrentScene.Game;
+                carouselHandler.SetActive(false);
+                SceneManager.LoadScene("MatchFlower");
                 break;
             case "game":
                 WordManager.Instance.SetNewWord();

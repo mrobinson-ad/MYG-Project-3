@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
@@ -54,7 +55,7 @@ public class AudioManager : MonoBehaviour
         MusicVolume = PlayerPrefs.GetFloat("Music", 0.5f); 
        
         SfxVolume = PlayerPrefs.GetFloat("SFX", 0.5f);
-        
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void Start() // Sets the audioMixer volume to the saved volume settings
@@ -64,6 +65,14 @@ public class AudioManager : MonoBehaviour
         audioMixer.SetFloat("SFX",SfxVolume);
         Debug.Log("the SFX volume is" + SfxVolume);
         MusicChange("BGMainMenu");
+    }
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "Hangflower")
+            MusicChange("BGMainMenu");
+        else if (scene.name == "MatchFlower")
+            MusicChange("BGGame");
+        Debug.Log(mode);
     }
 
     public static void MusicChange(string name)
