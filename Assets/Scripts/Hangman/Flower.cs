@@ -11,6 +11,7 @@ public class Flower : MonoBehaviour
     public UIDocument gameUIDocument;
     private List<VisualElement> petals;
     private List<Vector2> petalPos;
+    private VisualElement sunshine;
 
     private int lives = 7;
     public int Lives // Lives property updates the lives display on change and triggers the Lose event when = 0
@@ -25,8 +26,7 @@ public class Flower : MonoBehaviour
                 ResetPetals();
             if (lives <= 0)
             {
-                GameManager.Lose();
-                Debug.Log("Game Over");
+                StartCoroutine(CallLose());
             }
         }
     }
@@ -37,6 +37,7 @@ public class Flower : MonoBehaviour
         petals = new List<VisualElement>();
         petals.AddRange(root.Query<VisualElement>(className: "petal").ToList());
         petalPos = new List<Vector2>();
+        sunshine = root.Q<VisualElement>("sunshine");
         StartCoroutine(CaptureInitialPositions());
     }
 
@@ -97,7 +98,6 @@ public class Flower : MonoBehaviour
     }, rotationEndValue, rotationDuration).SetEase(Ease.InOutSine);
 
     t.SetDelay(Random.Range(0f, 0.5f));
-
     petals.RemoveAt(randomIndex);
 }
 
@@ -113,5 +113,27 @@ public class Flower : MonoBehaviour
             petal.transform.rotation = Quaternion.Euler(0, 0, 0);
             i++;
         }
+    }
+
+    public void SunshineAnimation(bool isWin)
+    {
+        float targetRotation = (Random.value < 0.5f) ? -90f : 90f;
+        var sequence = DOTween.Sequence();
+
+        sequence.Join(sunshine.DORotate(0, targetRotation, 1.5f))
+                .Join(sunshine.DOAlpha(0, 1, 2f))
+                .Join(sunshine.DOScale(1f, 1f))
+                .Append(sunshine.DORotate(sunshine.transform.rotation.z, -targetRotation, 1.5f))
+                .Join(sunshine.DOAlpha(1, 0, 1f))
+                .Join(sunshine.DOScale(0f, 1f));
+
+        sequence.Play().WaitForCompletion();
+    }
+
+    private IEnumerator CallLose()
+    {
+        WordManager.Instance.DisableKeyboard();
+        yield return new WaitForSeconds(3f);
+        GameManager.Lose();
     }
 }

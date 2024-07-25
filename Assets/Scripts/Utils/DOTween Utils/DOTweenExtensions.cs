@@ -18,6 +18,7 @@ public static class DOTweenExtensions
         return DOTween.To(() => (float)target.style.opacity.value, x => target.style.opacity  = new StyleFloat(x), endValue, duration);
     }
 
+
     // Shake the visual element over a duration of time in seconds, the shaking effects settings can be set on declaration or take the default values defined here
     public static Tweener DOShake(this VisualElement target, float duration, float strength  = 10f, int vibrato  = 10, float randomness  = 90f)
     {
@@ -77,6 +78,33 @@ public static class DOTweenExtensions
                     break;
             }
         }, endValue, duration).SetEase(easeType);
+    }
+
+    public static Tweener DOAlpha(this VisualElement ve, float startValue, float endValue, float duration)
+    {
+        return DOTween.To(() => startValue, x =>
+        {
+            startValue = x;
+            ve.style.unityBackgroundImageTintColor = new Color(1, 1, 1, x);
+        }, endValue, duration);
+    }
+
+    public static Tweener DORotate(this VisualElement ve, float startValue, float endValue, float duration)
+    {
+        return DOTween.To(() => startValue, x =>
+        {
+            startValue = x;
+            ve.transform.rotation = Quaternion.Euler(0, 0, x);
+        }, endValue, duration);
+    }
+
+
+    public static Tweener DOScale(this VisualElement ve, float endValue, float duration)
+    {
+        return DOTween.To(() => ve.transform.scale.x, 
+                          x => ve.transform.scale = new Vector3(x, x, 1), 
+                          endValue, 
+                          duration);
     }
 
 }

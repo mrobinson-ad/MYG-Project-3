@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using CustomAttributes;
 using DG.Tweening;
+using Unity.VisualScripting;
 
 public enum Difficulty
 {
@@ -42,6 +43,8 @@ public class WordManager : MonoBehaviour
             Instance = this;
             InitializeVirtualKeyboard();
         }
+        else
+            Destroy(gameObject);
 
     }
 
@@ -167,12 +170,12 @@ public class WordManager : MonoBehaviour
         {
             letter[i] = buttons[i];
             char character = char.Parse(letter[i].text);
-            letter[i].clicked += () => OnLetterClicked(character);
+            letter[i].clicked += () => StartCoroutine(OnLetterClicked(character));
         }
     }
 
     // Check if letter is part of the word and return the locations of each occurrence in order to update the displayed word
-    private void OnLetterClicked(char c)
+    private  IEnumerator OnLetterClicked(char c)
     {
         Debug.Log("You pressed " + c);
 
@@ -192,25 +195,42 @@ public class WordManager : MonoBehaviour
 
         if (found)
         {
-            wordDisplay = new string(displayArray);
-            displayWord.text = "<cspace=0.25em>" + wordDisplay + "</cspace>";
+            virtualKeyboard.Q<Button>(c.ToString()).pickingMode = PickingMode.Ignore; // disable the button after it's clicked
+
             Debug.Log(c + " appears " + timesFound + " times in the word");
-            if (wordDisplay == new string(wordToGuess))
-            {
-                GameManager.Win(difficulty);
-            }
+            virtualKeyboard.Q<Button>(c.ToString()).AddToClassList("letter-process");
+            yield return new WaitForSeconds(Random.Range(0f,0.6f));
+            flower.SunshineAnimation(false);
             AudioManager.SFXPressed("SFXRight");
             virtualKeyboard.Q<Button>(c.ToString()).AddToClassList("letter-correct");
+            yield return new WaitForSeconds(1f);
+            wordDisplay = new string(displayArray);
+            displayWord.text = "<cspace=0.25em>" + wordDisplay + "</cspace>";
+
+            if (wordDisplay == new string(wordToGuess))
+            {
+                yield return new WaitForSeconds(2f);
+
+                //Add SunshineAnimation(true)
+
+                GameManager.Win(difficulty);
+            }
+            
         }
         else
         {
+            virtualKeyboard.Q<Button>(c.ToString()).pickingMode = PickingMode.Ignore; // disable the button after it's clicked
+
             Debug.Log(c + " is not part of the word.");
+            virtualKeyboard.Q<Button>(c.ToString()).AddToClassList("letter-process");
+            yield return new WaitForSeconds(Random.Range(0f,0.4f));
             virtualKeyboard.Q<Button>(c.ToString()).AddToClassList("letter-wrong");
             AudioManager.SFXPressed("SFXWrong");
             virtualKeyboard.Q<VisualElement>(c.ToString());
+            yield return new WaitForSeconds(0.5f); 
             flower.Lives--;
         }
-        virtualKeyboard.Q<Button>(c.ToString()).pickingMode = PickingMode.Ignore; // disable the button after it's clicked
+        
     }
 
 
@@ -225,14 +245,19 @@ public class WordManager : MonoBehaviour
             letter[i].pickingMode = PickingMode.Position;
             letter[i].RemoveFromClassList("letter-correct");
             letter[i].RemoveFromClassList("letter-wrong");
+            letter[i].RemoveFromClassList("letter-process");
         }
     }
 
-    private void CheckWin()
+    public void DisableKeyboard() //Disables buttons while waiting to show Win/Lose screen
     {
-        if (wordDisplay == new string(wordToGuess))
+        var buttons = virtualKeyboard.Query<Button>().ToList();
+        letter = new Button[buttons.Count];
+        for (int i = 0; i < buttons.Count; i++)
         {
-            GameManager.Win(difficulty);
+            letter[i] = buttons[i];
+            letter[i].pickingMode = PickingMode.Ignore;
         }
     }
+
 }

@@ -77,6 +77,35 @@
     -unity-slice-scale: 0.3px;
 }
 
+.letter-process {
+    position: absolute;
+    height: 35px;
+    width: 35px;
+    top: 297px;
+    left: 247px;
+    -unity-font: url('project://database/Assets/Fonts/flower.TTF?fileID=12800000&guid=648d9bd4908f6e24ca56ecd76a8b5539&type=3#flower');
+    -unity-font-definition: initial;
+    font-size: 35px;
+    color: rgb(0, 0, 0);
+    background-color: rgba(188, 188, 188, 0);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    transition-property: all;
+    transition-duration: 0.5s;
+    transition-timing-function: ease-out;
+    flex-grow: 2;
+    max-height: none;
+    min-height: auto;
+    max-width: none;
+    min-width: auto;
+    margin-top: 3px;
+    margin-right: 3px;
+    margin-bottom: 3px;
+    margin-left: 3px;
+}
+
 .letter-correct {
     position: absolute;
     height: 35px;
