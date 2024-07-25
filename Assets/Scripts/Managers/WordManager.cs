@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 using CustomAttributes;
 using DG.Tweening;
 using Unity.VisualScripting;
+using System.Threading.Tasks;
 
 public enum Difficulty
 {
@@ -199,11 +200,9 @@ public class WordManager : MonoBehaviour
 
             Debug.Log(c + " appears " + timesFound + " times in the word");
             virtualKeyboard.Q<Button>(c.ToString()).AddToClassList("letter-process");
-            yield return new WaitForSeconds(Random.Range(0f,0.6f));
             flower.SunshineAnimation(false);
             AudioManager.SFXPressed("SFXRight");
             virtualKeyboard.Q<Button>(c.ToString()).AddToClassList("letter-correct");
-            yield return new WaitForSeconds(1f);
             wordDisplay = new string(displayArray);
             displayWord.text = "<cspace=0.25em>" + wordDisplay + "</cspace>";
 
@@ -215,6 +214,8 @@ public class WordManager : MonoBehaviour
 
                 GameManager.Win(difficulty);
             }
+            yield return new WaitForSeconds(1f);
+
             
         }
         else

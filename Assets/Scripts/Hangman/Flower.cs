@@ -127,7 +127,7 @@ public class Flower : MonoBehaviour
                 .Join(sunshine.DOAlpha(1, 0, 1f))
                 .Join(sunshine.DOScale(0f, 1f));
 
-        sequence.Play().WaitForCompletion();
+        sequence.Play();
     }
 
     private IEnumerator CallLose()

@@ -34,16 +34,17 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
-        rootMM = mainMenuUIDocument.rootVisualElement;
+        if (Instance == null)
+            Instance = this;
         rootG = gameUIDocument.rootVisualElement;
         rootS = settingsUIDocument.rootVisualElement;
+        rootMM = mainMenuUIDocument.rootVisualElement;
         difficultyBox = rootS.Q<GroupBox>("difficulty-box");
         musicSlider = rootS.Q<Slider>("music-slider");
         sfxSlider = rootS.Q<Slider>("sfx-slider");
         exit = rootS.Q<Button>("return-button");
         statPanel = rootMM.Q<VisualElement>("stat-panel");
-        if (Instance == null)
-            Instance = this;
+        rootG.Q<VisualElement>("end-panel").SetEnabled(false);
         statPanel.SetEnabled(false);
         Settings.OnDifficultyChange += OnDifficultyChanged;
         Settings.OnVolumeChange += OnVolumeChange;
@@ -113,7 +114,7 @@ public class UIManager : MonoBehaviour
             button.RegisterCallback<ClickEvent>(evt =>
             {
                 AudioManager.SFXPressed("SFXButton");
-                OnCategoryPressed((Button)evt.target);
+                StartCoroutine(OnCategoryPressed((Button)evt.target));
             });
         }
 
@@ -253,6 +254,7 @@ public class UIManager : MonoBehaviour
                 break;
             case "game":
                 WordManager.Instance.SetNewWord();
+                rootG.Q<VisualElement>("sakura").transform.scale = new Vector3(0, 0, 1);
                 gameUIDocument.sortingOrder = 5;
                 current.sortingOrder = 0;
                 statPanel.SetEnabled(false);
@@ -277,10 +279,22 @@ public class UIManager : MonoBehaviour
 
     }
 
-    private void OnCategoryPressed(Button target)
+    private IEnumerator OnCategoryPressed(Button target)
     {
+        var endStats = rootG.Q<VisualElement>("end-stats-panel");
+        endStats.RemoveFromClassList("win-stats-panels");
+        endStats.RemoveFromClassList("lose-stats-panels");
+        rootG.Q<VisualElement>("restart-popup").style.display = DisplayStyle.None;
         string category = target.name.Split('-')[0];
-
+        var rightCurtain = rootG.Q<VisualElement>("curtain-right");
+        var leftCurtain = rootG.Q<VisualElement>("curtain-left");
+        RemoveAddUSSClass(rightCurtain, "curtain-right-off", "curtain-right");
+        RemoveAddUSSClass(leftCurtain, "curtain-left-off", "curtain-left");
+        yield return  new WaitForSeconds(1.5f);
+        rootG.Q<VisualElement>("display-panel").style.display = DisplayStyle.Flex;
+        rootG.Q<VisualElement>("end-panel").SetEnabled(false);
+        rootG.Q<VisualElement>("sakura").transform.scale = new Vector3(0, 0, 1);
+        yield return new WaitForSeconds(1.5f);
         switch (category)
         {
             case "all":
@@ -302,9 +316,8 @@ public class UIManager : MonoBehaviour
                 WordManager.Instance.SetNewWord();
                 break;
         }
-        rootG.Q<VisualElement>("end-panel").style.display = DisplayStyle.None;
-        rootG.Q<VisualElement>("display-panel").style.display = DisplayStyle.Flex;
-        rootG.Q<VisualElement>("restart-popup").style.display = DisplayStyle.None;
+        RemoveAddUSSClass(rightCurtain, "curtain-right", "curtain-right-off");
+        RemoveAddUSSClass(leftCurtain, "curtain-left", "curtain-left-off");
     }
 
     private void OnReturnPressed(UIDocument scene)
@@ -317,8 +330,10 @@ public class UIManager : MonoBehaviour
 
     private void OnLose()
     {
+        rootG.Q<VisualElement>("sakura").transform.scale = new Vector3(0, 0, 1);
         rootG.Q<VisualElement>("display-panel").style.display = DisplayStyle.None;
-        rootG.Q<VisualElement>("end-panel").style.display = DisplayStyle.Flex;
+        rootG.Q<VisualElement>("end-panel").SetEnabled(true);
+        RemoveAddUSSClass(rootG.Q<VisualElement>("end-stats-panel"), "win-stats-panel", "lose-stats-panel");
         rootG.Q<Label>("end-message").text = "Better luck next time...";
         rootG.Q<Label>("total-win").text = $"Total wins: {PlayerPrefs.GetInt("TotalWins", 0)}";
         rootG.Q<Label>("win-rate").text = $"Win rate: {GameManager.Instance.GetWinRate()}%";
@@ -330,7 +345,9 @@ public class UIManager : MonoBehaviour
     private void OnWin(Difficulty difficulty)
     {
         rootG.Q<VisualElement>("display-panel").style.display = DisplayStyle.None;
-        rootG.Q<VisualElement>("end-panel").style.display = DisplayStyle.Flex;
+        RemoveAddUSSClass(rootG.Q<VisualElement>("end-stats-panel"), "lose-stats-panel", "win-stats-panel");
+        DOTween.Sequence().PrependInterval(1.5f).Append(rootG.Q<VisualElement>("sakura").DOScale(1, 2).SetEase(Ease.InExpo)).Play();
+        rootG.Q<VisualElement>("end-panel").SetEnabled(true);
         rootG.Q<Label>("end-message").text = "You won!";
         rootG.Q<Label>("total-win").text = $"Total wins: {PlayerPrefs.GetInt("TotalWins", 0)}";
         rootG.Q<Label>("win-rate").text = $"Win rate: {GameManager.Instance.GetWinRate()}%";
@@ -388,6 +405,12 @@ public class UIManager : MonoBehaviour
             entryElement.Q<Label>("winrate").text = entry.StatValue.ToString() + "%";
             leaderboardPanel.Add(entryElement);
         }
+    }
+
+    private void RemoveAddUSSClass(VisualElement target, string classToRemove, string classToAdd )
+    {
+        target.RemoveFromClassList(classToRemove);
+        target.AddToClassList(classToAdd);
     }
 
 }

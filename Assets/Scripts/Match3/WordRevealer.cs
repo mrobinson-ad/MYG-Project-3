@@ -10,6 +10,7 @@ public class WordRevealer : MonoBehaviour
     public static WordRevealer Instance { get; private set; }
 
     public string wordToFind;
+    public WordList_SO wordList;
 
     public char[] charsToFind;
 

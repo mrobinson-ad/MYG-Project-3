@@ -22,6 +22,9 @@ public class GameManager : MonoBehaviour
     public delegate void loseAction();
     public static event loseAction OnLose;
 
+    public delegate void updateStats(Dictionary<string, int> statPairs);
+    public static event updateStats OnUpdateStats;
+
     #endregion
 
     private void Awake()

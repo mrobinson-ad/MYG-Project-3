@@ -17,6 +17,8 @@ public class PlayFabManager : MonoBehaviour
     public static bool hasName;
     public static string currentUser;
 
+    private static string currentID;
+
    
     private void Awake()
     {
@@ -46,7 +48,9 @@ public class PlayFabManager : MonoBehaviour
         if (result.InfoResultPayload.PlayerProfile != null)
         {
             currentUser = result.InfoResultPayload.PlayerProfile.DisplayName;
+            currentID = result.PlayFabId;
             hasName = true;
+
         }
         else
             hasName = false;
@@ -100,7 +104,7 @@ public class PlayFabManager : MonoBehaviour
         {
             StatisticName = "WinRate",
             StartPosition = 0,
-            MaxResultsCount = 3
+            MaxResultsCount = 5
         }, result => UIManager.Instance.DisplayLeaderboard(result.Leaderboard), OnError);
     }
 
@@ -108,7 +112,6 @@ public class PlayFabManager : MonoBehaviour
     {
        yield return new WaitForSeconds(seconds);
         GetLeaderBoard();
-
     }
 
     private void GetWordData()
@@ -130,5 +133,32 @@ public class PlayFabManager : MonoBehaviour
         }
         GameManager.Instance.DeserializeJson(); // starts deserialization so the data can be used
     }
+
+   /*  public void SetUserData(Dictionary<string, string> data)
+    {
+        PlayFabClientAPI.UpdateUserData(new UpdateUserDataRequest()
+        {
+            Data = data
+        },
+        result => Debug.Log("User data updated successfuly"), OnError); //Add event to update stats display
+    }
+
+    public void GetUserData(string playFabID )
+    {
+        PlayFabClientAPI.GetUserData(new GetUserDataRequest()
+        {
+            PlayFabId = playFabID,
+            Keys = null
+        },
+        result => LocalUserData(result), OnError);
+    }
+
+    private void LocalUserData(GetUserDataResult result)
+    {
+        if (result.Data == null)
+        {
+
+        }
+    } */
 
 }
