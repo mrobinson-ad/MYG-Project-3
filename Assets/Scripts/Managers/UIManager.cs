@@ -244,6 +244,18 @@ public class UIManager : MonoBehaviour
                 AudioManager.MusicChange("BGMainMenu");
                 carouselHandler.SetActive(true);
                 break;
+            case "mainend":
+                rootG.Q<VisualElement>("end-panel").SetEnabled(false);
+                rootG.Q<VisualElement>("display-panel").style.display = DisplayStyle.Flex;
+                WordManager.Instance.wordSO = null;
+                Debug.Log("MainEnd triggered");
+                mainMenuUIDocument.sortingOrder = 5;
+                current.sortingOrder = 0;
+                rootG.Q<VisualElement>("pause-popup").style.display = DisplayStyle.None;
+                currentScene = CurrentScene.Main;
+                AudioManager.MusicChange("BGMainMenu");
+                carouselHandler.SetActive(true);
+                break;
             case "match":
                 statPanel.SetEnabled(false);
                 rootMM.Q<VisualElement>("play-popup").style.display = DisplayStyle.None;
@@ -253,8 +265,11 @@ public class UIManager : MonoBehaviour
                 SceneManager.LoadScene("MatchFlower");
                 break;
             case "game":
-                WordManager.Instance.SetNewWord();
-                rootG.Q<VisualElement>("sakura").transform.scale = new Vector3(0, 0, 1);
+                if(WordManager.Instance.wordSO == null)
+                {
+                    WordManager.Instance.SetNewWord();
+                    rootG.Q<VisualElement>("sakura").transform.scale = new Vector3(0, 0, 1);
+                }
                 gameUIDocument.sortingOrder = 5;
                 current.sortingOrder = 0;
                 statPanel.SetEnabled(false);
@@ -342,7 +357,7 @@ public class UIManager : MonoBehaviour
         rootG.Q<Label>("display-end").text = GetLostWordDisplay(WordManager.Instance.wordToGuess, WordManager.Instance.wordDisplay);
     }
 
-    private void OnWin(Difficulty difficulty)
+    private void OnWin()
     {
         rootG.Q<VisualElement>("display-panel").style.display = DisplayStyle.None;
         RemoveAddUSSClass(rootG.Q<VisualElement>("end-stats-panel"), "lose-stats-panel", "win-stats-panel");

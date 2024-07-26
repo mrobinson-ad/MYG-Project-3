@@ -56,6 +56,7 @@ public class PlayFabManager : MonoBehaviour
             hasName = false;
         GetWordData();
         UIManager.Instance.GameLoaded();
+        GetUserData(currentID);
     }
 
     private static void OnError(PlayFabError error)
@@ -134,7 +135,7 @@ public class PlayFabManager : MonoBehaviour
         GameManager.Instance.DeserializeJson(); // starts deserialization so the data can be used
     }
 
-   /*  public void SetUserData(Dictionary<string, string> data)
+    public void SetUserData(Dictionary<string, string> data)
     {
         PlayFabClientAPI.UpdateUserData(new UpdateUserDataRequest()
         {
@@ -157,8 +158,16 @@ public class PlayFabManager : MonoBehaviour
     {
         if (result.Data == null)
         {
-
+            GameManager.Instance.ScientificWins = 0;
+            GameManager.Instance.CommonWins = 0;
+            GameManager.Instance.TotalLosses = 0;
+        } else 
+        {
+            GameManager.Instance.ScientificWins = int.Parse(result.Data["Scientific"].Value);
+            GameManager.Instance.CommonWins = int.Parse(result.Data["Common"].Value);
+            GameManager.Instance.TotalLosses = int.Parse(result.Data["Losses"].Value);
         }
-    } */
+
+    }
 
 }

@@ -9,21 +9,47 @@ public class GameManager : MonoBehaviour
 
     public WordList_SO wordList;
     public static GameManager Instance { get; private set; } // Singleton
-    #region Win/Lose events
+    
+    public int CommonWins {
+        get => commonWins;
+        set 
+        {
+        commonWins = value;
+        totalWins = commonWins + scientificWins;
+        UpdateStats("Common");
+        } 
+    }
+    public int ScientificWins {
+        get => scientificWins;
+        set 
+        {
+        scientificWins = value;
+        totalWins = commonWins + scientificWins;
+        UpdateStats("Scientific");
+        } 
+    }
+    public int TotalLosses {
+        get => totalLosses;
+        set 
+        {
+        totalLosses = value;
+        UpdateStats("Losses");
+        } 
+    }
+
+    
+
     private int totalWins;
     private int commonWins;
     private int scientificWins;
     private int totalLosses;
     private int winRate;
-
-    public delegate void winAction(Difficulty difficulty);
+    #region Win/Lose events
+    public delegate void winAction();
     public static event winAction OnWin;
 
     public delegate void loseAction();
     public static event loseAction OnLose;
-
-    public delegate void updateStats(Dictionary<string, int> statPairs);
-    public static event updateStats OnUpdateStats;
 
     #endregion
 
@@ -38,50 +64,49 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        totalWins = PlayerPrefs.GetInt("TotalWins", 0);
-        commonWins = PlayerPrefs.GetInt("CommonWins", 0);
-        scientificWins = PlayerPrefs.GetInt("ScientificWins", 0);
-        totalLosses = PlayerPrefs.GetInt("TotalLosses", 0);
-
     }
+
     #region Win Event
-    public static void Win(Difficulty difficulty) // updates the total and category specific wins and saves them to PlayerPrefs
+    public static void Win() // updates the total and category specific wins and saves them to PlayerPrefs
     {
         GameManager.Instance.totalWins++;
         Debug.Log($"You won a total of {GameManager.Instance.totalWins} times");
         PlayerPrefs.SetInt("TotalWins", GameManager.Instance.totalWins);
-        if (difficulty == Difficulty.Common)
+        if (WordManager.Instance.difficulty == Difficulty.Common)
         {
-            GameManager.Instance.commonWins++;
-            PlayerPrefs.SetInt("CommonWins", GameManager.Instance.commonWins);
-        } else if (difficulty == Difficulty.Scientific)
+            GameManager.Instance.CommonWins++;
+            GameManager.Instance.UpdateStats("Common");
+            PlayerPrefs.SetInt("CommonWins", GameManager.Instance.CommonWins);
+        } else if (WordManager.Instance.difficulty == Difficulty.Scientific)
         {
-            GameManager.Instance.scientificWins++;
-            PlayerPrefs.SetInt("ScientificWins", GameManager.Instance.scientificWins);
+            GameManager.Instance.ScientificWins++;
+            GameManager.Instance.UpdateStats("Scientific");
+            PlayerPrefs.SetInt("ScientificWins", GameManager.Instance.ScientificWins);
         }
-        OnWin?.Invoke(difficulty);
+        OnWin?.Invoke();
     }
     #endregion
 
     #region Lose Event
     public static void Lose() // updates the losses and saves them to PlayerPrefs
     {
-        GameManager.Instance.totalLosses++;
-        Debug.Log($"You lost a total of {GameManager.Instance.totalLosses} times");
-        PlayerPrefs.SetInt("TotalLosses", GameManager.Instance.totalLosses);
+        GameManager.Instance.TotalLosses++;
+        Debug.Log($"You lost a total of {GameManager.Instance.TotalLosses} times");
+        PlayerPrefs.SetInt("TotalLosses", GameManager.Instance.TotalLosses);
+        GameManager.Instance.UpdateStats("Losses");
         OnLose?.Invoke();
     }
     #endregion
 
     public int GetWinRate()
     {
-        float winRatio = (float) totalWins / (totalWins + totalLosses) * 100;
+        float winRatio = (float) totalWins / (totalWins + TotalLosses) * 100;
         Debug.Log($"Win Rate: {winRate}");
         winRate = (int)winRatio;
         return winRate;
     }
 
-public void DeserializeJson()
+    public void DeserializeJson()
     {
         string filePath = Path.Combine(Application.persistentDataPath, "WordData.json");
 
@@ -114,4 +139,23 @@ public void DeserializeJson()
         }
     }
 
+    private void UpdateStats(string key)
+    {
+        var data = new Dictionary<string, string>();
+        switch (key)
+        {
+            case "Common":
+                data["Common"] = commonWins.ToString();
+                PlayFabManager.Instance.SetUserData(data);
+                break;
+            case "Scientific":
+                data["Scientific"] = scientificWins.ToString();
+                PlayFabManager.Instance.SetUserData(data);
+                break;
+            case "Losses":
+                data["Losses"] = totalLosses.ToString();
+                PlayFabManager.Instance.SetUserData(data);
+                break;
+        }
+    }
 }

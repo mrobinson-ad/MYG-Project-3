@@ -35,11 +35,11 @@ public class StatsPanelController : MonoBehaviour // Initially sets the win/lose
         totalLosses.text = $"Total Losses: {PlayerPrefs.GetInt("TotalLosses", 0)}";
     }
 
-    private void UpdateWins(Difficulty difficulty)
+    private void UpdateWins()
     {
         totalWins.text = $"Total wins: {PlayerPrefs.GetInt("TotalWins", 0)}";
         
-        if (difficulty == Difficulty.Common)
+        if (WordManager.Instance.difficulty == Difficulty.Common)
         {
             commonWins.text = $"Common wins: {PlayerPrefs.GetInt("CommonWins", 0)}";
         }

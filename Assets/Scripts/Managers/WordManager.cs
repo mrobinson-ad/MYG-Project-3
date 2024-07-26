@@ -46,7 +46,6 @@ public class WordManager : MonoBehaviour
         }
         else
             Destroy(gameObject);
-
     }
 
     private void Start()
@@ -212,7 +211,7 @@ public class WordManager : MonoBehaviour
 
                 //Add SunshineAnimation(true)
 
-                GameManager.Win(difficulty);
+                GameManager.Win();
             }
             yield return new WaitForSeconds(1f);
 
@@ -260,5 +259,6 @@ public class WordManager : MonoBehaviour
             letter[i].pickingMode = PickingMode.Ignore;
         }
     }
+
 
 }
