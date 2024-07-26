@@ -67,11 +67,10 @@ public class GameManager : MonoBehaviour
     }
 
     #region Win Event
-    public static void Win() // updates the total and category specific wins and saves them to PlayerPrefs
+    public static void Win() // updates the total and category specific wins and saves them to PlayFab
     {
         GameManager.Instance.totalWins++;
         Debug.Log($"You won a total of {GameManager.Instance.totalWins} times");
-        PlayerPrefs.SetInt("TotalWins", GameManager.Instance.totalWins);
         if (WordManager.Instance.difficulty == Difficulty.Common)
         {
             GameManager.Instance.CommonWins++;
@@ -81,18 +80,16 @@ public class GameManager : MonoBehaviour
         {
             GameManager.Instance.ScientificWins++;
             GameManager.Instance.UpdateStats("Scientific");
-            PlayerPrefs.SetInt("ScientificWins", GameManager.Instance.ScientificWins);
         }
         OnWin?.Invoke();
     }
     #endregion
 
     #region Lose Event
-    public static void Lose() // updates the losses and saves them to PlayerPrefs
+    public static void Lose() // updates the losses and saves them to PlayFab
     {
         GameManager.Instance.TotalLosses++;
         Debug.Log($"You lost a total of {GameManager.Instance.TotalLosses} times");
-        PlayerPrefs.SetInt("TotalLosses", GameManager.Instance.TotalLosses);
         GameManager.Instance.UpdateStats("Losses");
         OnLose?.Invoke();
     }
@@ -100,10 +97,16 @@ public class GameManager : MonoBehaviour
 
     public int GetWinRate()
     {
-        float winRatio = (float) totalWins / (totalWins + TotalLosses) * 100;
+        float winRatio = (float) totalWins / (totalWins + totalLosses) * 100;
         Debug.Log($"Win Rate: {winRate}");
         winRate = (int)winRatio;
         return winRate;
+    }
+
+    public int GetTotalWin()
+    {
+        totalWins = CommonWins + ScientificWins;
+        return totalWins;
     }
 
     public void DeserializeJson()

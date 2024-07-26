@@ -24,28 +24,28 @@ public class StatsPanelController : MonoBehaviour // Initially sets the win/lose
     
     void Start()
     {        
-        totalWins.text = $"Total wins: {PlayerPrefs.GetInt("TotalWins", 0)}";
+        totalWins.text = $"Total wins: {GameManager.Instance.GetTotalWin()}";
 
         winRate.text = $"Win rate: {GameManager.Instance.GetWinRate()}%";
 
-        commonWins.text = $"Common wins: {PlayerPrefs.GetInt("CommonWins", 0)}";
+        commonWins.text = $"Common wins: {GameManager.Instance.CommonWins}";
         
-        scientificWins.text = $"Scientific wins: {PlayerPrefs.GetInt("ScientificWins", 0)}";
+        scientificWins.text = $"Scientific wins: {GameManager.Instance.ScientificWins}";
 
-        totalLosses.text = $"Total Losses: {PlayerPrefs.GetInt("TotalLosses", 0)}";
+        totalLosses.text = $"Total Losses: {GameManager.Instance.TotalLosses}";
     }
 
     private void UpdateWins()
     {
-        totalWins.text = $"Total wins: {PlayerPrefs.GetInt("TotalWins", 0)}";
+        totalWins.text = $"Total wins: {GameManager.Instance.GetTotalWin()}";
         
         if (WordManager.Instance.difficulty == Difficulty.Common)
         {
-            commonWins.text = $"Common wins: {PlayerPrefs.GetInt("CommonWins", 0)}";
+            commonWins.text = $"Common wins: {GameManager.Instance.CommonWins}";
         }
         else
         {
-            scientificWins.text = $"Scientific wins: {PlayerPrefs.GetInt("ScientificWins", 0)}";
+            scientificWins.text = $"Scientific wins: {GameManager.Instance.ScientificWins}";
         }
         winRate.text = $"Win rate: {GameManager.Instance.GetWinRate()}%";
         PlayFabManager.UpdateWinRate(GameManager.Instance.GetWinRate());    
@@ -53,7 +53,7 @@ public class StatsPanelController : MonoBehaviour // Initially sets the win/lose
 
     private void UpdateLoss()
     {
-        totalLosses.text = $"Total Losses: {PlayerPrefs.GetInt("TotalLosses", 0)}";
+        totalLosses.text = $"Total Losses: {GameManager.Instance.TotalLosses}";
         winRate.text = $"Win rate: {GameManager.Instance.GetWinRate()}%";
         PlayFabManager.UpdateWinRate(GameManager.Instance.GetWinRate());
     }

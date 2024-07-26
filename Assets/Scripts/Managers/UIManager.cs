@@ -350,9 +350,9 @@ public class UIManager : MonoBehaviour
         rootG.Q<VisualElement>("end-panel").SetEnabled(true);
         RemoveAddUSSClass(rootG.Q<VisualElement>("end-stats-panel"), "win-stats-panel", "lose-stats-panel");
         rootG.Q<Label>("end-message").text = "Better luck next time...";
-        rootG.Q<Label>("total-win").text = $"Total wins: {PlayerPrefs.GetInt("TotalWins", 0)}";
+        rootG.Q<Label>("total-win").text = $"Total wins: {GameManager.Instance.GetTotalWin()}";
         rootG.Q<Label>("win-rate").text = $"Win rate: {GameManager.Instance.GetWinRate()}%";
-        rootG.Q<Label>("total-loss").text = $"Total Losses: {PlayerPrefs.GetInt("TotalLosses", 0)}";
+        rootG.Q<Label>("total-loss").text = $"Total Losses: {GameManager.Instance.TotalLosses}";
         rootG.Q<Label>("description-label").text = WordManager.Instance.wordSO.values.description;
         rootG.Q<Label>("display-end").text = GetLostWordDisplay(WordManager.Instance.wordToGuess, WordManager.Instance.wordDisplay);
     }
@@ -364,9 +364,9 @@ public class UIManager : MonoBehaviour
         DOTween.Sequence().PrependInterval(1.5f).Append(rootG.Q<VisualElement>("sakura").DOScale(1, 2).SetEase(Ease.InExpo)).Play();
         rootG.Q<VisualElement>("end-panel").SetEnabled(true);
         rootG.Q<Label>("end-message").text = "You won!";
-        rootG.Q<Label>("total-win").text = $"Total wins: {PlayerPrefs.GetInt("TotalWins", 0)}";
+        rootG.Q<Label>("total-win").text = $"Total wins: {GameManager.Instance.GetTotalWin()}";
         rootG.Q<Label>("win-rate").text = $"Win rate: {GameManager.Instance.GetWinRate()}%";
-        rootG.Q<Label>("total-loss").text = $"Total Losses: {PlayerPrefs.GetInt("TotalLosses", 0)}";
+        rootG.Q<Label>("total-loss").text = $"Total Losses: {GameManager.Instance.TotalLosses}";
         rootG.Q<Label>("display-end").text = new string(WordManager.Instance.wordToGuess);
         rootG.Q<Label>("description-label").text = WordManager.Instance.wordSO.values.description;
     }
