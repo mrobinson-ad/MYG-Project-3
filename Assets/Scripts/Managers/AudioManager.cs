@@ -95,6 +95,7 @@ public class AudioManager : MonoBehaviour
             {
                 audioSource.clip = bgm.values.audioClip;
                 audioSource.outputAudioMixerGroup = bgm.values.output;
+                audioSource.volume = bgm.values.volume;
                 audioSource.loop = bgm.values.isLoop;
                 audioSource.Play();
             }
@@ -125,6 +126,7 @@ public class AudioManager : MonoBehaviour
             audioSource = mySFX.GetComponent<AudioSource>();
             SFX_SO sfx = System.Array.Find(AudioManager.Instance.soundEffects, sfx => sfx.name == name);
             audioSource.clip = sfx.values.audioClip;
+            audioSource.volume = sfx.values.volume;
             audioSource.outputAudioMixerGroup = sfx.values.output;
             audioSource.Play();
         }

@@ -53,9 +53,28 @@ public class UIManager : MonoBehaviour
         GameManager.OnWin += OnWin;
         RegisterCallBacks();
     }
+    private UIDocument GetScene() // Returns the current scene UIDocument based on the currentScene enum
+    {
+        UIDocument scene;
+        switch (currentScene)
+        {
+            case CurrentScene.Main:
+                scene = mainMenuUIDocument;
+                break;
+            case CurrentScene.Game:
+                scene = gameUIDocument;
+                break;
+            default:
+                scene = mainMenuUIDocument;
+                break;
+        }
+
+        return scene;
+    }
 
 
 
+    #region RegisterCallBacks
     private void RegisterCallBacks()
     {
         // MouseCaptureOutEvent is called when the user stops interacting with the slider
@@ -171,25 +190,8 @@ public class UIManager : MonoBehaviour
         });
 
     }
+    #endregion
 
-    private UIDocument GetScene()
-    {
-        UIDocument scene;
-        switch (currentScene)
-        {
-            case CurrentScene.Main:
-                scene = mainMenuUIDocument;
-                break;
-            case CurrentScene.Game:
-                scene = gameUIDocument;
-                break;
-            default:
-                scene = mainMenuUIDocument;
-                break;
-        }
-
-        return scene;
-    }
 
     private void Start()
     {
@@ -209,7 +211,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private void OnDifficultyChanged()
+    private void OnDifficultyChanged() // Sets WordManager Difficulty enum by parsing the label of the radio-difficulty RBs
     {
         var radioButtons = difficultyBox.Query<RadioButton>().Class("radio-difficulty").ToList();
 
@@ -230,8 +232,8 @@ public class UIManager : MonoBehaviour
             }
         }
     }
-
-    private void OnSceneChange(Button target, UIDocument current)
+    #region Scene Change
+    private void OnSceneChange(Button target, UIDocument current) //Sets the target scene sortingOrder to the front and the current one to 0 and handles scene specific actions on change
     {
         string targetScene = target.name.Split('-')[0];
         switch (targetScene)
@@ -293,7 +295,9 @@ public class UIManager : MonoBehaviour
         }
 
     }
+    #endregion
 
+    #region Restart
     private IEnumerator OnCategoryPressed(Button target)
     {
         var endStats = rootG.Q<VisualElement>("end-stats-panel");
@@ -333,8 +337,11 @@ public class UIManager : MonoBehaviour
         }
         RemoveAddUSSClass(rightCurtain, "curtain-right", "curtain-right-off");
         RemoveAddUSSClass(leftCurtain, "curtain-left", "curtain-left-off");
+        AudioManager.MusicChange("BGGame");
     }
 
+    #endregion
+    #region Event Listeners
     private void OnReturnPressed(UIDocument scene)
     {
         Debug.Log("Return pressed");
@@ -345,6 +352,7 @@ public class UIManager : MonoBehaviour
 
     private void OnLose()
     {
+        AudioManager.MusicChange("BGLose");
         rootG.Q<VisualElement>("sakura").transform.scale = new Vector3(0, 0, 1);
         rootG.Q<VisualElement>("display-panel").style.display = DisplayStyle.None;
         rootG.Q<VisualElement>("end-panel").SetEnabled(true);
@@ -359,6 +367,7 @@ public class UIManager : MonoBehaviour
 
     private void OnWin()
     {
+        AudioManager.MusicChange("BGWin");
         rootG.Q<VisualElement>("display-panel").style.display = DisplayStyle.None;
         RemoveAddUSSClass(rootG.Q<VisualElement>("end-stats-panel"), "lose-stats-panel", "win-stats-panel");
         DOTween.Sequence().PrependInterval(1.5f).Append(rootG.Q<VisualElement>("sakura").DOScale(1, 2).SetEase(Ease.InExpo)).Play();
@@ -370,9 +379,9 @@ public class UIManager : MonoBehaviour
         rootG.Q<Label>("display-end").text = new string(WordManager.Instance.wordToGuess);
         rootG.Q<Label>("description-label").text = WordManager.Instance.wordSO.values.description;
     }
-
-    // Method to return a string with unguessed letters in red
-    private string GetLostWordDisplay(Char[] wordToGuess, string wordDisplay)
+    #endregion
+    
+    private string GetLostWordDisplay(Char[] wordToGuess, string wordDisplay) // Method to return a string with unguessed letters in red
     {
         string lostDisplay = "";
         for (int i = 0; i < wordToGuess.Length; i++)
@@ -389,7 +398,7 @@ public class UIManager : MonoBehaviour
         return lostDisplay;
     }
 
-    public void GameLoaded()
+    public void GameLoaded() // Hides loading panel and disables the first login panel if user has already registered a name
     {
         rootMM.Q<VisualElement>("loading-panel").style.display = DisplayStyle.None;
         if (PlayFabManager.hasName == true)
@@ -401,7 +410,7 @@ public class UIManager : MonoBehaviour
     }
 
 
-    public void DisplayLeaderboard(List<PlayerLeaderboardEntry> leaderboard)
+    public void DisplayLeaderboard(List<PlayerLeaderboardEntry> leaderboard) // Displays the leaderboard using a template and the data from playfab's leaderboard
     {
         VisualElement leaderboardPanel = rootMM.Q<VisualElement>("Leaderboard");
 
@@ -422,7 +431,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private void RemoveAddUSSClass(VisualElement target, string classToRemove, string classToAdd )
+    private void RemoveAddUSSClass(VisualElement target, string classToRemove, string classToAdd ) // util to remove and add a class to a Visual Element in one line
     {
         target.RemoveFromClassList(classToRemove);
         target.AddToClassList(classToAdd);

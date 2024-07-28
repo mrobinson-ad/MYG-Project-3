@@ -95,7 +95,6 @@ public class PlayFabManager : MonoBehaviour
 
     private static void OnStatisticUpdated(UpdatePlayerStatisticsResult updateResult)
     {
-        Debug.Log($"{currentUser} has submitted a new win rate of {updateResult}");
         UIManager.Instance.StartCoroutine(WaitAndUpdateLeaderboard(3f));
     }
 
