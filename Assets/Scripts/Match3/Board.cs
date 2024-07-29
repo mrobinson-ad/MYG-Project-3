@@ -6,638 +6,641 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
-public sealed class Board : MonoBehaviour
+namespace FlowerProject
 {
-    #region Variable Declaration
-    public static Board Instance { get; private set; }
-
-    public Row[] rows;
-
-    public Tile[,] Tiles { get; private set; }
-    private RectTransform[,] iconTransforms;
-
-
-    public int Width => Tiles.GetLength(0);
-    public int Height => Tiles.GetLength(1);
-
-    public Item nullItem;
-
-    public Tile selectedTile;
-
-    public Button resetButton;
-
-    private bool canMove = true;
-    private bool usingMinusDelete = false;
-
-    public bool isStarting = true; // temporary bool for temporary board scramble powerup usage
-
-    List<Tile> tilesToRemove = new();
-
-    private const float TweenDuration = 0.25f;
-
-    public delegate void increaseScore(float scoreIncrease, ItemType type);
-    public static event increaseScore OnIncreaseScore;
-
-    #endregion
-    private void Awake()
+    public sealed class Board : MonoBehaviour
     {
-        if (Instance == null)
+        #region Variable Declaration
+        public static Board Instance { get; private set; }
+
+        public Row[] rows;
+
+        public Tile[,] Tiles { get; private set; }
+        private RectTransform[,] iconTransforms;
+
+
+        public int Width => Tiles.GetLength(0);
+        public int Height => Tiles.GetLength(1);
+
+        public Item nullItem;
+
+        public Tile selectedTile;
+
+        public Button resetButton;
+
+        private bool canMove = true;
+        private bool usingMinusDelete = false;
+
+        public bool isStarting = true; // temporary bool for temporary board scramble powerup usage
+
+        List<Tile> tilesToRemove = new();
+
+        private const float TweenDuration = 0.25f;
+
+        public delegate void increaseScore(float scoreIncrease, ItemType type);
+        public static event increaseScore OnIncreaseScore;
+
+        #endregion
+        private void Awake()
         {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-
-    #region Board Initialization
-    private async void Start()
-    {
-        await InitializeBoard();
-        isStarting = false;
-    }
-
-    private async Task InitializeBoard()
-    {
-        int width = rows.Max(row => row.tiles.Length);
-        int height = rows.Length;
-
-        Tiles = new Tile[width, height];
-        iconTransforms = new RectTransform[width, height]; // Initialize the RectTransform array
-
-        for (var y = 0; y < height; y++)
-        {
-            for (var x = 0; x < width; x++)
+            if (Instance == null)
             {
-                var tile = rows[y].tiles[x];
-
-                tile.x = x;
-                tile.y = height - 1 - y;
-
-                tile.Item = ItemDatabase.Items[UnityEngine.Random.Range(0, ItemDatabase.Items.Length)];
-
-                Tiles[x, height - 1 - y] = tile;
-                iconTransforms[x, height - 1 - y] = tile.icon.GetComponent<RectTransform>(); // Store the RectTransform
+                Instance = this;
+            }
+            else
+            {
+                Destroy(gameObject);
             }
         }
-        if (CheckBoard())
-            ReinitializeBoard();
-    }
 
-    public async void ReinitializeBoard()
-    {
-        if (!canMove)
-            return;
-        Debug.Log("Board has been reinitialized");
-        foreach (Tile tile in Tiles)
+        #region Board Initialization
+        private async void Start()
         {
-            tile.Item = ItemDatabase.Items[UnityEngine.Random.Range(0, ItemDatabase.Items.Length)];
+            await InitializeBoard();
+            isStarting = false;
         }
-        if (!isStarting) // this has to be moved when I properly implement powerups
+
+        private async Task InitializeBoard()
         {
-            ProgressCounter.Instance.CurrentMinus = 5;
-            ProgressCounter.Instance.Lives -= 1;
+            int width = rows.Max(row => row.tiles.Length);
+            int height = rows.Length;
+
+            Tiles = new Tile[width, height];
+            iconTransforms = new RectTransform[width, height]; // Initialize the RectTransform array
+
+            for (var y = 0; y < height; y++)
+            {
+                for (var x = 0; x < width; x++)
+                {
+                    var tile = rows[y].tiles[x];
+
+                    tile.x = x;
+                    tile.y = height - 1 - y;
+
+                    tile.Item = ItemDatabase.Items[UnityEngine.Random.Range(0, ItemDatabase.Items.Length)];
+
+                    Tiles[x, height - 1 - y] = tile;
+                    iconTransforms[x, height - 1 - y] = tile.icon.GetComponent<RectTransform>(); // Store the RectTransform
+                }
+            }
             if (CheckBoard())
-                await ProcessTurnOnMatchedBoard();
-            return;
+                ReinitializeBoard();
         }
-        if (CheckBoard())
+
+        public async void ReinitializeBoard()
         {
-            ReinitializeBoard();
-        }
-    }
-
-    public bool CheckBoard()
-    {
-        Debug.Log("Checking Board");
-        bool hasMatched = false;
-        tilesToRemove.Clear();
-
-        foreach (Tile tile in Tiles)
-            tile.isMatched = false;
-
-        for (int x = 0; x < Width; x++)
-        {
-            for (int y = 0; y < Height; y++)
+            if (!canMove)
+                return;
+            Debug.Log("Board has been reinitialized");
+            foreach (Tile tile in Tiles)
             {
-                Tile tile = Tiles[x, y];
+                tile.Item = ItemDatabase.Items[UnityEngine.Random.Range(0, ItemDatabase.Items.Length)];
+            }
+            if (!isStarting) // this has to be moved when I properly implement powerups
+            {
+                ProgressCounter.Instance.CurrentMinus = 5;
+                ProgressCounter.Instance.Lives -= 1;
+                if (CheckBoard())
+                    await ProcessTurnOnMatchedBoard();
+                return;
+            }
+            if (CheckBoard())
+            {
+                ReinitializeBoard();
+            }
+        }
 
-                if (!tile.isMatched && tile.Item.itemType != ItemType.Null)
+        public bool CheckBoard()
+        {
+            Debug.Log("Checking Board");
+            bool hasMatched = false;
+            tilesToRemove.Clear();
+
+            foreach (Tile tile in Tiles)
+                tile.isMatched = false;
+
+            for (int x = 0; x < Width; x++)
+            {
+                for (int y = 0; y < Height; y++)
                 {
-                    MatchResult matchedTiles = IsConnected(tile);
+                    Tile tile = Tiles[x, y];
 
-                    if (matchedTiles.connectedTiles.Count >= 3)
+                    if (!tile.isMatched && tile.Item.itemType != ItemType.Null)
                     {
-                        MatchResult superMatchedTiles = SuperMatch(matchedTiles);
+                        MatchResult matchedTiles = IsConnected(tile);
 
-                        tilesToRemove.AddRange(superMatchedTiles.connectedTiles);
-
-                        foreach (Tile til in superMatchedTiles.connectedTiles)
-                            til.isMatched = true;
-
-                        hasMatched = true;
-                    }
-                }
-            }
-        }
-
-        return hasMatched;
-    }
-
-
-    #endregion
-
-    #region Removing/Filling logic
-
-    private async Task RemoveAndRefill(List<Tile> tilesToRemove)
-    {
-        await AnimateRemoval(tilesToRemove);
-
-        foreach (Tile tile in tilesToRemove)
-        {
-            tile.Item = nullItem;
-            tile.icon.transform.localScale = Vector3.one; // Reset the scale to Vector3.one
-            tile.icon.GetComponent<RectTransform>().anchoredPosition = Vector2.zero; // Reset the anchored position to default
-        }
-
-        while (CheckForEmptyTiles(out List<Tile> emptyTiles))
-        {
-            await AnimateFallingIcons();
-            await SpawnItemsAtTop(emptyTiles);
-        }
-    }
-
-    private async Task AnimateRemoval(List<Tile> tilesToRemove)
-    {
-        // Dictionary to accumulate scores for each item type
-        var scoreAccumulator = new Dictionary<ItemType, float>();
-            
-        var inflateSequence = DOTween.Sequence();
-        var deflateSequence = DOTween.Sequence();
-        foreach (Tile tile in tilesToRemove)
-        {
-            if (!usingMinusDelete)
-            {
-                // Accumulate scores based on the item type
-                if (!scoreAccumulator.ContainsKey(tile.Item.itemType))
-                {
-                    scoreAccumulator[tile.Item.itemType] = 0;
-                }
-                scoreAccumulator[tile.Item.itemType] += tile.Item.value;
-            }
-            inflateSequence.Append(tile.icon.transform.DOScale(new Vector3(1.5f, 1.5f, 1.5f), TweenDuration));
-            deflateSequence.Join(tile.icon.transform.DOScale(Vector3.zero, TweenDuration));
-        }
-
-        inflateSequence.Append(deflateSequence);
-
-        await inflateSequence.Play().AsyncWaitForCompletion();
-
-        // Invoke OnIncreaseScore for each item type after the removal and refill
-        foreach (var score in scoreAccumulator)
-        {
-            OnIncreaseScore?.Invoke(score.Value, score.Key);
-        }
-
-
-        foreach (Tile tile in tilesToRemove)
-        {
-            tile.icon.transform.localScale = Vector3.one; // Reset the scale to Vector3.one
-            tile.icon.GetComponent<RectTransform>().anchoredPosition = Vector2.zero; // Reset the anchored position to default
-        }
-    }
-
-    private bool CheckForEmptyTiles(out List<Tile> emptyTiles)
-    {
-        emptyTiles = new List<Tile>();
-
-        for (int x = 0; x < Width; x++)
-        {
-            for (int y = 0; y < Height; y++)
-            {
-                if (Tiles[x, y].Item.itemType == ItemType.Null)
-                {
-                    emptyTiles.Add(Tiles[x, y]);
-                }
-            }
-        }
-
-        return emptyTiles.Count > 0;
-    }
-
-    private async Task AnimateFallingIcons()
-    {
-        var moveTasks = new List<Task>();
-
-        // Handle falling animations from bottom to top to avoid overwriting positions
-        for (int x = 0; x < Width; x++)
-        {
-            for (int y = 0; y < Height; y++)
-            {
-                if (Tiles[x, y].Item.itemType == ItemType.Null)
-                {
-                    for (int y2 = y + 1; y2 < Height; y2++)
-                    {
-                        if (Tiles[x, y2].Item.itemType != ItemType.Null)
+                        if (matchedTiles.connectedTiles.Count >= 3)
                         {
-                            Tile tileAbove = Tiles[x, y2];
-                            Tile emptyTile = Tiles[x, y];
+                            MatchResult superMatchedTiles = SuperMatch(matchedTiles);
 
-                            // Swap the items
-                            emptyTile.Item = tileAbove.Item;
-                            tileAbove.Item = nullItem;
+                            tilesToRemove.AddRange(superMatchedTiles.connectedTiles);
 
-                            // Add the move animation task
-                            var moveTask = MoveIconToEmptyTile(tileAbove, emptyTile);
-                            moveTasks.Add(moveTask);
-                            break; // Stop searching in this column once the tile has been found and moved
+                            foreach (Tile til in superMatchedTiles.connectedTiles)
+                                til.isMatched = true;
+
+                            hasMatched = true;
                         }
                     }
                 }
             }
+
+            return hasMatched;
         }
 
-        await Task.WhenAll(moveTasks);
-    }
 
-    private Task MoveIconToEmptyTile(Tile tileAbove, Tile emptyTile)
-    {
-        var iconAbove = tileAbove.icon.transform;
-        var iconEmpty = emptyTile.icon.transform;
+        #endregion
 
+        #region Removing/Filling logic
 
-        var sequence = DOTween.Sequence();
-
-
-        var targetPosition = iconEmpty.position;
-
-
-        sequence.Append(iconAbove.DOMove(targetPosition, TweenDuration));
-
-        // Add a callback to reset the anchoredPosition after the move completes
-        sequence.AppendCallback(() =>
+        private async Task RemoveAndRefill(List<Tile> tilesToRemove)
         {
+            await AnimateRemoval(tilesToRemove);
 
-            var rectTransform = iconAbove.GetComponent<RectTransform>();
-            rectTransform.anchoredPosition = Vector2.zero;
-        });
-
-
-        return sequence.Play().AsyncWaitForCompletion();
-    }
-
-    private async Task SpawnItemsAtTop(List<Tile> emptyTiles)
-    {
-        foreach (Tile emptyTile in emptyTiles)
-        {
-            if (emptyTile.Item.itemType == ItemType.Null)
+            foreach (Tile tile in tilesToRemove)
             {
-                await SpawnItemAtTop(emptyTile.x, emptyTile.y);
+                tile.Item = nullItem;
+                tile.icon.transform.localScale = Vector3.one; // Reset the scale to Vector3.one
+                tile.icon.GetComponent<RectTransform>().anchoredPosition = Vector2.zero; // Reset the anchored position to default
+            }
+
+            while (CheckForEmptyTiles(out List<Tile> emptyTiles))
+            {
+                await AnimateFallingIcons();
+                await SpawnItemsAtTop(emptyTiles);
             }
         }
-    }
 
-    private async Task SpawnItemAtTop(int x, int y)
-    {
-        Tile newItem = Tiles[x, y];
-        newItem.Item = ItemDatabase.Items[UnityEngine.Random.Range(0, ItemDatabase.Items.Length)];
-
-        newItem.icon.transform.position = new Vector3(x, Height, 0);
-        newItem.icon.transform.localScale = Vector3.zero;
-
-        var inflateSequence = DOTween.Sequence();
-        inflateSequence.Join(newItem.icon.transform.DOMove(newItem.transform.position, TweenDuration));
-        inflateSequence.Join(newItem.icon.transform.DOScale(Vector3.one, TweenDuration));
-        await inflateSequence.Play().AsyncWaitForCompletion();
-
-        // Ensure rectTransform is reset to default
-        newItem.icon.transform.localScale = Vector3.one;
-        newItem.icon.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-    }
-
-    #endregion
-    #region Matching logic
-
-    private MatchResult SuperMatch(MatchResult _matchedResults)
-    {
-        if (_matchedResults.direction == MatchDirection.Horizontal || _matchedResults.direction == MatchDirection.LongHorizontal)
+        private async Task AnimateRemoval(List<Tile> tilesToRemove)
         {
-            foreach (Tile til in _matchedResults.connectedTiles)
+            // Dictionary to accumulate scores for each item type
+            var scoreAccumulator = new Dictionary<ItemType, float>();
+
+            var inflateSequence = DOTween.Sequence();
+            var deflateSequence = DOTween.Sequence();
+            foreach (Tile tile in tilesToRemove)
             {
-                List<Tile> extraConnectedTiles = new();
-
-                CheckDirection(til, new Vector2Int(0, 1), extraConnectedTiles);
-                CheckDirection(til, new Vector2Int(0, -1), extraConnectedTiles);
-
-                if (extraConnectedTiles.Count >= 2)
+                if (!usingMinusDelete)
                 {
-                    Debug.Log("I have a super Horizontal Match");
-                    extraConnectedTiles.AddRange(_matchedResults.connectedTiles);
-
-                    return new MatchResult
+                    // Accumulate scores based on the item type
+                    if (!scoreAccumulator.ContainsKey(tile.Item.itemType))
                     {
-                        connectedTiles = extraConnectedTiles,
-                        direction = MatchDirection.Super,
-                        matchType = _matchedResults.matchType,
-                        matchValue = extraConnectedTiles.Count() * extraConnectedTiles[0].Item.value
-                    };
+                        scoreAccumulator[tile.Item.itemType] = 0;
+                    }
+                    scoreAccumulator[tile.Item.itemType] += tile.Item.value;
+                }
+                inflateSequence.Append(tile.icon.transform.DOScale(new Vector3(1.5f, 1.5f, 1.5f), TweenDuration));
+                deflateSequence.Join(tile.icon.transform.DOScale(Vector3.zero, TweenDuration));
+            }
+
+            inflateSequence.Append(deflateSequence);
+
+            await inflateSequence.Play().AsyncWaitForCompletion();
+
+            // Invoke OnIncreaseScore for each item type after the removal and refill
+            foreach (var score in scoreAccumulator)
+            {
+                OnIncreaseScore?.Invoke(score.Value, score.Key);
+            }
+
+
+            foreach (Tile tile in tilesToRemove)
+            {
+                tile.icon.transform.localScale = Vector3.one; // Reset the scale to Vector3.one
+                tile.icon.GetComponent<RectTransform>().anchoredPosition = Vector2.zero; // Reset the anchored position to default
+            }
+        }
+
+        private bool CheckForEmptyTiles(out List<Tile> emptyTiles)
+        {
+            emptyTiles = new List<Tile>();
+
+            for (int x = 0; x < Width; x++)
+            {
+                for (int y = 0; y < Height; y++)
+                {
+                    if (Tiles[x, y].Item.itemType == ItemType.Null)
+                    {
+                        emptyTiles.Add(Tiles[x, y]);
+                    }
+                }
+            }
+
+            return emptyTiles.Count > 0;
+        }
+
+        private async Task AnimateFallingIcons()
+        {
+            var moveTasks = new List<Task>();
+
+            // Handle falling animations from bottom to top to avoid overwriting positions
+            for (int x = 0; x < Width; x++)
+            {
+                for (int y = 0; y < Height; y++)
+                {
+                    if (Tiles[x, y].Item.itemType == ItemType.Null)
+                    {
+                        for (int y2 = y + 1; y2 < Height; y2++)
+                        {
+                            if (Tiles[x, y2].Item.itemType != ItemType.Null)
+                            {
+                                Tile tileAbove = Tiles[x, y2];
+                                Tile emptyTile = Tiles[x, y];
+
+                                // Swap the items
+                                emptyTile.Item = tileAbove.Item;
+                                tileAbove.Item = nullItem;
+
+                                // Add the move animation task
+                                var moveTask = MoveIconToEmptyTile(tileAbove, emptyTile);
+                                moveTasks.Add(moveTask);
+                                break; // Stop searching in this column once the tile has been found and moved
+                            }
+                        }
+                    }
+                }
+            }
+
+            await Task.WhenAll(moveTasks);
+        }
+
+        private Task MoveIconToEmptyTile(Tile tileAbove, Tile emptyTile)
+        {
+            var iconAbove = tileAbove.icon.transform;
+            var iconEmpty = emptyTile.icon.transform;
+
+
+            var sequence = DOTween.Sequence();
+
+
+            var targetPosition = iconEmpty.position;
+
+
+            sequence.Append(iconAbove.DOMove(targetPosition, TweenDuration));
+
+            // Add a callback to reset the anchoredPosition after the move completes
+            sequence.AppendCallback(() =>
+            {
+
+                var rectTransform = iconAbove.GetComponent<RectTransform>();
+                rectTransform.anchoredPosition = Vector2.zero;
+            });
+
+
+            return sequence.Play().AsyncWaitForCompletion();
+        }
+
+        private async Task SpawnItemsAtTop(List<Tile> emptyTiles)
+        {
+            foreach (Tile emptyTile in emptyTiles)
+            {
+                if (emptyTile.Item.itemType == ItemType.Null)
+                {
+                    await SpawnItemAtTop(emptyTile.x, emptyTile.y);
                 }
             }
         }
-        else if (_matchedResults.direction == MatchDirection.Vertical || _matchedResults.direction == MatchDirection.LongVertical)
+
+        private async Task SpawnItemAtTop(int x, int y)
         {
-            foreach (Tile til in _matchedResults.connectedTiles)
+            Tile newItem = Tiles[x, y];
+            newItem.Item = ItemDatabase.Items[UnityEngine.Random.Range(0, ItemDatabase.Items.Length)];
+
+            newItem.icon.transform.position = new Vector3(x, Height, 0);
+            newItem.icon.transform.localScale = Vector3.zero;
+
+            var inflateSequence = DOTween.Sequence();
+            inflateSequence.Join(newItem.icon.transform.DOMove(newItem.transform.position, TweenDuration));
+            inflateSequence.Join(newItem.icon.transform.DOScale(Vector3.one, TweenDuration));
+            await inflateSequence.Play().AsyncWaitForCompletion();
+
+            // Ensure rectTransform is reset to default
+            newItem.icon.transform.localScale = Vector3.one;
+            newItem.icon.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+        }
+
+        #endregion
+        #region Matching logic
+
+        private MatchResult SuperMatch(MatchResult _matchedResults)
+        {
+            if (_matchedResults.direction == MatchDirection.Horizontal || _matchedResults.direction == MatchDirection.LongHorizontal)
             {
-                List<Tile> extraConnectedTiles = new();
-
-                CheckDirection(til, new Vector2Int(1, 0), extraConnectedTiles);
-                CheckDirection(til, new Vector2Int(-1, 0), extraConnectedTiles);
-
-                if (extraConnectedTiles.Count >= 2)
+                foreach (Tile til in _matchedResults.connectedTiles)
                 {
-                    Debug.Log("I have a super Vertical Match");
-                    extraConnectedTiles.AddRange(_matchedResults.connectedTiles);
+                    List<Tile> extraConnectedTiles = new();
 
-                    return new MatchResult
+                    CheckDirection(til, new Vector2Int(0, 1), extraConnectedTiles);
+                    CheckDirection(til, new Vector2Int(0, -1), extraConnectedTiles);
+
+                    if (extraConnectedTiles.Count >= 2)
                     {
-                        connectedTiles = extraConnectedTiles,
-                        direction = MatchDirection.Super,
-                        matchType = _matchedResults.matchType,
-                        matchValue = extraConnectedTiles.Count() * extraConnectedTiles[0].Item.value
-                    };
+                        Debug.Log("I have a super Horizontal Match");
+                        extraConnectedTiles.AddRange(_matchedResults.connectedTiles);
+
+                        return new MatchResult
+                        {
+                            connectedTiles = extraConnectedTiles,
+                            direction = MatchDirection.Super,
+                            matchType = _matchedResults.matchType,
+                            matchValue = extraConnectedTiles.Count() * extraConnectedTiles[0].Item.value
+                        };
+                    }
+                }
+            }
+            else if (_matchedResults.direction == MatchDirection.Vertical || _matchedResults.direction == MatchDirection.LongVertical)
+            {
+                foreach (Tile til in _matchedResults.connectedTiles)
+                {
+                    List<Tile> extraConnectedTiles = new();
+
+                    CheckDirection(til, new Vector2Int(1, 0), extraConnectedTiles);
+                    CheckDirection(til, new Vector2Int(-1, 0), extraConnectedTiles);
+
+                    if (extraConnectedTiles.Count >= 2)
+                    {
+                        Debug.Log("I have a super Vertical Match");
+                        extraConnectedTiles.AddRange(_matchedResults.connectedTiles);
+
+                        return new MatchResult
+                        {
+                            connectedTiles = extraConnectedTiles,
+                            direction = MatchDirection.Super,
+                            matchType = _matchedResults.matchType,
+                            matchValue = extraConnectedTiles.Count() * extraConnectedTiles[0].Item.value
+                        };
+                    }
+                }
+            }
+
+            return new MatchResult
+            {
+                connectedTiles = _matchedResults.connectedTiles,
+                direction = _matchedResults.direction
+            };
+        }
+
+        private MatchResult IsConnected(Tile tile)
+        {
+            List<Tile> connectedTiles = new();
+            ItemType itemType = tile.Item.itemType;
+            connectedTiles.Add(tile);
+
+            CheckDirection(tile, new Vector2Int(1, 0), connectedTiles);
+            CheckDirection(tile, new Vector2Int(-1, 0), connectedTiles);
+
+            if (connectedTiles.Count == 3)
+            {
+                Debug.Log("I have a normal horizontal match, the color of my match is: " + connectedTiles[0].Item.itemType);
+                return new MatchResult
+                {
+                    connectedTiles = connectedTiles,
+                    direction = MatchDirection.Horizontal,
+                    matchType = connectedTiles[0].Item.itemType,
+                    matchValue = connectedTiles.Count() * connectedTiles[0].Item.value
+                };
+            }
+            else if (connectedTiles.Count > 3)
+            {
+                Debug.Log("I have a long horizontal match, the color of my match is: " + connectedTiles[0].Item.itemType);
+                return new MatchResult
+                {
+                    connectedTiles = connectedTiles,
+                    direction = MatchDirection.LongHorizontal,
+                    matchType = connectedTiles[0].Item.itemType,
+                    matchValue = connectedTiles.Count() * connectedTiles[0].Item.value
+                };
+            }
+
+            connectedTiles.Clear();
+            connectedTiles.Add(tile);
+
+            CheckDirection(tile, new Vector2Int(0, 1), connectedTiles);
+            CheckDirection(tile, new Vector2Int(0, -1), connectedTiles);
+
+            if (connectedTiles.Count == 3)
+            {
+                Debug.Log("I have a normal vertical match, the color of my match is: " + connectedTiles[0].Item.itemType);
+                return new MatchResult
+                {
+                    connectedTiles = connectedTiles,
+                    direction = MatchDirection.Vertical,
+                    matchType = connectedTiles[0].Item.itemType,
+                    matchValue = connectedTiles.Count() * connectedTiles[0].Item.value
+                };
+            }
+            else if (connectedTiles.Count > 3)
+            {
+                Debug.Log("I have a long vertical match, the color of my match is: " + connectedTiles[0].Item.itemType);
+                return new MatchResult
+                {
+                    connectedTiles = connectedTiles,
+                    direction = MatchDirection.LongVertical,
+                    matchType = connectedTiles[0].Item.itemType,
+                    matchValue = connectedTiles.Count() * connectedTiles[0].Item.value
+                };
+            }
+
+            return new MatchResult
+            {
+                connectedTiles = new List<Tile> { tile },
+                direction = MatchDirection.None
+            };
+        }
+
+        void CheckDirection(Tile tile, Vector2Int direction, List<Tile> connectedTiles)
+        {
+            ItemType itemType = tile.Item.itemType;
+
+            if (itemType == ItemType.Null)
+                return;
+
+            int x = tile.x + direction.x;
+            int y = tile.y + direction.y;
+
+            while (x >= 0 && x < Width && y >= 0 && y < Height)
+            {
+                Tile neighbourTile = Tiles[x, y];
+
+                if (!neighbourTile.isMatched && neighbourTile.Item.itemType == itemType)
+                {
+                    connectedTiles.Add(neighbourTile);
+
+                    x += direction.x;
+                    y += direction.y;
+                }
+                else
+                {
+                    break;
                 }
             }
         }
 
-        return new MatchResult
+        #endregion
+
+        #region Swapping logic
+
+        public void Select(Tile tile)
         {
-            connectedTiles = _matchedResults.connectedTiles,
-            direction = _matchedResults.direction
-        };
-    }
-
-    private MatchResult IsConnected(Tile tile)
-    {
-        List<Tile> connectedTiles = new();
-        ItemType itemType = tile.Item.itemType;
-        connectedTiles.Add(tile);
-
-        CheckDirection(tile, new Vector2Int(1, 0), connectedTiles);
-        CheckDirection(tile, new Vector2Int(-1, 0), connectedTiles);
-
-        if (connectedTiles.Count == 3)
-        {
-            Debug.Log("I have a normal horizontal match, the color of my match is: " + connectedTiles[0].Item.itemType);
-            return new MatchResult
+            if (!canMove)
+                return;
+            if (tile.IsSelected)
             {
-                connectedTiles = connectedTiles,
-                direction = MatchDirection.Horizontal,
-                matchType = connectedTiles[0].Item.itemType,
-                matchValue = connectedTiles.Count() * connectedTiles[0].Item.value
-            };
-        }
-        else if (connectedTiles.Count > 3)
-        {
-            Debug.Log("I have a long horizontal match, the color of my match is: " + connectedTiles[0].Item.itemType);
-            return new MatchResult
-            {
-                connectedTiles = connectedTiles,
-                direction = MatchDirection.LongHorizontal,
-                matchType = connectedTiles[0].Item.itemType,
-                matchValue = connectedTiles.Count() * connectedTiles[0].Item.value
-            };
-        }
-
-        connectedTiles.Clear();
-        connectedTiles.Add(tile);
-
-        CheckDirection(tile, new Vector2Int(0, 1), connectedTiles);
-        CheckDirection(tile, new Vector2Int(0, -1), connectedTiles);
-
-        if (connectedTiles.Count == 3)
-        {
-            Debug.Log("I have a normal vertical match, the color of my match is: " + connectedTiles[0].Item.itemType);
-            return new MatchResult
-            {
-                connectedTiles = connectedTiles,
-                direction = MatchDirection.Vertical,
-                matchType = connectedTiles[0].Item.itemType,
-                matchValue = connectedTiles.Count() * connectedTiles[0].Item.value
-            };
-        }
-        else if (connectedTiles.Count > 3)
-        {
-            Debug.Log("I have a long vertical match, the color of my match is: " + connectedTiles[0].Item.itemType);
-            return new MatchResult
-            {
-                connectedTiles = connectedTiles,
-                direction = MatchDirection.LongVertical,
-                matchType = connectedTiles[0].Item.itemType,
-                matchValue = connectedTiles.Count() * connectedTiles[0].Item.value
-            };
-        }
-
-        return new MatchResult
-        {
-            connectedTiles = new List<Tile> { tile },
-            direction = MatchDirection.None
-        };
-    }
-
-    void CheckDirection(Tile tile, Vector2Int direction, List<Tile> connectedTiles)
-    {
-        ItemType itemType = tile.Item.itemType;
-
-        if (itemType == ItemType.Null)
-            return;
-
-        int x = tile.x + direction.x;
-        int y = tile.y + direction.y;
-
-        while (x >= 0 && x < Width && y >= 0 && y < Height)
-        {
-            Tile neighbourTile = Tiles[x, y];
-
-            if (!neighbourTile.isMatched && neighbourTile.Item.itemType == itemType)
-            {
-                connectedTiles.Add(neighbourTile);
-
-                x += direction.x;
-                y += direction.y;
+                tile.IsSelected = false;
+                selectedTile = null;
+                return;
             }
+            else if (tile.IsSelected == false && selectedTile == null)
+            {
+                tile.IsSelected = true;
+                selectedTile = tile;
+            }
+            else if (selectedTile != tile)
+            {
+                Swap(selectedTile, tile);
+                canMove = false;
+                selectedTile.IsSelected = false;
+                selectedTile = null;
+            }
+        }
+
+        private async void Swap(Tile tile1, Tile tile2)
+        {
+            if (!IsAdjacent(tile1, tile2))
+            {
+                await WrongSwap(tile1, tile2);
+                canMove = true;
+                return;
+            }
+
+            await DoSwap(tile1, tile2);
+
+            await ProcessMatches(tile1, tile2);
+        }
+
+        public async Task DoSwap(Tile tile1, Tile tile2)
+        {
+            var icon1 = tile1.icon;
+            var icon2 = tile2.icon;
+
+            var icon1Transform = icon1.transform;
+            var icon2Transform = icon2.transform;
+
+            var sequence = DOTween.Sequence();
+
+            sequence.Join(icon1Transform.DOMove(icon2Transform.position, 0.4f))
+                    .Join(icon2Transform.DOMove(icon1Transform.position, 0.4f))
+                    .AppendInterval(TweenDuration);
+
+            await sequence.Play().AsyncWaitForCompletion();
+
+            icon1Transform.SetParent(tile2.transform);
+            icon2Transform.SetParent(tile1.transform);
+
+            tile1.icon = icon2;
+            tile2.icon = icon1;
+
+            (tile2.Item, tile1.Item) = (tile1.Item, tile2.Item);
+        }
+
+        public async Task WrongSwap(Tile tile1, Tile tile2)
+        {
+            var sequence = DOTween.Sequence();
+
+            sequence.Join(tile1.icon.rectTransform.DOShakeAnchorPos(0.4f, 2, 10, 90, false, true, ShakeRandomnessMode.Harmonic))
+                    .Join(tile2.icon.rectTransform.DOShakeAnchorPos(0.4f, 2, 10, 90, false, true, ShakeRandomnessMode.Harmonic))
+                    .AppendInterval(TweenDuration);
+            await sequence.Play().AsyncWaitForCompletion();
+            canMove = true;
+        }
+
+        private async Task ProcessMatches(Tile tile1, Tile tile2)
+        {
+            if (CheckBoard())
+                await ProcessTurnOnMatchedBoard();
             else
             {
-                break;
+                await WrongSwap(tile1, tile2);
+                await DoSwap(tile1, tile2);
             }
         }
-    }
 
-    #endregion
-
-    #region Swapping logic
-
-    public void Select(Tile tile)
-    {
-        if (!canMove)
-            return;
-        if (tile.IsSelected)
+        private async Task ProcessTurnOnMatchedBoard()
         {
-            tile.IsSelected = false;
-            selectedTile = null;
-            return;
-        }
-        else if (tile.IsSelected == false && selectedTile == null)
-        {
-            tile.IsSelected = true;
-            selectedTile = tile;
-        }
-        else if (selectedTile != tile)
-        {
-            Swap(selectedTile, tile);
             canMove = false;
-            selectedTile.IsSelected = false;
-            selectedTile = null;
-        }
-    }
 
-    private async void Swap(Tile tile1, Tile tile2)
-    {
-        if (!IsAdjacent(tile1, tile2))
-        {
-            await WrongSwap(tile1, tile2);
+
+            foreach (Tile tileToRemove in tilesToRemove)
+            {
+                tileToRemove.isMatched = false;
+            }
+
+            await RemoveAndRefill(tilesToRemove);
+
+            await Task.Delay(400); // Equivalent to WaitForSeconds(0.4f)
+
+            // Repeat the process if there are more matches
+            while (CheckBoard())
+            {
+                await ProcessTurnOnMatchedBoard();
+            }
             canMove = true;
-            return;
         }
 
-        await DoSwap(tile1, tile2);
-
-        await ProcessMatches(tile1, tile2);
-    }
-
-    public async Task DoSwap(Tile tile1, Tile tile2)
-    {
-        var icon1 = tile1.icon;
-        var icon2 = tile2.icon;
-
-        var icon1Transform = icon1.transform;
-        var icon2Transform = icon2.transform;
-
-        var sequence = DOTween.Sequence();
-
-        sequence.Join(icon1Transform.DOMove(icon2Transform.position, 0.4f))
-                .Join(icon2Transform.DOMove(icon1Transform.position, 0.4f))
-                .AppendInterval(TweenDuration);
-
-        await sequence.Play().AsyncWaitForCompletion();
-
-        icon1Transform.SetParent(tile2.transform);
-        icon2Transform.SetParent(tile1.transform);
-
-        tile1.icon = icon2;
-        tile2.icon = icon1;
-
-        (tile2.Item, tile1.Item) = (tile1.Item, tile2.Item);
-    }
-
-    public async Task WrongSwap(Tile tile1, Tile tile2)
-    {
-        var sequence = DOTween.Sequence();
-
-        sequence.Join(tile1.icon.rectTransform.DOShakeAnchorPos(0.4f, 2, 10, 90, false, true, ShakeRandomnessMode.Harmonic))
-                .Join(tile2.icon.rectTransform.DOShakeAnchorPos(0.4f, 2, 10, 90, false, true, ShakeRandomnessMode.Harmonic))
-                .AppendInterval(TweenDuration);
-        await sequence.Play().AsyncWaitForCompletion();
-        canMove = true;
-    }
-
-    private async Task ProcessMatches(Tile tile1, Tile tile2)
-    {
-        if (CheckBoard())
-            await ProcessTurnOnMatchedBoard();
-        else
+        private bool IsAdjacent(Tile currentTile, Tile targetTile)
         {
-            await WrongSwap(tile1, tile2);
-            await DoSwap(tile1, tile2);
+            return Mathf.Abs(currentTile.x - targetTile.x) + Mathf.Abs(currentTile.y - targetTile.y) == 1;
         }
-    }
 
-    private async Task ProcessTurnOnMatchedBoard()
-    {
-        canMove = false;
+        #endregion
 
+        #region PowerUps Logic
 
-        foreach (Tile tileToRemove in tilesToRemove)
+        public async void DeleteMinus()
         {
-            tileToRemove.isMatched = false;
-        }
+            usingMinusDelete = true;
+            if (!canMove || !ProgressCounter.Instance.canUsePower)
+                return;
+            canMove = false;
+            ProgressCounter.Instance.CurrentPower = 0;
+            ProgressCounter.Instance.maxPower = ProgressCounter.Instance.maxPower * 1.5f;
+            tilesToRemove.Clear();
+            foreach (Tile tile in Tiles)
+                if (tile.Item.itemType == ItemType.Minus)
+                    tilesToRemove.Add(tile);
 
-        await RemoveAndRefill(tilesToRemove);
-        
-        await Task.Delay(400); // Equivalent to WaitForSeconds(0.4f)
+            await RemoveAndRefill(tilesToRemove);
 
-        // Repeat the process if there are more matches
-        while (CheckBoard())
-        {
-            await ProcessTurnOnMatchedBoard();
+            await Task.Delay(400);
+
+            usingMinusDelete = false;
+            while (CheckBoard())
+            {
+                await ProcessTurnOnMatchedBoard();
+            }
+            canMove = true;
+
         }
-        canMove = true;
+        #endregion
+
     }
 
-    private bool IsAdjacent(Tile currentTile, Tile targetTile)
+    public class MatchResult
     {
-        return Mathf.Abs(currentTile.x - targetTile.x) + Mathf.Abs(currentTile.y - targetTile.y) == 1;
+        public List<Tile> connectedTiles;
+        public MatchDirection direction;
+
+        public ItemType matchType;
+
+        public float matchValue;
     }
 
-    #endregion
-
-    #region PowerUps Logic
-
-    public async void DeleteMinus()
+    public enum MatchDirection
     {
-        usingMinusDelete = true;
-        if (!canMove || !ProgressCounter.Instance.canUsePower)
-            return;
-        canMove = false;
-        ProgressCounter.Instance.CurrentPower = 0;
-        ProgressCounter.Instance.maxPower = ProgressCounter.Instance.maxPower * 1.5f;
-        tilesToRemove.Clear();
-        foreach (Tile tile in Tiles)
-            if (tile.Item.itemType == ItemType.Minus)
-                tilesToRemove.Add(tile);
-
-        await RemoveAndRefill(tilesToRemove);
-
-        await Task.Delay(400);
-
-        usingMinusDelete = false;
-        while (CheckBoard())
-        {
-            await ProcessTurnOnMatchedBoard();
-        }
-        canMove = true;
-
+        Vertical,
+        Horizontal,
+        LongVertical,
+        LongHorizontal,
+        Super,
+        None
     }
-    #endregion
-
-}
-
-public class MatchResult
-{
-    public List<Tile> connectedTiles;
-    public MatchDirection direction;
-
-    public ItemType matchType;
-
-    public float matchValue;
-}
-
-public enum MatchDirection
-{
-    Vertical,
-    Horizontal,
-    LongVertical,
-    LongHorizontal,
-    Super,
-    None
 }

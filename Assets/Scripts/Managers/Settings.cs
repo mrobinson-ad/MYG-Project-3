@@ -3,31 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class Settings : MonoBehaviour
+namespace FlowerProject
 {
-    public delegate void volumeChangeAction(VisualElement target, float volume);
-    public static event volumeChangeAction OnVolumeChange;
-
-    public delegate void difficultyChangeAction();
-    public static event difficultyChangeAction OnDifficultyChange;
-
-    public delegate void returnPressedAction(UIDocument scene);
-    public static event returnPressedAction OnReturnPressed;
-
-
-    public static void VolumeChange(VisualElement target, float volume)
+    public class Settings : MonoBehaviour
     {
-        OnVolumeChange?.Invoke(target, volume);
-    }
+        public delegate void volumeChangeAction(VisualElement target, float volume);
+        public static event volumeChangeAction OnVolumeChange;
 
-    public static void DifficultyChange()
-    {
-        OnDifficultyChange?.Invoke();
-    }
-    
+        public delegate void difficultyChangeAction();
+        public static event difficultyChangeAction OnDifficultyChange;
 
-    public static void ReturnPressed(UIDocument scene)
-    {
-        OnReturnPressed?.Invoke(scene);
+        public delegate void returnPressedAction(UIDocument scene);
+        public static event returnPressedAction OnReturnPressed;
+
+
+        public static void VolumeChange(VisualElement target, float volume)
+        {
+            OnVolumeChange?.Invoke(target, volume);
+        }
+
+        public static void DifficultyChange()
+        {
+            OnDifficultyChange?.Invoke();
+        }
+
+
+        public static void ReturnPressed(UIDocument scene)
+        {
+            OnReturnPressed?.Invoke(scene);
+        }
     }
 }

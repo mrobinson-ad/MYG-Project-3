@@ -5,55 +5,58 @@ using UnityEngine.UI;
 using DG.Tweening;
 using Unity.VisualScripting;
 
-public class Tile : MonoBehaviour
+namespace FlowerProject
 {
-    public int x;
-    public int y;
-
-    public bool isMatched = false;
-
-    [SerializeField] private Item _item;
-
-    public Item Item
+    public class Tile : MonoBehaviour
     {
-        get => _item;
+        public int x;
+        public int y;
 
-        set
+        public bool isMatched = false;
+
+        [SerializeField] private Item _item;
+
+        public Item Item
         {
-            if (_item == value) return;
+            get => _item;
 
-            _item = value;
-
-            icon.sprite = _item.sprite;
-        }
-    }
-
-    [SerializeField]private bool _isSelected = false;
-
-    public bool IsSelected
-    {
-        get => _isSelected;
-
-        set
-        {
-            if (value == true)
+            set
             {
-                _isSelected = value;
-                icon.transform.DOScale(new Vector3(1.2f, 1.2f, 1.2f), 0.4f);
-            }
-            else
-            {   
-                _isSelected = value;
-                icon.transform.DOScale(Vector3.one, 0.2f);
+                if (_item == value) return;
+
+                _item = value;
+
+                icon.sprite = _item.sprite;
             }
         }
+
+        [SerializeField] private bool _isSelected = false;
+
+        public bool IsSelected
+        {
+            get => _isSelected;
+
+            set
+            {
+                if (value == true)
+                {
+                    _isSelected = value;
+                    icon.transform.DOScale(new Vector3(1.2f, 1.2f, 1.2f), 0.4f);
+                }
+                else
+                {
+                    _isSelected = value;
+                    icon.transform.DOScale(Vector3.one, 0.2f);
+                }
+            }
+        }
+
+        public Image icon;
+
+        public Button button;
+
+
+        private void Start() => button.onClick.AddListener(() => Board.Instance.Select(this));
+
     }
-
-    public Image icon;
-
-    public Button button;
-
-
-    private void Start() => button.onClick.AddListener(() => Board.Instance.Select(this));
-
 }

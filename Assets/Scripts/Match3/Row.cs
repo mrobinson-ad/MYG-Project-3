@@ -1,6 +1,8 @@
 using UnityEngine;
-
-public class Row : MonoBehaviour
+namespace FlowerProject
 {
-    public Tile[] tiles;
+    public class Row : MonoBehaviour
+    {
+        public Tile[] tiles;
+    }
 }
