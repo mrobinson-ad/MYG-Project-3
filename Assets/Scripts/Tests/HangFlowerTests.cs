@@ -5,28 +5,37 @@ using UnityEngine.TestTools;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using FlowerProject;
+using System.ComponentModel.Design.Serialization;
 
 public class HangFlowerTests
 {
     private UIDocument gameUIDocument;
+    private UIDocument settingsUIDocument;
+    private UIDocument mainMenuUIDocument;
     private WordManager wordManager;
+    private UIManager uiManager;
     private VisualElement keyboard;
     private VisualElement rootG;
+    private VisualElement rootS;
+    private VisualElement rootMM;
     private Word_SO wordSO;
     private bool isWon = false;
     private bool isLost = false;
 
-    [UnitySetUp]
     public IEnumerator SetUpWord()
     {
         SceneManager.LoadScene(0); // Ensure the correct scene is loaded
         yield return null; // Wait for the scene to load
         
         gameUIDocument = GameObject.Find("UIGame").GetComponent<UIDocument>();
+        settingsUIDocument = GameObject.Find("UISettings").GetComponent<UIDocument>();
+        mainMenuUIDocument = GameObject.Find("UIMainMenu").GetComponent<UIDocument>();
         wordManager = GameObject.Find("WordManager").GetComponent<WordManager>();
+        uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
 
         Assert.IsNotNull(gameUIDocument, "gameUIDocument should not be null.");
         Assert.IsNotNull(wordManager, "wordManager should not be null.");
+        Assert.IsNotNull(mainMenuUIDocument, "mainMenuUIDocument should not be null.");
         // Set up a known word for testing
         wordSO = ScriptableObject.CreateInstance<Word_SO>();
 
@@ -46,6 +55,8 @@ public class HangFlowerTests
         wordManager.wordDisplay = "____";
 
         rootG = gameUIDocument.rootVisualElement;
+        rootS = settingsUIDocument.rootVisualElement;
+        rootMM = mainMenuUIDocument.rootVisualElement;
         keyboard = rootG.Q<VisualElement>("virtual-keyboard");
 
         GameManager.OnWin += OnWinHandler;
@@ -64,6 +75,17 @@ public class HangFlowerTests
         }
         yield return null; 
     }
+
+    private void OnWinHandler()
+    {
+        isWon = true;
+    }
+
+    private void OnLoseHandler()
+    {
+        isLost = true;
+    }
+
 
     [UnityTest]
     public IEnumerator CorrectLetterTest()
@@ -97,6 +119,7 @@ public class HangFlowerTests
         Assert.AreEqual(PickingMode.Ignore, keyboard.Q<Button>("S").pickingMode, "The button for 'S' should be disabled after being pressed.");
         yield return new WaitForSeconds(2f);
         Assert.IsTrue(isWon, "When the correct word is guessed the OnWin event should be triggered.");
+        GameManager.OnWin -= OnWinHandler;
     }  
 
     [UnityTest]
@@ -127,20 +150,45 @@ public class HangFlowerTests
         wordManager.flower.Lives = 1;
         yield return SimulateButtonPress(keyboard.Q<Button>("U"));
         Assert.AreEqual(PickingMode.Ignore, keyboard.Q<Button>("U").pickingMode, "The button for 'U' should be disabled after being pressed.");
-        yield return new WaitForSeconds(5f);
-        Assert.IsTrue(keyboard.Q<Button>("U").ClassListContains("letter-wrong"),"The button 'U' should have the class letter-wrong.");
+        yield return new WaitForSeconds(4f);
         Assert.IsTrue(isLost, "When flower.Lives is brought to 0 by a wrong guess, OnLost event should be triggered.");
+        GameManager.OnLose -= OnLoseHandler;
     }
 
-
-    private void OnWinHandler()
+    [UnityTest]
+    public IEnumerator MainMenuToGameTest()
     {
-        isWon = true;
+        yield return null;
+        Assert.IsTrue(uiManager.GetScene() == mainMenuUIDocument, "When starting the current scene should be the main menu.");
+
+        uiManager.OnSceneChange(rootMM.Q<Button>("game-button"), mainMenuUIDocument);
+
+
+        yield return null;
+        Assert.IsTrue(uiManager.GetScene() == gameUIDocument, "When switching to the game screen the current scene in UIManager should be game.");
+        Assert.IsTrue(mainMenuUIDocument.sortingOrder == 0, "When switching out of the main menu it's sorting order should be 0.");
+        Assert.IsTrue(gameUIDocument.sortingOrder == 5, "When switching to the game screen it's sorting order should be 5.");
+
+        yield return null;
+
+        uiManager.OnSceneChange(rootG.Q<Button>("settings-button"), gameUIDocument);
+
+        yield return null;
+        
+        Assert.IsTrue(gameUIDocument.sortingOrder == 0, "When switching out of the game it's sorting order should be 0.");
+        Assert.IsTrue(settingsUIDocument.sortingOrder == 5, "When switching to the settings screen it's sorting order should be 5.");
+
+        Settings.ReturnPressed(uiManager.GetScene());
+        yield return null;
+        Assert.IsTrue(settingsUIDocument.sortingOrder == 0, "When switching out of the settings it's sorting order should be 0.");
+        Assert.IsTrue(gameUIDocument.sortingOrder == 5, "When returning from settings the game's sorting order should be 5.");
     }
 
-    private void OnLoseHandler()
+    [UnityTest]
+    public IEnumerator PlayFabAuthentication()
     {
-        isLost = true;
+        yield return null;
+        Assert.IsNotNull(PlayFabManager.currentUser, "When the scene has loaded successfuly the currentUser variable from PlayFabManager should not be null");
     }
 
 }

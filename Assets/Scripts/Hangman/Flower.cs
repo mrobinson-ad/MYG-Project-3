@@ -26,7 +26,7 @@ namespace FlowerProject
                 lives = Mathf.Clamp(value, 0, 7);
                 if (lives == 7)
                     ResetPetals();
-                if (lives <= 0)
+                if (lives == 0)
                 {
                     StartCoroutine(CallLose());
                 }

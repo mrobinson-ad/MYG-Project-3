@@ -55,7 +55,7 @@ namespace FlowerProject
             GameManager.OnWin += OnWin;
             RegisterCallBacks();
         }
-        private UIDocument GetScene() // Returns the current scene UIDocument based on the currentScene enum
+        public UIDocument GetScene() // Returns the current scene UIDocument based on the currentScene enum
         {
             UIDocument scene;
             switch (currentScene)
@@ -235,7 +235,7 @@ namespace FlowerProject
             }
         }
         #region Scene Change
-        private void OnSceneChange(Button target, UIDocument current) //Sets the target scene sortingOrder to the front and the current one to 0 and handles scene specific actions on change
+        public void OnSceneChange(Button target, UIDocument current) //Sets the target scene sortingOrder to the front and the current one to 0 and handles scene specific actions on change
         {
             string targetScene = target.name.Split('-')[0];
             switch (targetScene)
