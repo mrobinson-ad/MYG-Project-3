@@ -9,7 +9,8 @@ namespace FlowerProject
     public class AudioManager : MonoBehaviour
     {
         public static AudioManager Instance { get; private set; } // Singleton
-                                                                  // The Volume properties use log(i)*20 to get a value from -80 to 0 in order to set the attenuation in the mixer and saves the pre log value to PlayerPrefs
+
+        // The Volume properties use log(i)*20 to get a value from -80 to 0 in order to set the attenuation in the mixer and saves the pre log value to PlayerPrefs
         public float MusicVolume
         {
             get => musicVolume;
@@ -36,7 +37,7 @@ namespace FlowerProject
         public GameObject BGMPrefab;
         public GameObject SFXPrefab;
 
-        private GameObject currentBGMusic;
+        private GameObject currentBGMusic; // Is set to the currently playing background music
 
         private float musicVolume;
         private float sfxVolume;
@@ -70,7 +71,7 @@ namespace FlowerProject
             Debug.Log("the SFX volume is" + SfxVolume);
             MusicChange("BGMainMenu");
         }
-        void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        void OnSceneLoaded(Scene scene, LoadSceneMode mode) //Handles changing the music when loading a different scene 
         {
             if (scene.name == "Hangflower")
                 MusicChange("BGMainMenu");
@@ -79,9 +80,9 @@ namespace FlowerProject
             Debug.Log(mode);
         }
 
-        public static void MusicChange(string name)
+        public static void MusicChange(string name) 
         {
-            if (AudioManager.Instance.currentBGMusic != null)
+            if (AudioManager.Instance.currentBGMusic != null) // If there is a background music currently playing we pause it
             {
                 AudioSource currentAudioSource = AudioManager.Instance.currentBGMusic.GetComponent<AudioSource>();
                 currentAudioSource.Pause();
@@ -89,7 +90,7 @@ namespace FlowerProject
 
             AudioSource audioSource;
             GameObject BGMusic = GameObject.Find(name);
-            if (BGMusic == null)
+            if (BGMusic == null) // If a GameObject corresponding to the music doesn't exist we instantiate one with the corresponding values from the Scriptable object
             {
                 BGMusic = Instantiate(AudioManager.Instance.BGMPrefab);
                 BGMusic.name = name;
@@ -108,21 +109,21 @@ namespace FlowerProject
                     Debug.LogError("Music with name " + name + " not found!");
                 }
             }
-            else
+            else // If we already have a GameObject corresponding to the music name we play it
             {
                 audioSource = BGMusic.GetComponent<AudioSource>();
                 audioSource.Play();
             }
 
-            AudioManager.Instance.currentBGMusic = BGMusic;
+            AudioManager.Instance.currentBGMusic = BGMusic; // Sets currentBGMusic to the music we started playing
 
             OnMusicChange?.Invoke(name);
         }
 
-        public static void SFXPressed(string name)
+        public static void SFXPressed(string name) // Works similarly to ChangeMusic except most SFX are not set to loop
         {
             AudioSource audioSource;
-            GameObject mySFX = GameObject.Find(name);
+            GameObject mySFX = GameObject.Find(name); 
             if (mySFX == null)
             {
                 mySFX = Instantiate(AudioManager.Instance.SFXPrefab);

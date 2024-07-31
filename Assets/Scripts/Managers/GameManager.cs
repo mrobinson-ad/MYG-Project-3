@@ -72,7 +72,7 @@ namespace FlowerProject
         }
 
         #region Win Event
-        public static void Win() // updates the total and category specific wins and saves them to PlayFab
+        public static void Win() // Updates the total and category specific wins and saves them to PlayFab
         {
             GameManager.Instance.totalWins++;
             Debug.Log($"You won a total of {GameManager.Instance.totalWins} times");
@@ -80,7 +80,6 @@ namespace FlowerProject
             {
                 GameManager.Instance.CommonWins++;
                 GameManager.Instance.UpdateStats("Common");
-                PlayerPrefs.SetInt("CommonWins", GameManager.Instance.CommonWins);
             }
             else if (WordManager.Instance.difficulty == Difficulty.Scientific)
             {
@@ -92,7 +91,7 @@ namespace FlowerProject
         #endregion
 
         #region Lose Event
-        public static void Lose() // updates the losses and saves them to PlayFab
+        public static void Lose() // Updates the losses and saves them to PlayFab
         {
             GameManager.Instance.TotalLosses++;
             Debug.Log($"You lost a total of {GameManager.Instance.TotalLosses} times");
@@ -115,7 +114,7 @@ namespace FlowerProject
             return totalWins;
         }
 
-        public void DeserializeJson()
+        public void DeserializeJson() 
         {
             string filePath = Path.Combine(Application.persistentDataPath, "WordData.json");
 
@@ -140,7 +139,7 @@ namespace FlowerProject
 
                     wordList.allWords.Add(wordSO);
                 }
-                wordList.BuildCategoryLists();
+                wordList.BuildCategoryLists();  // When all the instances of Word_SO are created, build the lists by category
             }
             else
             {
@@ -148,7 +147,7 @@ namespace FlowerProject
             }
         }
 
-        private void UpdateStats(string key)
+        private void UpdateStats(string key) // Updates PlayFabManager PlayerData by giving a single KVP
         {
             var data = new Dictionary<string, string>();
             switch (key)

@@ -77,9 +77,8 @@ namespace FlowerProject
 
 
         #region RegisterCallBacks
-        private void RegisterCallBacks()
+        private void RegisterCallBacks() // Forgive me for I have sinned
         {
-            // MouseCaptureOutEvent is called when the user stops interacting with the slider
             musicSlider.RegisterValueChangedCallback(evt =>
             {
                 Settings.VolumeChange(musicSlider, musicSlider.value);
@@ -300,7 +299,7 @@ namespace FlowerProject
         #endregion
 
         #region Restart
-        private IEnumerator OnCategoryPressed(Button target)
+        private IEnumerator OnCategoryPressed(Button target) // Method that handles UI changes and animations when restarting from the end screen, also sets a new word depending on the category chosen
         {
             var endStats = rootG.Q<VisualElement>("end-stats-panel");
             endStats.RemoveFromClassList("win-stats-panels");
@@ -344,7 +343,7 @@ namespace FlowerProject
 
         #endregion
         #region Event Listeners
-        private void OnReturnPressed(UIDocument scene)
+        private void OnReturnPressed(UIDocument scene) // Listens to the ReturnPressed Event and brings the previous screen forward and settings screen back
         {
             Debug.Log("Return pressed");
             scene.sortingOrder = 5;
@@ -433,7 +432,7 @@ namespace FlowerProject
             }
         }
 
-        private void RemoveAddUSSClass(VisualElement target, string classToRemove, string classToAdd) // util to remove and add a class to a Visual Element in one line
+        private void RemoveAddUSSClass(VisualElement target, string classToRemove, string classToAdd) // Util to remove and add a class to a Visual Element in one line
         {
             target.RemoveFromClassList(classToRemove);
             target.AddToClassList(classToAdd);

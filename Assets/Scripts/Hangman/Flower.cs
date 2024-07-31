@@ -43,7 +43,7 @@ namespace FlowerProject
             StartCoroutine(CaptureInitialPositions());
         }
 
-        private IEnumerator CaptureInitialPositions()
+        private IEnumerator CaptureInitialPositions() // Get each petal's initial position in order to reset them when restarting
         {
             yield return new WaitForEndOfFrame();
 
@@ -53,7 +53,7 @@ namespace FlowerProject
             }
         }
 
-        private void LoseRandomPetal()
+        private void LoseRandomPetal() // Uses DOTween.ToArray to make a random petal fall using some amount of randomness for a better effect then removes the petal from the List
         {
             int randomIndex = Random.Range(0, petals.Count);
             VisualElement petal = petals[randomIndex];
@@ -61,19 +61,19 @@ namespace FlowerProject
 
             Vector3[] endValues = new[]
             {
-        new Vector3(startPos.x + Random.Range(-100, -50), startPos.y + 100),
-        new Vector3(startPos.x + Random.Range(50, 100), startPos.y + 200),
-        new Vector3(startPos.x + Random.Range(-100, -50), startPos.y + 300),
-        new Vector3(startPos.x + Random.Range(-50, 50), startPos.y + 400)
-    };
+                new Vector3(startPos.x + Random.Range(-100, -50), startPos.y + 100),
+                new Vector3(startPos.x + Random.Range(50, 100), startPos.y + 200),
+                new Vector3(startPos.x + Random.Range(-100, -50), startPos.y + 300),
+                new Vector3(startPos.x + Random.Range(-50, 50), startPos.y + 400)
+            };
 
             float[] durations = new[]
             {
-        Random.Range(1f, 1.5f),
-        Random.Range(1f, 1.5f),
-        Random.Range(1f, 1.5f),
-        Random.Range(1f, 1.5f)
-    };
+                Random.Range(1f, 1.5f),
+                Random.Range(1f, 1.5f),
+                Random.Range(1f, 1.5f),
+                Random.Range(1f, 1.5f)
+            };
 
             Tween t = DOTween.ToArray(
                 () => new Vector2(petal.resolvedStyle.left, petal.resolvedStyle.top),
@@ -103,7 +103,7 @@ namespace FlowerProject
             petals.RemoveAt(randomIndex);
         }
 
-        private void ResetPetals()
+        private void ResetPetals() // Sets the petals to their initial position and rotation
         {
             petals.Clear();
             petals.AddRange(root.Query<VisualElement>(className: "petal").ToList());
@@ -117,7 +117,7 @@ namespace FlowerProject
             }
         }
 
-        public void SunshineAnimation(bool isWin)
+        public void SunshineAnimation(bool isWin) // DOTween sequence using custom DOTween extension, shown when guessing a correct letter (bool is there for a plan to play a modified version on win)
         {
             float targetRotation = (Random.value < 0.5f) ? -90f : 90f;
             var sequence = DOTween.Sequence();
@@ -132,7 +132,7 @@ namespace FlowerProject
             sequence.Play();
         }
 
-        private IEnumerator CallLose()
+        private IEnumerator CallLose() // Called when Lives == 0 to instantly disable the keyboard but leave a delay before starting the Lose event
         {
             WordManager.Instance.DisableKeyboard();
             yield return new WaitForSeconds(3f);

@@ -5,7 +5,6 @@ using PlayFab;
 using PlayFab.ClientModels;
 using System.IO;
 using System;
-using PlayFab.MultiplayerModels;
 using Unity.VisualScripting;
 
 namespace FlowerProject
@@ -122,7 +121,7 @@ namespace FlowerProject
         {
             PlayFabClientAPI.GetTitleData(new GetTitleDataRequest(), OnGetWordData, OnError);
         }
-        // if WordData.json doesn't exist or is different from the WordData we get from TitleData, create wordData.json
+        // If WordData.json doesn't exist or is different from the WordData we get from TitleData, create wordData.json
         private void OnGetWordData(GetTitleDataResult result)
         {
             if (result.Data == null || !result.Data.ContainsKey("WordData"))
@@ -135,7 +134,7 @@ namespace FlowerProject
                 string wordjson = result.Data["WordData"];
                 File.WriteAllText(Application.persistentDataPath + "/WordData.json", wordjson);
             }
-            GameManager.Instance.DeserializeJson(); // starts deserialization so the data can be used
+            GameManager.Instance.DeserializeJson(); // Starts deserialization so the data can be used
         }
 
         public void SetUserData(Dictionary<string, string> data)
@@ -157,7 +156,7 @@ namespace FlowerProject
             result => LocalUserData(result), OnError);
         }
 
-        private void LocalUserData(GetUserDataResult result)
+        private void LocalUserData(GetUserDataResult result) // Sets the user's win/loss data in GameManager with the values stored in their PlayFab PlayerData and sets them to 0 if the result is null
         {
             if (result.Data == null)
             {
