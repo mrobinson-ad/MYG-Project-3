@@ -10,7 +10,9 @@ namespace FlowerProject
     {
         public static AudioManager Instance { get; private set; } // Singleton
 
-        // The Volume properties use log(i)*20 to get a value from -80 to 0 in order to set the attenuation in the mixer and saves the pre log value to PlayerPrefs
+        /// <summary>
+        /// The Volume properties use log(i)*20 to get a value from -80 to 0 in order to set the attenuation in the mixer and saves the pre log value to PlayerPrefs
+        /// </summary>
         public float MusicVolume
         {
             get => musicVolume;
@@ -37,8 +39,10 @@ namespace FlowerProject
         public GameObject BGMPrefab;
         public GameObject SFXPrefab;
 
-        private GameObject currentBGMusic; // Is set to the currently playing background music
-
+        /// <summary>
+        /// Is set to the currently playing background music
+        /// </summary>
+        private GameObject currentBGMusic; 
         private float musicVolume;
         private float sfxVolume;
 
@@ -46,7 +50,11 @@ namespace FlowerProject
         public static event musicChangeAction OnMusicChange;
         public delegate void sfxPressedAction(string name);
         public static event sfxPressedAction OnSFXPressed;
-        private void Awake() // Gets the saved volume settings from playerprefs with a 0.5f default
+
+        /// <summary>
+        /// Gets the saved volume settings from playerprefs with a 0.5f default
+        /// </summary>
+        private void Awake() 
         {
             if (Instance == null)
             {
@@ -63,7 +71,10 @@ namespace FlowerProject
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
-        private void Start() // Sets the audioMixer volume to the saved volume settings
+        /// <summary>
+        /// Sets the audioMixer volume to the saved volume settings
+        /// </summary>
+        private void Start() 
         {
             audioMixer.SetFloat("Music", MusicVolume);
             Debug.Log("the music volume is" + MusicVolume);
@@ -71,7 +82,13 @@ namespace FlowerProject
             Debug.Log("the SFX volume is" + SfxVolume);
             MusicChange("BGMainMenu");
         }
-        void OnSceneLoaded(Scene scene, LoadSceneMode mode) //Handles changing the music when loading a different scene 
+
+        /// <summary>
+        /// Handles changing the music when loading a different scene 
+        /// </summary>
+        /// <param name="scene"></param>
+        /// <param name="mode"></param>
+        void OnSceneLoaded(Scene scene, LoadSceneMode mode) 
         {
             if (scene.name == "Hangflower")
                 MusicChange("BGMainMenu");
@@ -80,6 +97,10 @@ namespace FlowerProject
             Debug.Log(mode);
         }
 
+        /// <summary>
+        /// Method to call when changing background music, checks if a prefab for that music exists then plays it or creates a new one.
+        /// </summary>
+        /// <param name="name"></param>
         public static void MusicChange(string name) 
         {
             if (AudioManager.Instance.currentBGMusic != null) // If there is a background music currently playing we pause it
@@ -120,7 +141,11 @@ namespace FlowerProject
             OnMusicChange?.Invoke(name);
         }
 
-        public static void SFXPressed(string name) // Works similarly to ChangeMusic except most SFX are not set to loop
+        /// <summary>
+        /// Works similarly to ChangeMusic except SFX are not set to loop
+        /// </summary>
+        /// <param name="name"></param>
+        public static void SFXPressed(string name) 
         {
             AudioSource audioSource;
             GameObject mySFX = GameObject.Find(name); 

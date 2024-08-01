@@ -10,6 +10,9 @@ using UnityEngine.SceneManagement;
 
 namespace FlowerProject
 {
+    /// <summary>
+    /// Used to define the UIDocument the user is currently on, mainly for navigation
+    /// </summary>
     public enum CurrentScene
     {
         Main,
@@ -55,7 +58,12 @@ namespace FlowerProject
             GameManager.OnWin += OnWin;
             RegisterCallBacks();
         }
-        public UIDocument GetScene() // Returns the current scene UIDocument based on the currentScene enum
+
+        /// <summary>
+        /// Returns the current scene UIDocument based on the currentScene enum
+        /// </summary>
+        /// <returns></returns>
+        public UIDocument GetScene() 
         {
             UIDocument scene;
             switch (currentScene)
@@ -200,6 +208,11 @@ namespace FlowerProject
             musicSlider.value = PlayerPrefs.GetFloat("Music", 0.5f);
         }
 
+        /// <summary>
+        /// Changes the volume in AudioManager when the slider's value is changed
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="volume"></param>
         private void OnVolumeChange(VisualElement target, float volume)
         {
             if (target == musicSlider)
@@ -212,7 +225,10 @@ namespace FlowerProject
             }
         }
 
-        private void OnDifficultyChanged() // Sets WordManager Difficulty enum by parsing the label of the radio-difficulty RBs
+        /// <summary>
+        /// Sets WordManager Difficulty enum by parsing the label of the radio-difficulty RBs
+        /// </summary>
+        private void OnDifficultyChanged() 
         {
             var radioButtons = difficultyBox.Query<RadioButton>().Class("radio-difficulty").ToList();
 
@@ -234,7 +250,13 @@ namespace FlowerProject
             }
         }
         #region Scene Change
-        public void OnSceneChange(Button target, UIDocument current) //Sets the target scene sortingOrder to the front and the current one to 0 and handles scene specific actions on change
+
+        /// <summary>
+        /// Sets the target scene sortingOrder to the front and the current one to 0 and handles scene specific actions on change
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="current"></param>
+        public void OnSceneChange(Button target, UIDocument current) 
         {
             string targetScene = target.name.Split('-')[0];
             switch (targetScene)
@@ -299,7 +321,13 @@ namespace FlowerProject
         #endregion
 
         #region Restart
-        private IEnumerator OnCategoryPressed(Button target) // Method that handles UI changes and animations when restarting from the end screen, also sets a new word depending on the category chosen
+
+        /// <summary>
+        /// Method that handles UI changes and animations when restarting from the end screen, also sets a new word depending on the category chosen
+        /// </summary>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        private IEnumerator OnCategoryPressed(Button target) 
         {
             var endStats = rootG.Q<VisualElement>("end-stats-panel");
             endStats.RemoveFromClassList("win-stats-panels");
@@ -343,7 +371,12 @@ namespace FlowerProject
 
         #endregion
         #region Event Listeners
-        private void OnReturnPressed(UIDocument scene) // Listens to the ReturnPressed Event and brings the previous screen forward and settings screen back
+
+        /// <summary>
+        /// Listens to the ReturnPressed Event and brings the previous screen forward and settings screen back
+        /// </summary>
+        /// <param name="scene"></param>
+        private void OnReturnPressed(UIDocument scene) 
         {
             Debug.Log("Return pressed");
             scene.sortingOrder = 5;
@@ -351,6 +384,9 @@ namespace FlowerProject
             if (scene = mainMenuUIDocument) carouselHandler.SetActive(true);
         }
 
+        /// <summary>
+        /// Triggers with the Lose event and applies the relevant UI changes and stats changes
+        /// </summary>
         private void OnLose()
         {
             AudioManager.MusicChange("BGLose");
@@ -365,7 +401,9 @@ namespace FlowerProject
             rootG.Q<Label>("description-label").text = WordManager.Instance.wordSO.values.description;
             rootG.Q<Label>("display-end").text = GetLostWordDisplay(WordManager.Instance.wordToGuess, WordManager.Instance.wordDisplay);
         }
-
+        /// <summary>
+        /// Triggers with the Win event and applies the relevant UI changes and stats changes
+        /// </summary>
         private void OnWin()
         {
             AudioManager.MusicChange("BGWin");
@@ -382,7 +420,13 @@ namespace FlowerProject
         }
         #endregion
 
-        private string GetLostWordDisplay(Char[] wordToGuess, string wordDisplay) // Method to return a string with unguessed letters in red
+        /// <summary>
+        /// Method to return a string with unguessed letters in red
+        /// </summary>
+        /// <param name="wordToGuess"></param>
+        /// <param name="wordDisplay"></param>
+        /// <returns></returns>
+        private string GetLostWordDisplay(Char[] wordToGuess, string wordDisplay) 
         {
             string lostDisplay = "";
             for (int i = 0; i < wordToGuess.Length; i++)
@@ -399,7 +443,10 @@ namespace FlowerProject
             return lostDisplay;
         }
 
-        public void GameLoaded() // Hides loading panel and disables the first login panel if user has already registered a name
+        /// <summary>
+        /// Hides loading panel and disables the first login panel if user has already registered a name
+        /// </summary>
+        public void GameLoaded() 
         {
             rootMM.Q<VisualElement>("loading-panel").style.display = DisplayStyle.None;
             if (PlayFabManager.hasName == true)
@@ -410,8 +457,11 @@ namespace FlowerProject
             PlayFabManager.GetLeaderBoard();
         }
 
-
-        public void DisplayLeaderboard(List<PlayerLeaderboardEntry> leaderboard) // Displays the leaderboard using a template and the data from playfab's leaderboard
+        /// <summary>
+        /// Displays the leaderboard using a template and the data from playfab's leaderboard
+        /// </summary>
+        /// <param name="leaderboard"></param>
+        public void DisplayLeaderboard(List<PlayerLeaderboardEntry> leaderboard) 
         {
             VisualElement leaderboardPanel = rootMM.Q<VisualElement>("Leaderboard");
 
@@ -432,7 +482,13 @@ namespace FlowerProject
             }
         }
 
-        private void RemoveAddUSSClass(VisualElement target, string classToRemove, string classToAdd) // Util to remove and add a class to a Visual Element in one line
+        /// <summary>
+        /// Util to remove and add a class to a Visual Element in one line
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="classToRemove"></param>
+        /// <param name="classToAdd"></param>
+        private void RemoveAddUSSClass(VisualElement target, string classToRemove, string classToAdd) 
         {
             target.RemoveFromClassList(classToRemove);
             target.AddToClassList(classToAdd);

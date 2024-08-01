@@ -6,7 +6,9 @@ using DG.Tweening;
 
 namespace FlowerProject
 {
-    // Handles lives, lose state, and flower animations in the future
+    /// <summary>
+    /// Handles lives, lose state, and flower animations in the future
+    /// </summary>
     public class Flower : MonoBehaviour
     {
         private VisualElement root;
@@ -43,7 +45,11 @@ namespace FlowerProject
             StartCoroutine(CaptureInitialPositions());
         }
 
-        private IEnumerator CaptureInitialPositions() // Get each petal's initial position in order to reset them when restarting
+         /// <summary>
+         /// Get each petal's initial position in order to reset them when restarting
+         /// </summary>
+         /// <returns></returns>
+        private IEnumerator CaptureInitialPositions()
         {
             yield return new WaitForEndOfFrame();
 
@@ -53,7 +59,10 @@ namespace FlowerProject
             }
         }
 
-        private void LoseRandomPetal() // Uses DOTween.ToArray to make a random petal fall using some amount of randomness for a better effect then removes the petal from the List
+        /// <summary>
+        /// Uses DOTween.ToArray to make a random petal fall using some amount of randomness for a better effect then removes the petal from the List
+        /// </summary>
+        private void LoseRandomPetal() 
         {
             int randomIndex = Random.Range(0, petals.Count);
             VisualElement petal = petals[randomIndex];
@@ -103,7 +112,10 @@ namespace FlowerProject
             petals.RemoveAt(randomIndex);
         }
 
-        private void ResetPetals() // Sets the petals to their initial position and rotation
+        /// <summary>
+        /// Sets the petals to their initial position and rotation
+        /// </summary>
+        private void ResetPetals() 
         {
             petals.Clear();
             petals.AddRange(root.Query<VisualElement>(className: "petal").ToList());
@@ -117,7 +129,11 @@ namespace FlowerProject
             }
         }
 
-        public void SunshineAnimation(bool isWin) // DOTween sequence using custom DOTween extension, shown when guessing a correct letter (bool is there for a plan to play a modified version on win)
+        /// <summary>
+        /// DOTween sequence using custom DOTween extension, shown when guessing a correct letter (bool is there for a plan to play a modified version on win)
+        /// </summary>
+        /// <param name="isWin"></param>
+        public void SunshineAnimation(bool isWin) 
         {
             float targetRotation = (Random.value < 0.5f) ? -90f : 90f;
             var sequence = DOTween.Sequence();
@@ -132,7 +148,11 @@ namespace FlowerProject
             sequence.Play();
         }
 
-        private IEnumerator CallLose() // Called when Lives == 0 to instantly disable the keyboard but leave a delay before starting the Lose event
+        /// <summary>
+        /// Called when Lives == 0 to instantly disable the keyboard but leave a delay before starting the Lose event
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator CallLose() 
         {
             WordManager.Instance.DisableKeyboard();
             yield return new WaitForSeconds(3f);

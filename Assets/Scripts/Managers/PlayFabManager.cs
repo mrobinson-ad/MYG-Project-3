@@ -121,7 +121,11 @@ namespace FlowerProject
         {
             PlayFabClientAPI.GetTitleData(new GetTitleDataRequest(), OnGetWordData, OnError);
         }
-        // If WordData.json doesn't exist or is different from the WordData we get from TitleData, create wordData.json
+
+        /// <summary>
+        /// If WordData.json doesn't exist or is different from the WordData we get from TitleData, create wordData.json
+        /// </summary>
+        /// <param name="result"></param>
         private void OnGetWordData(GetTitleDataResult result)
         {
             if (result.Data == null || !result.Data.ContainsKey("WordData"))
@@ -156,7 +160,11 @@ namespace FlowerProject
             result => LocalUserData(result), OnError);
         }
 
-        private void LocalUserData(GetUserDataResult result) // Sets the user's win/loss data in GameManager with the values stored in their PlayFab PlayerData and sets them to 0 if the result is null
+        /// <summary>
+        /// Sets the user's win/loss data in GameManager with the values stored in their PlayFab PlayerData and sets them to 0 if the result is null
+        /// </summary>
+        /// <param name="result"></param>
+        private void LocalUserData(GetUserDataResult result) 
         {
             if (result.Data == null)
             {

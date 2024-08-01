@@ -8,7 +8,9 @@ namespace FlowerProject
 {
     public class GameManager : MonoBehaviour
     {
-
+        /// <summary>
+        /// Reference to the WordList Scriptable object that WordManager uses in order to populate it when Deserializing WordData
+        /// </summary>
         public WordList_SO wordList;
         public static GameManager Instance { get; private set; } // Singleton
 
@@ -22,6 +24,7 @@ namespace FlowerProject
                 UpdateStats("Common");
             }
         }
+
         public int ScientificWins
         {
             get => scientificWins;
@@ -32,6 +35,7 @@ namespace FlowerProject
                 UpdateStats("Scientific");
             }
         }
+
         public int TotalLosses
         {
             get => totalLosses;
@@ -72,7 +76,11 @@ namespace FlowerProject
         }
 
         #region Win Event
-        public static void Win() // Updates the total and category specific wins and saves them to PlayFab
+
+        /// <summary>
+        /// Updates the total and category specific wins and saves them to PlayFab
+        /// </summary>
+        public static void Win() 
         {
             GameManager.Instance.totalWins++;
             Debug.Log($"You won a total of {GameManager.Instance.totalWins} times");
@@ -91,7 +99,11 @@ namespace FlowerProject
         #endregion
 
         #region Lose Event
-        public static void Lose() // Updates the losses and saves them to PlayFab
+
+        /// <summary>
+        /// Updates the losses and saves them to PlayFab
+        /// </summary>
+        public static void Lose() 
         {
             GameManager.Instance.TotalLosses++;
             Debug.Log($"You lost a total of {GameManager.Instance.TotalLosses} times");
@@ -99,7 +111,10 @@ namespace FlowerProject
             OnLose?.Invoke();
         }
         #endregion
-
+        /// <summary>
+        /// Gets win ratio from totalWins and totalLosses
+        /// </summary>
+        /// <returns></returns>
         public int GetWinRate()
         {
             float winRatio = (float)totalWins / (totalWins + totalLosses) * 100;
@@ -107,13 +122,20 @@ namespace FlowerProject
             winRate = (int)winRatio;
             return winRate;
         }
-
+        
+        /// <summary>
+        /// Gets total wins from commonWins and ScientificWins
+        /// </summary>
+        /// <returns></returns>
         public int GetTotalWin()
         {
             totalWins = CommonWins + ScientificWins;
             return totalWins;
         }
 
+        /// <summary>
+        /// Deserialize WordData.json into Word_SO scriptable objects and feeds them into wordList
+        /// </summary>
         public void DeserializeJson() 
         {
             string filePath = Path.Combine(Application.persistentDataPath, "WordData.json");
@@ -147,7 +169,11 @@ namespace FlowerProject
             }
         }
 
-        private void UpdateStats(string key) // Updates PlayFabManager PlayerData by giving a single KVP
+        /// <summary>
+        /// Updates PlayFabManager PlayerData by giving a single KVP
+        /// </summary>
+        /// <param name="key"></param>
+        private void UpdateStats(string key) 
         {
             var data = new Dictionary<string, string>();
             switch (key)

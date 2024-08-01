@@ -1,9 +1,13 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace FlowerProject
 {
-    public class StatsPanelController : MonoBehaviour // Initially sets the win/lose stats and updates them when OnWin or OnLose are called
+    /// <summary>
+    /// Initially sets the win/lose stats and updates them when OnWin or OnLose are called
+    /// </summary>
+    public class StatsPanelController : MonoBehaviour 
     {
 
         Label totalWins;
@@ -26,15 +30,7 @@ namespace FlowerProject
 
         void Start()
         {
-            totalWins.text = $"Total wins: {GameManager.Instance.GetTotalWin()}";
-
-            winRate.text = $"Win rate: {GameManager.Instance.GetWinRate()}%";
-
-            commonWins.text = $"Common wins: {GameManager.Instance.CommonWins}";
-
-            scientificWins.text = $"Scientific wins: {GameManager.Instance.ScientificWins}";
-
-            totalLosses.text = $"Total Losses: {GameManager.Instance.TotalLosses}";
+            StartCoroutine(SetInitialStats());
         }
 
         private void UpdateWins()
@@ -58,6 +54,24 @@ namespace FlowerProject
             totalLosses.text = $"Total Losses: {GameManager.Instance.TotalLosses}";
             winRate.text = $"Win rate: {GameManager.Instance.GetWinRate()}%";
             PlayFabManager.UpdateWinRate(GameManager.Instance.GetWinRate());
+        }
+
+        /// <summary>
+        /// Delays the InitialStats update to allow time for the playfab data to be fetched
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator SetInitialStats()
+        {
+            yield return new WaitForSeconds(4);
+            totalWins.text = $"Total wins: {GameManager.Instance.GetTotalWin()}";
+
+            winRate.text = $"Win rate: {GameManager.Instance.GetWinRate()}%";
+
+            commonWins.text = $"Common wins: {GameManager.Instance.CommonWins}";
+
+            scientificWins.text = $"Scientific wins: {GameManager.Instance.ScientificWins}";
+
+            totalLosses.text = $"Total Losses: {GameManager.Instance.TotalLosses}";
         }
     }
 }

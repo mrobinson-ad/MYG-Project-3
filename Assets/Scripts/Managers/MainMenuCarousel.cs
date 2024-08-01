@@ -23,9 +23,12 @@ namespace FlowerProject
 
         }
 
-        private void StartCarousel() // DOTween sequence that loops until the last position then calls the restart
+        /// <summary>
+        /// DOTween sequence that loops like a css carousel until the last position then calls the restart
+        /// </summary>
+        private void StartCarousel() 
         {
-            // Create a sequence
+            
             var sequence = DOTween.Sequence()
                 .SetLink(this.gameObject, LinkBehaviour.PauseOnDisablePlayOnEnable)
                 .AppendInterval(4);
@@ -49,7 +52,11 @@ namespace FlowerProject
                 });
         }
 
-        private void RestartCarousel() // Goes back to the first image and calls the loop again
+
+        /// <summary>
+        /// Goes back to the first image and calls the loop again
+        /// </summary>
+        private void RestartCarousel() 
         {
             DOTween.Sequence()
                 .AppendInterval(4)

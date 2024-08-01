@@ -5,6 +5,9 @@ using UnityEngine.UIElements;
 
 namespace FlowerProject
 {
+    /// <summary>
+    /// Events and Delegates for settings related actions
+    /// </summary>
     public class Settings : MonoBehaviour
     {
         public delegate void volumeChangeAction(VisualElement target, float volume);

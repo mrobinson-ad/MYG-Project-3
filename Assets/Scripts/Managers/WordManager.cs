@@ -55,13 +55,21 @@ namespace FlowerProject
             displayWord = root.Q<Label>("display-word");
             hint = root.Q<Label>("hint");
         }
-        // Gets a random wordSO in the specified category in the wordlistSO
+
+        /// <summary>
+        /// Gets a random wordSO in the specified category in the wordlistSO
+        /// </summary>
+        /// <param name="wordList"></param>
+        /// <returns></returns>
         private Word_SO GetWord(List<Word_SO> wordList)
         {
             return wordList[Random.Range(0, wordList.Count)];
         }
 
-        // Sets the display word to show an underscore for each letter in the word to guess 
+        /// <summary>
+        /// Sets the display word to show an underscore for each letter in the word to guess 
+        /// </summary>
+        /// <param name="wordArray"></param>
         private void SetEmptyWord(char[] wordArray)
         {
             wordDisplay = "";
@@ -79,7 +87,11 @@ namespace FlowerProject
             displayWord.text = "<cspace=0.25em>" + wordDisplay + "</cspace>"; // use rich text format to space the letters
         }
 
-        public void SetNewWord(Category category) // same as SetNewWord but gets a word from a specific category
+        /// <summary>
+        /// same as SetNewWord but gets a word from a specific category
+        /// </summary>
+        /// <param name="category"></param>
+        public void SetNewWord(Category category) 
         {
             flower.Lives = 7;
             ResetKeyboard();
@@ -112,7 +124,10 @@ namespace FlowerProject
             SetEmptyWord(wordToGuess);
         }
 
-        public void SetNewWord() // Resets lives, keyboard and gets a new random word depending on difficulty
+        /// <summary>
+        /// Resets lives, keyboard and gets a new random word depending on difficulty
+        /// </summary>
+        public void SetNewWord() 
         {
             flower.Lives = 7;
             ResetKeyboard();
@@ -133,7 +148,12 @@ namespace FlowerProject
             }
             SetEmptyWord(wordToGuess);
         }
-
+        
+        /// <summary>
+        /// Returns a different fontsize to be used by the display label depending on the length of the word
+        /// </summary>
+        /// <param name="word"></param>
+        /// <returns></returns>
         int SetFontSize(string word)
         {
             int fontSize;
@@ -163,7 +183,9 @@ namespace FlowerProject
             return fontSize;
         }
 
-        // Add each character button in virtual keyboard to the letters array
+        /// <summary>
+        /// Add each character button in virtual keyboard to the letters array
+        /// </summary>
         private void InitializeVirtualKeyboard()
         {
             var buttons = virtualKeyboard.Query<Button>().ToList();
@@ -176,7 +198,11 @@ namespace FlowerProject
             }
         }
 
-        // Check if letter is part of the word and return the locations of each occurrence in order to update the displayed word
+        /// <summary>
+        /// Check if letter is part of the word and return the locations of each occurrence in order to update the displayed word
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns></returns>
         public IEnumerator OnLetterClicked(char c)
         {
             Debug.Log("You pressed " + c);
@@ -236,8 +262,10 @@ namespace FlowerProject
         }
 
 
-
-        private void ResetKeyboard() //resets the buttons' style and removes the styles that color the buttons
+        /// <summary>
+        /// Resets the buttons' style and removes the styles that color the buttons
+        /// </summary>
+        private void ResetKeyboard() 
         {
             var buttons = virtualKeyboard.Query<Button>().ToList();
             letter = new Button[buttons.Count];
@@ -251,7 +279,10 @@ namespace FlowerProject
             }
         }
 
-        public void DisableKeyboard() //Disables buttons while waiting to show Win/Lose screen
+        /// <summary>
+        /// Disables buttons while waiting to show Win/Lose screen
+        /// </summary>
+        public void DisableKeyboard() 
         {
             var buttons = virtualKeyboard.Query<Button>().ToList();
             letter = new Button[buttons.Count];
