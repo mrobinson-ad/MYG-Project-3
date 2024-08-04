@@ -64,6 +64,32 @@ This is the original Figma blockout made when creating the design documents for 
 
 <br>
 
+# The features of the game
+
+<br>
+ 
+- PlayFab Integration:
+    -
+    This project uses playfab to handle user authentication (currently a simple non recoverable system with deviceID) and setting a display name. The words to find in the game are stored as a json array stored in TitleData and when users log into the game they compare their version of that json in their persistent data with the playfab version and update it if necessary. PlayerData is used to store the win/loss stats of each user and also serves to display the ingame leaderboard.
+
+- UIToolkit:
+    -
+    All the game except the match3 board is made using UI toolkit. This posed some challenges notably for changing some default unity elements like radio buttons or sliders, but more so when trying to animate VisualElements with DOTween. For that reason I created a DOTween extension class with static Tweeners adapted to VisualElements for the Tweens I used the most like DOScale or DOMove. This allowed me to keep portions of my code cleaner by using these shorthand expressions when building DOTween sequences for example.
+- Scriptable Objects
+    -
+    For objects that purely store data I went for a structure that uses scriptable objects, this includes my words which are comprised of : 
+    1. Their common and scientific names with their respective length
+    2. A hint with a colored emphasized word reflecting the plant to guess
+    3. A short description that is shown at the end of the game
+    4. A category
+    
+    The BGM and SFX are also scriptable objects and the audio manager that works on the Observer pattern instantiates prefabs and give them the corresponding audio_SO when invoked.
+- Expandable Match 3
+    -
+    While the match 3 mode of the game is not complete, I've built it with expansion in mind. As such it is simple to add rows or columns to the board, change or add new item types or code in new powerups that affect the board or points. The regions and comments to the methods that are as separated by function as can be also make it easy to navigate and change code on the fly.
+
 # Work in Progress
 As a part of a complexification of the project I worked on a match 3 prototype. All the current features are working so far but it is missing some polish, additional power ups and a proper Win/Lose implementation. I also need to figure out a system to fetch words and set the progress bar values in a balanced way.
 
+> [!IMPORTANT]
+> There are currently errors with the webGL build but I will post the itch.io page of the project as soon as I resolve them

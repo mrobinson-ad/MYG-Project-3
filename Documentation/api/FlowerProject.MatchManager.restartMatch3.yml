@@ -1,0 +1,35 @@
+### YamlMime:ManagedReference
+items:
+- uid: FlowerProject.MatchManager.restartMatch3
+  commentId: T:FlowerProject.MatchManager.restartMatch3
+  id: MatchManager.restartMatch3
+  parent: FlowerProject
+  children: []
+  langs:
+  - csharp
+  - vb
+  name: MatchManager.restartMatch3
+  nameWithType: MatchManager.restartMatch3
+  fullName: FlowerProject.MatchManager.restartMatch3
+  type: Delegate
+  source:
+    remote:
+      path: Assets/Scripts/Match3/MatchManager.cs
+      branch: main
+      repo: https://github.com/mrobinson-ad/MYG-Project-3.git
+    id: restartMatch3
+    path: ../Assets/Scripts/Match3/MatchManager.cs
+    startLine: 17
+  assemblies:
+  - FlowerProject
+  namespace: FlowerProject
+  syntax:
+    content: public delegate void MatchManager.restartMatch3()
+    content.vb: Public Delegate Sub MatchManager.restartMatch3()
+references:
+- uid: FlowerProject
+  commentId: N:FlowerProject
+  href: FlowerProject.html
+  name: FlowerProject
+  nameWithType: FlowerProject
+  fullName: FlowerProject

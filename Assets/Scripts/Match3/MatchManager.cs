@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 
 namespace FlowerProject
 {
+    /// <summary>
+    /// Handles UI and navigation interactions
+    /// </summary>
     public class MatchManager : MonoBehaviour
     {
         public UIDocument uiDocGame;

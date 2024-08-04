@@ -1,0 +1,35 @@
+### YamlMime:ManagedReference
+items:
+- uid: FlowerProject.GameManager.loseAction
+  commentId: T:FlowerProject.GameManager.loseAction
+  id: GameManager.loseAction
+  parent: FlowerProject
+  children: []
+  langs:
+  - csharp
+  - vb
+  name: GameManager.loseAction
+  nameWithType: GameManager.loseAction
+  fullName: FlowerProject.GameManager.loseAction
+  type: Delegate
+  source:
+    remote:
+      path: Assets/Scripts/Managers/GameManager.cs
+      branch: main
+      repo: https://github.com/mrobinson-ad/MYG-Project-3.git
+    id: loseAction
+    path: ../Assets/Scripts/Managers/GameManager.cs
+    startLine: 59
+  assemblies:
+  - FlowerProject
+  namespace: FlowerProject
+  syntax:
+    content: public delegate void GameManager.loseAction()
+    content.vb: Public Delegate Sub GameManager.loseAction()
+references:
+- uid: FlowerProject
+  commentId: N:FlowerProject
+  href: FlowerProject.html
+  name: FlowerProject
+  nameWithType: FlowerProject
+  fullName: FlowerProject

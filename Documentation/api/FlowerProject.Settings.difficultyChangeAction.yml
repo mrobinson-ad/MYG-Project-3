@@ -1,0 +1,35 @@
+### YamlMime:ManagedReference
+items:
+- uid: FlowerProject.Settings.difficultyChangeAction
+  commentId: T:FlowerProject.Settings.difficultyChangeAction
+  id: Settings.difficultyChangeAction
+  parent: FlowerProject
+  children: []
+  langs:
+  - csharp
+  - vb
+  name: Settings.difficultyChangeAction
+  nameWithType: Settings.difficultyChangeAction
+  fullName: FlowerProject.Settings.difficultyChangeAction
+  type: Delegate
+  source:
+    remote:
+      path: Assets/Scripts/Managers/Settings.cs
+      branch: main
+      repo: https://github.com/mrobinson-ad/MYG-Project-3.git
+    id: difficultyChangeAction
+    path: ../Assets/Scripts/Managers/Settings.cs
+    startLine: 15
+  assemblies:
+  - FlowerProject
+  namespace: FlowerProject
+  syntax:
+    content: public delegate void Settings.difficultyChangeAction()
+    content.vb: Public Delegate Sub Settings.difficultyChangeAction()
+references:
+- uid: FlowerProject
+  commentId: N:FlowerProject
+  href: FlowerProject.html
+  name: FlowerProject
+  nameWithType: FlowerProject
+  fullName: FlowerProject

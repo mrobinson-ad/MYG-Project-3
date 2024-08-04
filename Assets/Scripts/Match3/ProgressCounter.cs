@@ -6,6 +6,9 @@ using UnityEngine.UIElements;
 using DG.Tweening;
 namespace FlowerProject
 {
+    /// <summary>
+    /// In charge of controlling the progress sliders and triggering the corresponding actions when they reach their max value
+    /// </summary>
     public class ProgressCounter : MonoBehaviour
     {
 
@@ -31,6 +34,9 @@ namespace FlowerProject
         public UnityEngine.UI.Button powerUpButton; //change to list
         private const float TweenDuration = 0.5f;
 
+        /// <summary>
+        /// Property that tweens the value of the consonant slider to progressively fill it when it increases and calls the OnProgressFilled coroutine when it reaches max
+        /// </summary>
         public float CurrentConsonant
         {
             get => currentConsonant;
@@ -45,6 +51,10 @@ namespace FlowerProject
                 }
             }
         }
+
+        /// <summary>
+        /// Property that tweens the value of the vowel slider to progressively fill it when it increases and calls the OnProgressFilled coroutine when it reaches max
+        /// </summary>
         public float CurrentVowel
         {
             get => currentVowel;
@@ -59,6 +69,10 @@ namespace FlowerProject
 
             }
         }
+
+        /// <summary>
+        /// Property that tweens the value of the power slider to progressively fill it when it increases and sets canUsePower to true when it reaches max
+        /// </summary>
         public float CurrentPower
         {
             get => currentPower;
@@ -79,6 +93,10 @@ namespace FlowerProject
                 // add animation
             }
         }
+
+        /// <summary>
+        /// Property that tweens the value of the health slider to progressively decrease and resets it to the max health when it reaches 0
+        /// </summary>
         public float CurrentMinus
         {
             get => currentMinus;
@@ -104,7 +122,11 @@ namespace FlowerProject
         private List<Vector2> petalPos;
 
         private int lives = 7;
-        public int Lives // Lives property updates the lives display on change and triggers the Lose event when = 0
+        
+        /// <summary>
+        /// Lives property updates the lives display on change and triggers the Lose event when = 0
+        /// </summary>
+        public int Lives 
         {
             get => lives;
             set
@@ -139,7 +161,11 @@ namespace FlowerProject
             petalPos = new List<Vector2>();
             StartCoroutine(CaptureInitialPositions());
         }
-
+        /// <summary>
+        /// When the OnIncreaseScore event is triggered increase the value of the slider corresponding to the type by the float score
+        /// </summary>
+        /// <param name="score"></param>
+        /// <param name="type"></param>
         private void OnIncreaseScore(float score, ItemType type)
         {
             switch (type)
@@ -164,6 +190,12 @@ namespace FlowerProject
             }
         }
 
+        /// <summary>
+        /// Coroutine that triggers the Reveal methods in WordRevealer when a value reaches max and sets the slider back to 0 then after a delay returns it to the surplus from current - max
+        /// </summary>
+        /// <param name="itemType"></param>
+        /// <param name="progress"></param>
+        /// <returns></returns>
         private IEnumerator OnProgressFilled(ItemType itemType, float progress)
         {
             var sequence = DOTween.Sequence();
@@ -196,6 +228,11 @@ namespace FlowerProject
         }
 
         #region Flower methods
+
+        /// <summary>
+        /// Gets the initial position of the petals to return them on restart
+        /// </summary>
+        /// <returns></returns>
         private IEnumerator CaptureInitialPositions()
         {
             yield return new WaitForEndOfFrame();
@@ -206,6 +243,9 @@ namespace FlowerProject
             }
         }
 
+        /// <summary>
+        /// Uses a DOTween.ToArray to animate a random petal falling with a sway
+        /// </summary>
         private void LoseRandomPetal()
         {
             int randomIndex = Random.Range(0, petals.Count);
@@ -214,19 +254,19 @@ namespace FlowerProject
 
             Vector3[] endValues = new[]
             {
-        new Vector3(startPos.x + Random.Range(-150, -50), startPos.y + 100),
-        new Vector3(startPos.x + Random.Range(50, 150), startPos.y + 200),
-        new Vector3(startPos.x + Random.Range(-150, -50), startPos.y + 300),
-        new Vector3(startPos.x + Random.Range(-50, 50), startPos.y + 400)
-    };
+                new Vector3(startPos.x + Random.Range(-150, -50), startPos.y + 100),
+                new Vector3(startPos.x + Random.Range(50, 150), startPos.y + 200),
+                new Vector3(startPos.x + Random.Range(-150, -50), startPos.y + 300),
+                new Vector3(startPos.x + Random.Range(-50, 50), startPos.y + 400)
+            };
 
             float[] durations = new[]
             {
-        Random.Range(1f, 1.5f),
-        Random.Range(1f, 1.5f),
-        Random.Range(1f, 1.5f),
-        Random.Range(1f, 1.5f)
-    };
+                Random.Range(1f, 1.5f),
+                Random.Range(1f, 1.5f),
+                Random.Range(1f, 1.5f),
+                Random.Range(1f, 1.5f)
+            };
 
             Tween t = DOTween.ToArray(
                 () => new Vector2(petal.resolvedStyle.left, petal.resolvedStyle.top),
@@ -257,6 +297,9 @@ namespace FlowerProject
             petals.RemoveAt(randomIndex);
         }
 
+        /// <summary>
+        /// Adds the petals back into the list and resets them to their original position and rotation
+        /// </summary>
         private void ResetPetals()
         {
             petals.Clear();

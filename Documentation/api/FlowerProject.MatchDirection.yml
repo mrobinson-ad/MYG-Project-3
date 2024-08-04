@@ -1,0 +1,204 @@
+### YamlMime:ManagedReference
+items:
+- uid: FlowerProject.MatchDirection
+  commentId: T:FlowerProject.MatchDirection
+  id: MatchDirection
+  parent: FlowerProject
+  children:
+  - FlowerProject.MatchDirection.Horizontal
+  - FlowerProject.MatchDirection.LongHorizontal
+  - FlowerProject.MatchDirection.LongVertical
+  - FlowerProject.MatchDirection.None
+  - FlowerProject.MatchDirection.Super
+  - FlowerProject.MatchDirection.Vertical
+  langs:
+  - csharp
+  - vb
+  name: MatchDirection
+  nameWithType: MatchDirection
+  fullName: FlowerProject.MatchDirection
+  type: Enum
+  source:
+    remote:
+      path: Assets/Scripts/Match3/Board.cs
+      branch: main
+      repo: https://github.com/mrobinson-ad/MYG-Project-3.git
+    id: MatchDirection
+    path: ../Assets/Scripts/Match3/Board.cs
+    startLine: 736
+  assemblies:
+  - FlowerProject
+  namespace: FlowerProject
+  syntax:
+    content: public enum MatchDirection
+    content.vb: Public Enum MatchDirection
+- uid: FlowerProject.MatchDirection.Vertical
+  commentId: F:FlowerProject.MatchDirection.Vertical
+  id: Vertical
+  parent: FlowerProject.MatchDirection
+  langs:
+  - csharp
+  - vb
+  name: Vertical
+  nameWithType: MatchDirection.Vertical
+  fullName: FlowerProject.MatchDirection.Vertical
+  type: Field
+  source:
+    remote:
+      path: Assets/Scripts/Match3/Board.cs
+      branch: main
+      repo: https://github.com/mrobinson-ad/MYG-Project-3.git
+    id: Vertical
+    path: ../Assets/Scripts/Match3/Board.cs
+    startLine: 738
+  assemblies:
+  - FlowerProject
+  namespace: FlowerProject
+  syntax:
+    content: Vertical = 0
+    return:
+      type: FlowerProject.MatchDirection
+- uid: FlowerProject.MatchDirection.Horizontal
+  commentId: F:FlowerProject.MatchDirection.Horizontal
+  id: Horizontal
+  parent: FlowerProject.MatchDirection
+  langs:
+  - csharp
+  - vb
+  name: Horizontal
+  nameWithType: MatchDirection.Horizontal
+  fullName: FlowerProject.MatchDirection.Horizontal
+  type: Field
+  source:
+    remote:
+      path: Assets/Scripts/Match3/Board.cs
+      branch: main
+      repo: https://github.com/mrobinson-ad/MYG-Project-3.git
+    id: Horizontal
+    path: ../Assets/Scripts/Match3/Board.cs
+    startLine: 739
+  assemblies:
+  - FlowerProject
+  namespace: FlowerProject
+  syntax:
+    content: Horizontal = 1
+    return:
+      type: FlowerProject.MatchDirection
+- uid: FlowerProject.MatchDirection.LongVertical
+  commentId: F:FlowerProject.MatchDirection.LongVertical
+  id: LongVertical
+  parent: FlowerProject.MatchDirection
+  langs:
+  - csharp
+  - vb
+  name: LongVertical
+  nameWithType: MatchDirection.LongVertical
+  fullName: FlowerProject.MatchDirection.LongVertical
+  type: Field
+  source:
+    remote:
+      path: Assets/Scripts/Match3/Board.cs
+      branch: main
+      repo: https://github.com/mrobinson-ad/MYG-Project-3.git
+    id: LongVertical
+    path: ../Assets/Scripts/Match3/Board.cs
+    startLine: 740
+  assemblies:
+  - FlowerProject
+  namespace: FlowerProject
+  syntax:
+    content: LongVertical = 2
+    return:
+      type: FlowerProject.MatchDirection
+- uid: FlowerProject.MatchDirection.LongHorizontal
+  commentId: F:FlowerProject.MatchDirection.LongHorizontal
+  id: LongHorizontal
+  parent: FlowerProject.MatchDirection
+  langs:
+  - csharp
+  - vb
+  name: LongHorizontal
+  nameWithType: MatchDirection.LongHorizontal
+  fullName: FlowerProject.MatchDirection.LongHorizontal
+  type: Field
+  source:
+    remote:
+      path: Assets/Scripts/Match3/Board.cs
+      branch: main
+      repo: https://github.com/mrobinson-ad/MYG-Project-3.git
+    id: LongHorizontal
+    path: ../Assets/Scripts/Match3/Board.cs
+    startLine: 741
+  assemblies:
+  - FlowerProject
+  namespace: FlowerProject
+  syntax:
+    content: LongHorizontal = 3
+    return:
+      type: FlowerProject.MatchDirection
+- uid: FlowerProject.MatchDirection.Super
+  commentId: F:FlowerProject.MatchDirection.Super
+  id: Super
+  parent: FlowerProject.MatchDirection
+  langs:
+  - csharp
+  - vb
+  name: Super
+  nameWithType: MatchDirection.Super
+  fullName: FlowerProject.MatchDirection.Super
+  type: Field
+  source:
+    remote:
+      path: Assets/Scripts/Match3/Board.cs
+      branch: main
+      repo: https://github.com/mrobinson-ad/MYG-Project-3.git
+    id: Super
+    path: ../Assets/Scripts/Match3/Board.cs
+    startLine: 742
+  assemblies:
+  - FlowerProject
+  namespace: FlowerProject
+  syntax:
+    content: Super = 4
+    return:
+      type: FlowerProject.MatchDirection
+- uid: FlowerProject.MatchDirection.None
+  commentId: F:FlowerProject.MatchDirection.None
+  id: None
+  parent: FlowerProject.MatchDirection
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: MatchDirection.None
+  fullName: FlowerProject.MatchDirection.None
+  type: Field
+  source:
+    remote:
+      path: Assets/Scripts/Match3/Board.cs
+      branch: main
+      repo: https://github.com/mrobinson-ad/MYG-Project-3.git
+    id: None
+    path: ../Assets/Scripts/Match3/Board.cs
+    startLine: 743
+  assemblies:
+  - FlowerProject
+  namespace: FlowerProject
+  syntax:
+    content: None = 5
+    return:
+      type: FlowerProject.MatchDirection
+references:
+- uid: FlowerProject
+  commentId: N:FlowerProject
+  href: FlowerProject.html
+  name: FlowerProject
+  nameWithType: FlowerProject
+  fullName: FlowerProject
+- uid: FlowerProject.MatchDirection
+  commentId: T:FlowerProject.MatchDirection
+  parent: FlowerProject
+  href: FlowerProject.MatchDirection.html
+  name: MatchDirection
+  nameWithType: MatchDirection
+  fullName: FlowerProject.MatchDirection

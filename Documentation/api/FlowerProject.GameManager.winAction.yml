@@ -1,0 +1,35 @@
+### YamlMime:ManagedReference
+items:
+- uid: FlowerProject.GameManager.winAction
+  commentId: T:FlowerProject.GameManager.winAction
+  id: GameManager.winAction
+  parent: FlowerProject
+  children: []
+  langs:
+  - csharp
+  - vb
+  name: GameManager.winAction
+  nameWithType: GameManager.winAction
+  fullName: FlowerProject.GameManager.winAction
+  type: Delegate
+  source:
+    remote:
+      path: Assets/Scripts/Managers/GameManager.cs
+      branch: main
+      repo: https://github.com/mrobinson-ad/MYG-Project-3.git
+    id: winAction
+    path: ../Assets/Scripts/Managers/GameManager.cs
+    startLine: 56
+  assemblies:
+  - FlowerProject
+  namespace: FlowerProject
+  syntax:
+    content: public delegate void GameManager.winAction()
+    content.vb: Public Delegate Sub GameManager.winAction()
+references:
+- uid: FlowerProject
+  commentId: N:FlowerProject
+  href: FlowerProject.html
+  name: FlowerProject
+  nameWithType: FlowerProject
+  fullName: FlowerProject

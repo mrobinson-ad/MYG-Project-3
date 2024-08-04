@@ -1,0 +1,23 @@
+### YamlMime:ManagedReference
+items:
+- uid: CustomAttributes
+  commentId: N:CustomAttributes
+  id: CustomAttributes
+  children:
+  - CustomAttributes.ReadOnlyAttribute
+  langs:
+  - csharp
+  - vb
+  name: CustomAttributes
+  nameWithType: CustomAttributes
+  fullName: CustomAttributes
+  type: Namespace
+  assemblies:
+  - FlowerProject
+references:
+- uid: CustomAttributes.ReadOnlyAttribute
+  commentId: T:CustomAttributes.ReadOnlyAttribute
+  href: CustomAttributes.ReadOnlyAttribute.html
+  name: ReadOnlyAttribute
+  nameWithType: ReadOnlyAttribute
+  fullName: CustomAttributes.ReadOnlyAttribute

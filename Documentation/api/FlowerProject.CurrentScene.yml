@@ -1,0 +1,125 @@
+### YamlMime:ManagedReference
+items:
+- uid: FlowerProject.CurrentScene
+  commentId: T:FlowerProject.CurrentScene
+  id: CurrentScene
+  parent: FlowerProject
+  children:
+  - FlowerProject.CurrentScene.End
+  - FlowerProject.CurrentScene.Game
+  - FlowerProject.CurrentScene.Main
+  langs:
+  - csharp
+  - vb
+  name: CurrentScene
+  nameWithType: CurrentScene
+  fullName: FlowerProject.CurrentScene
+  type: Enum
+  source:
+    remote:
+      path: Assets/Scripts/Managers/UIManager.cs
+      branch: main
+      repo: https://github.com/mrobinson-ad/MYG-Project-3.git
+    id: CurrentScene
+    path: ../Assets/Scripts/Managers/UIManager.cs
+    startLine: 15
+  assemblies:
+  - FlowerProject
+  namespace: FlowerProject
+  summary: Used to define the UIDocument the user is currently on, mainly for navigation
+  example: []
+  syntax:
+    content: public enum CurrentScene
+    content.vb: Public Enum CurrentScene
+- uid: FlowerProject.CurrentScene.Main
+  commentId: F:FlowerProject.CurrentScene.Main
+  id: Main
+  parent: FlowerProject.CurrentScene
+  langs:
+  - csharp
+  - vb
+  name: Main
+  nameWithType: CurrentScene.Main
+  fullName: FlowerProject.CurrentScene.Main
+  type: Field
+  source:
+    remote:
+      path: Assets/Scripts/Managers/UIManager.cs
+      branch: main
+      repo: https://github.com/mrobinson-ad/MYG-Project-3.git
+    id: Main
+    path: ../Assets/Scripts/Managers/UIManager.cs
+    startLine: 17
+  assemblies:
+  - FlowerProject
+  namespace: FlowerProject
+  syntax:
+    content: Main = 0
+    return:
+      type: FlowerProject.CurrentScene
+- uid: FlowerProject.CurrentScene.Game
+  commentId: F:FlowerProject.CurrentScene.Game
+  id: Game
+  parent: FlowerProject.CurrentScene
+  langs:
+  - csharp
+  - vb
+  name: Game
+  nameWithType: CurrentScene.Game
+  fullName: FlowerProject.CurrentScene.Game
+  type: Field
+  source:
+    remote:
+      path: Assets/Scripts/Managers/UIManager.cs
+      branch: main
+      repo: https://github.com/mrobinson-ad/MYG-Project-3.git
+    id: Game
+    path: ../Assets/Scripts/Managers/UIManager.cs
+    startLine: 18
+  assemblies:
+  - FlowerProject
+  namespace: FlowerProject
+  syntax:
+    content: Game = 1
+    return:
+      type: FlowerProject.CurrentScene
+- uid: FlowerProject.CurrentScene.End
+  commentId: F:FlowerProject.CurrentScene.End
+  id: End
+  parent: FlowerProject.CurrentScene
+  langs:
+  - csharp
+  - vb
+  name: End
+  nameWithType: CurrentScene.End
+  fullName: FlowerProject.CurrentScene.End
+  type: Field
+  source:
+    remote:
+      path: Assets/Scripts/Managers/UIManager.cs
+      branch: main
+      repo: https://github.com/mrobinson-ad/MYG-Project-3.git
+    id: End
+    path: ../Assets/Scripts/Managers/UIManager.cs
+    startLine: 19
+  assemblies:
+  - FlowerProject
+  namespace: FlowerProject
+  syntax:
+    content: End = 2
+    return:
+      type: FlowerProject.CurrentScene
+references:
+- uid: FlowerProject
+  commentId: N:FlowerProject
+  href: FlowerProject.html
+  name: FlowerProject
+  nameWithType: FlowerProject
+  fullName: FlowerProject
+- uid: FlowerProject.CurrentScene
+  commentId: T:FlowerProject.CurrentScene
+  parent: FlowerProject
+  href: FlowerProject.CurrentScene.html
+  name: CurrentScene
+  nameWithType: CurrentScene
+  fullName: FlowerProject.CurrentScene

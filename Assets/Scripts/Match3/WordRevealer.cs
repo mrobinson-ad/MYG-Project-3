@@ -7,12 +7,14 @@ using System.Linq;
 
 namespace FlowerProject
 {
+    /// <summary>
+    /// Class in charge of displaying the underscores for the word at the start of the game and revealing letters
+    /// </summary>
     public class WordRevealer : MonoBehaviour
     {
         public static WordRevealer Instance { get; private set; }
 
         public string wordToFind;
-        public WordList_SO wordList;
 
         public char[] charsToFind;
 
@@ -28,7 +30,11 @@ namespace FlowerProject
             displayedWord.text = new string(wordDisplay);
         }
 
-
+        /// <summary>
+        /// Returns a char array of underscores equal to the length of the word to find
+        /// </summary>
+        /// <param name="word"></param>
+        /// <returns></returns>
         private char[] SetWord(string word)
         {
             // Initialize the wordDisplay array with underscores representing hidden characters
@@ -40,6 +46,9 @@ namespace FlowerProject
             return x;
         }
 
+        /// <summary>
+        /// Reveals the next consonant in the word array that hasn't been revealed yet
+        /// </summary>
         public void RevealConsonant()
         {
             // Find the first consonant in wordToFind that is not already revealed in wordDisplay
@@ -62,7 +71,9 @@ namespace FlowerProject
         }
 
 
-
+        /// <summary>
+        /// Reveals next vowel in the word array that hasn't been revealed yet
+        /// </summary>
         public void RevealVowel()
         {
             // Find the first vowel in wordToFind that is not already revealed in wordDisplay

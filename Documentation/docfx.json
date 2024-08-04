@@ -3,9 +3,9 @@
     {
       "src": [
         {
-          "src": "../..",
+          "src": "..",
           "files": [
-            "**/*.csproj"
+            "FlowerProject.csproj"
           ]
         }
       ],
@@ -36,9 +36,9 @@
       "modern"
     ],
     "globalMetadata": {
-      "_appName": "",
-      "_appTitle": "",
-      "_enableSearch": true,
+      "_appName": "floweryjourney",
+      "_appTitle": "floweryjourney",
+      "_enableSearch": false,
       "pdf": true
     }
   }

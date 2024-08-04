@@ -1,0 +1,96 @@
+### YamlMime:ManagedReference
+items:
+- uid: FlowerProject.Difficulty
+  commentId: T:FlowerProject.Difficulty
+  id: Difficulty
+  parent: FlowerProject
+  children:
+  - FlowerProject.Difficulty.Common
+  - FlowerProject.Difficulty.Scientific
+  langs:
+  - csharp
+  - vb
+  name: Difficulty
+  nameWithType: Difficulty
+  fullName: FlowerProject.Difficulty
+  type: Enum
+  source:
+    remote:
+      path: Assets/Scripts/Managers/WordManager.cs
+      branch: main
+      repo: https://github.com/mrobinson-ad/MYG-Project-3.git
+    id: Difficulty
+    path: ../Assets/Scripts/Managers/WordManager.cs
+    startLine: 11
+  assemblies:
+  - FlowerProject
+  namespace: FlowerProject
+  syntax:
+    content: public enum Difficulty
+    content.vb: Public Enum Difficulty
+- uid: FlowerProject.Difficulty.Common
+  commentId: F:FlowerProject.Difficulty.Common
+  id: Common
+  parent: FlowerProject.Difficulty
+  langs:
+  - csharp
+  - vb
+  name: Common
+  nameWithType: Difficulty.Common
+  fullName: FlowerProject.Difficulty.Common
+  type: Field
+  source:
+    remote:
+      path: Assets/Scripts/Managers/WordManager.cs
+      branch: main
+      repo: https://github.com/mrobinson-ad/MYG-Project-3.git
+    id: Common
+    path: ../Assets/Scripts/Managers/WordManager.cs
+    startLine: 13
+  assemblies:
+  - FlowerProject
+  namespace: FlowerProject
+  syntax:
+    content: Common = 0
+    return:
+      type: FlowerProject.Difficulty
+- uid: FlowerProject.Difficulty.Scientific
+  commentId: F:FlowerProject.Difficulty.Scientific
+  id: Scientific
+  parent: FlowerProject.Difficulty
+  langs:
+  - csharp
+  - vb
+  name: Scientific
+  nameWithType: Difficulty.Scientific
+  fullName: FlowerProject.Difficulty.Scientific
+  type: Field
+  source:
+    remote:
+      path: Assets/Scripts/Managers/WordManager.cs
+      branch: main
+      repo: https://github.com/mrobinson-ad/MYG-Project-3.git
+    id: Scientific
+    path: ../Assets/Scripts/Managers/WordManager.cs
+    startLine: 14
+  assemblies:
+  - FlowerProject
+  namespace: FlowerProject
+  syntax:
+    content: Scientific = 1
+    return:
+      type: FlowerProject.Difficulty
+references:
+- uid: FlowerProject
+  commentId: N:FlowerProject
+  href: FlowerProject.html
+  name: FlowerProject
+  nameWithType: FlowerProject
+  fullName: FlowerProject
+- uid: FlowerProject.Difficulty
+  commentId: T:FlowerProject.Difficulty
+  parent: FlowerProject
+  href: FlowerProject.Difficulty.html
+  name: Difficulty
+  nameWithType: Difficulty
+  fullName: FlowerProject.Difficulty

@@ -3,12 +3,347 @@
   "xrefmap": "xrefmap.yml",
   "files": [
     {
-      "type": "Resource",
+      "type": "ManagedReference",
+      "source_relative_path": "api/CustomAttributes.ReadOnlyAttribute.yml",
       "output": {
-        "resource": {
-          "relative_path": "index.json"
+        ".html": {
+          "relative_path": "api/CustomAttributes.ReadOnlyAttribute.html"
         }
-      }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/CustomAttributes.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/CustomAttributes.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FlowerProject.AudioManager.musicChangeAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FlowerProject.AudioManager.musicChangeAction.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FlowerProject.AudioManager.sfxPressedAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FlowerProject.AudioManager.sfxPressedAction.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FlowerProject.AudioManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FlowerProject.AudioManager.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FlowerProject.Board.increaseScore.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FlowerProject.Board.increaseScore.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FlowerProject.Board.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FlowerProject.Board.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FlowerProject.CurrentScene.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FlowerProject.CurrentScene.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FlowerProject.Difficulty.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FlowerProject.Difficulty.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FlowerProject.EaseTypeWrapper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FlowerProject.EaseTypeWrapper.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FlowerProject.Flower.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FlowerProject.Flower.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FlowerProject.GameManager.loseAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FlowerProject.GameManager.loseAction.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FlowerProject.GameManager.winAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FlowerProject.GameManager.winAction.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FlowerProject.GameManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FlowerProject.GameManager.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FlowerProject.MainMenuCarousel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FlowerProject.MainMenuCarousel.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FlowerProject.MatchDirection.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FlowerProject.MatchDirection.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FlowerProject.MatchManager.restartMatch3.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FlowerProject.MatchManager.restartMatch3.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FlowerProject.MatchManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FlowerProject.MatchManager.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FlowerProject.MatchResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FlowerProject.MatchResult.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FlowerProject.PlayFabManager.updateDisplayName.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FlowerProject.PlayFabManager.updateDisplayName.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FlowerProject.PlayFabManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FlowerProject.PlayFabManager.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FlowerProject.ProgressCounter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FlowerProject.ProgressCounter.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FlowerProject.Row.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FlowerProject.Row.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FlowerProject.Settings.difficultyChangeAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FlowerProject.Settings.difficultyChangeAction.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FlowerProject.Settings.returnPressedAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FlowerProject.Settings.returnPressedAction.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FlowerProject.Settings.volumeChangeAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FlowerProject.Settings.volumeChangeAction.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FlowerProject.Settings.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FlowerProject.Settings.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FlowerProject.StatsPanelController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FlowerProject.StatsPanelController.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FlowerProject.Tile.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FlowerProject.Tile.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FlowerProject.UIManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FlowerProject.UIManager.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FlowerProject.WordManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FlowerProject.WordManager.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FlowerProject.WordRevealer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FlowerProject.WordRevealer.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/FlowerProject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/FlowerProject.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html"
+        },
+        ".json": {
+          "relative_path": "api/toc.json"
+        }
+      },
+      "version": ""
     },
     {
       "type": "Conceptual",

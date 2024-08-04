@@ -1,0 +1,416 @@
+### YamlMime:ManagedReference
+items:
+- uid: FlowerProject
+  commentId: N:FlowerProject
+  id: FlowerProject
+  children:
+  - FlowerProject.AudioManager
+  - FlowerProject.AudioManager.musicChangeAction
+  - FlowerProject.AudioManager.sfxPressedAction
+  - FlowerProject.Board
+  - FlowerProject.Board.increaseScore
+  - FlowerProject.CurrentScene
+  - FlowerProject.Difficulty
+  - FlowerProject.EaseTypeWrapper
+  - FlowerProject.Flower
+  - FlowerProject.GameManager
+  - FlowerProject.GameManager.loseAction
+  - FlowerProject.GameManager.winAction
+  - FlowerProject.MainMenuCarousel
+  - FlowerProject.MatchDirection
+  - FlowerProject.MatchManager
+  - FlowerProject.MatchManager.restartMatch3
+  - FlowerProject.MatchResult
+  - FlowerProject.PlayFabManager
+  - FlowerProject.PlayFabManager.updateDisplayName
+  - FlowerProject.ProgressCounter
+  - FlowerProject.Row
+  - FlowerProject.Settings
+  - FlowerProject.Settings.difficultyChangeAction
+  - FlowerProject.Settings.returnPressedAction
+  - FlowerProject.Settings.volumeChangeAction
+  - FlowerProject.StatsPanelController
+  - FlowerProject.Tile
+  - FlowerProject.UIManager
+  - FlowerProject.WordManager
+  - FlowerProject.WordRevealer
+  langs:
+  - csharp
+  - vb
+  name: FlowerProject
+  nameWithType: FlowerProject
+  fullName: FlowerProject
+  type: Namespace
+  assemblies:
+  - FlowerProject
+references:
+- uid: FlowerProject.MainMenuCarousel
+  commentId: T:FlowerProject.MainMenuCarousel
+  href: FlowerProject.MainMenuCarousel.html
+  name: MainMenuCarousel
+  nameWithType: MainMenuCarousel
+  fullName: FlowerProject.MainMenuCarousel
+- uid: FlowerProject.AudioManager
+  commentId: T:FlowerProject.AudioManager
+  parent: FlowerProject
+  href: FlowerProject.AudioManager.html
+  name: AudioManager
+  nameWithType: AudioManager
+  fullName: FlowerProject.AudioManager
+- uid: FlowerProject.AudioManager.musicChangeAction
+  commentId: T:FlowerProject.AudioManager.musicChangeAction
+  parent: FlowerProject
+  href: FlowerProject.AudioManager.html
+  name: AudioManager.musicChangeAction
+  nameWithType: AudioManager.musicChangeAction
+  fullName: FlowerProject.AudioManager.musicChangeAction
+  spec.csharp:
+  - uid: FlowerProject.AudioManager
+    name: AudioManager
+    href: FlowerProject.AudioManager.html
+  - name: .
+  - uid: FlowerProject.AudioManager.musicChangeAction
+    name: musicChangeAction
+    href: FlowerProject.AudioManager.musicChangeAction.html
+  spec.vb:
+  - uid: FlowerProject.AudioManager
+    name: AudioManager
+    href: FlowerProject.AudioManager.html
+  - name: .
+  - uid: FlowerProject.AudioManager.musicChangeAction
+    name: musicChangeAction
+    href: FlowerProject.AudioManager.musicChangeAction.html
+- uid: FlowerProject.AudioManager.sfxPressedAction
+  commentId: T:FlowerProject.AudioManager.sfxPressedAction
+  parent: FlowerProject
+  href: FlowerProject.AudioManager.html
+  name: AudioManager.sfxPressedAction
+  nameWithType: AudioManager.sfxPressedAction
+  fullName: FlowerProject.AudioManager.sfxPressedAction
+  spec.csharp:
+  - uid: FlowerProject.AudioManager
+    name: AudioManager
+    href: FlowerProject.AudioManager.html
+  - name: .
+  - uid: FlowerProject.AudioManager.sfxPressedAction
+    name: sfxPressedAction
+    href: FlowerProject.AudioManager.sfxPressedAction.html
+  spec.vb:
+  - uid: FlowerProject.AudioManager
+    name: AudioManager
+    href: FlowerProject.AudioManager.html
+  - name: .
+  - uid: FlowerProject.AudioManager.sfxPressedAction
+    name: sfxPressedAction
+    href: FlowerProject.AudioManager.sfxPressedAction.html
+- uid: FlowerProject.WordRevealer
+  commentId: T:FlowerProject.WordRevealer
+  parent: FlowerProject
+  href: FlowerProject.WordRevealer.html
+  name: WordRevealer
+  nameWithType: WordRevealer
+  fullName: FlowerProject.WordRevealer
+- uid: FlowerProject.EaseTypeWrapper
+  commentId: T:FlowerProject.EaseTypeWrapper
+  parent: FlowerProject
+  href: FlowerProject.EaseTypeWrapper.html
+  name: EaseTypeWrapper
+  nameWithType: EaseTypeWrapper
+  fullName: FlowerProject.EaseTypeWrapper
+- uid: FlowerProject.Board
+  commentId: T:FlowerProject.Board
+  parent: FlowerProject
+  href: FlowerProject.Board.html
+  name: Board
+  nameWithType: Board
+  fullName: FlowerProject.Board
+- uid: FlowerProject.Board.increaseScore
+  commentId: T:FlowerProject.Board.increaseScore
+  parent: FlowerProject
+  href: FlowerProject.Board.html
+  name: Board.increaseScore
+  nameWithType: Board.increaseScore
+  fullName: FlowerProject.Board.increaseScore
+  spec.csharp:
+  - uid: FlowerProject.Board
+    name: Board
+    href: FlowerProject.Board.html
+  - name: .
+  - uid: FlowerProject.Board.increaseScore
+    name: increaseScore
+    href: FlowerProject.Board.increaseScore.html
+  spec.vb:
+  - uid: FlowerProject.Board
+    name: Board
+    href: FlowerProject.Board.html
+  - name: .
+  - uid: FlowerProject.Board.increaseScore
+    name: increaseScore
+    href: FlowerProject.Board.increaseScore.html
+- uid: FlowerProject.MatchResult
+  commentId: T:FlowerProject.MatchResult
+  href: FlowerProject.MatchResult.html
+  name: MatchResult
+  nameWithType: MatchResult
+  fullName: FlowerProject.MatchResult
+- uid: FlowerProject.MatchDirection
+  commentId: T:FlowerProject.MatchDirection
+  parent: FlowerProject
+  href: FlowerProject.MatchDirection.html
+  name: MatchDirection
+  nameWithType: MatchDirection
+  fullName: FlowerProject.MatchDirection
+- uid: FlowerProject.Difficulty
+  commentId: T:FlowerProject.Difficulty
+  parent: FlowerProject
+  href: FlowerProject.Difficulty.html
+  name: Difficulty
+  nameWithType: Difficulty
+  fullName: FlowerProject.Difficulty
+- uid: FlowerProject.WordManager
+  commentId: T:FlowerProject.WordManager
+  parent: FlowerProject
+  href: FlowerProject.WordManager.html
+  name: WordManager
+  nameWithType: WordManager
+  fullName: FlowerProject.WordManager
+- uid: FlowerProject.PlayFabManager
+  commentId: T:FlowerProject.PlayFabManager
+  parent: FlowerProject
+  href: FlowerProject.PlayFabManager.html
+  name: PlayFabManager
+  nameWithType: PlayFabManager
+  fullName: FlowerProject.PlayFabManager
+- uid: FlowerProject.PlayFabManager.updateDisplayName
+  commentId: T:FlowerProject.PlayFabManager.updateDisplayName
+  parent: FlowerProject
+  href: FlowerProject.PlayFabManager.html
+  name: PlayFabManager.updateDisplayName
+  nameWithType: PlayFabManager.updateDisplayName
+  fullName: FlowerProject.PlayFabManager.updateDisplayName
+  spec.csharp:
+  - uid: FlowerProject.PlayFabManager
+    name: PlayFabManager
+    href: FlowerProject.PlayFabManager.html
+  - name: .
+  - uid: FlowerProject.PlayFabManager.updateDisplayName
+    name: updateDisplayName
+    href: FlowerProject.PlayFabManager.updateDisplayName.html
+  spec.vb:
+  - uid: FlowerProject.PlayFabManager
+    name: PlayFabManager
+    href: FlowerProject.PlayFabManager.html
+  - name: .
+  - uid: FlowerProject.PlayFabManager.updateDisplayName
+    name: updateDisplayName
+    href: FlowerProject.PlayFabManager.updateDisplayName.html
+- uid: FlowerProject.ProgressCounter
+  commentId: T:FlowerProject.ProgressCounter
+  parent: FlowerProject
+  href: FlowerProject.ProgressCounter.html
+  name: ProgressCounter
+  nameWithType: ProgressCounter
+  fullName: FlowerProject.ProgressCounter
+- uid: FlowerProject.Row
+  commentId: T:FlowerProject.Row
+  href: FlowerProject.Row.html
+  name: Row
+  nameWithType: Row
+  fullName: FlowerProject.Row
+- uid: FlowerProject.MatchManager
+  commentId: T:FlowerProject.MatchManager
+  href: FlowerProject.MatchManager.html
+  name: MatchManager
+  nameWithType: MatchManager
+  fullName: FlowerProject.MatchManager
+- uid: FlowerProject.MatchManager.restartMatch3
+  commentId: T:FlowerProject.MatchManager.restartMatch3
+  parent: FlowerProject
+  href: FlowerProject.MatchManager.html
+  name: MatchManager.restartMatch3
+  nameWithType: MatchManager.restartMatch3
+  fullName: FlowerProject.MatchManager.restartMatch3
+  spec.csharp:
+  - uid: FlowerProject.MatchManager
+    name: MatchManager
+    href: FlowerProject.MatchManager.html
+  - name: .
+  - uid: FlowerProject.MatchManager.restartMatch3
+    name: restartMatch3
+    href: FlowerProject.MatchManager.restartMatch3.html
+  spec.vb:
+  - uid: FlowerProject.MatchManager
+    name: MatchManager
+    href: FlowerProject.MatchManager.html
+  - name: .
+  - uid: FlowerProject.MatchManager.restartMatch3
+    name: restartMatch3
+    href: FlowerProject.MatchManager.restartMatch3.html
+- uid: FlowerProject.StatsPanelController
+  commentId: T:FlowerProject.StatsPanelController
+  href: FlowerProject.StatsPanelController.html
+  name: StatsPanelController
+  nameWithType: StatsPanelController
+  fullName: FlowerProject.StatsPanelController
+- uid: FlowerProject.CurrentScene
+  commentId: T:FlowerProject.CurrentScene
+  parent: FlowerProject
+  href: FlowerProject.CurrentScene.html
+  name: CurrentScene
+  nameWithType: CurrentScene
+  fullName: FlowerProject.CurrentScene
+- uid: FlowerProject.UIManager
+  commentId: T:FlowerProject.UIManager
+  parent: FlowerProject
+  href: FlowerProject.UIManager.html
+  name: UIManager
+  nameWithType: UIManager
+  fullName: FlowerProject.UIManager
+- uid: FlowerProject.Flower
+  commentId: T:FlowerProject.Flower
+  parent: FlowerProject
+  href: FlowerProject.Flower.html
+  name: Flower
+  nameWithType: Flower
+  fullName: FlowerProject.Flower
+- uid: FlowerProject.GameManager
+  commentId: T:FlowerProject.GameManager
+  parent: FlowerProject
+  href: FlowerProject.GameManager.html
+  name: GameManager
+  nameWithType: GameManager
+  fullName: FlowerProject.GameManager
+- uid: FlowerProject.GameManager.winAction
+  commentId: T:FlowerProject.GameManager.winAction
+  parent: FlowerProject
+  href: FlowerProject.GameManager.html
+  name: GameManager.winAction
+  nameWithType: GameManager.winAction
+  fullName: FlowerProject.GameManager.winAction
+  spec.csharp:
+  - uid: FlowerProject.GameManager
+    name: GameManager
+    href: FlowerProject.GameManager.html
+  - name: .
+  - uid: FlowerProject.GameManager.winAction
+    name: winAction
+    href: FlowerProject.GameManager.winAction.html
+  spec.vb:
+  - uid: FlowerProject.GameManager
+    name: GameManager
+    href: FlowerProject.GameManager.html
+  - name: .
+  - uid: FlowerProject.GameManager.winAction
+    name: winAction
+    href: FlowerProject.GameManager.winAction.html
+- uid: FlowerProject.GameManager.loseAction
+  commentId: T:FlowerProject.GameManager.loseAction
+  parent: FlowerProject
+  href: FlowerProject.GameManager.html
+  name: GameManager.loseAction
+  nameWithType: GameManager.loseAction
+  fullName: FlowerProject.GameManager.loseAction
+  spec.csharp:
+  - uid: FlowerProject.GameManager
+    name: GameManager
+    href: FlowerProject.GameManager.html
+  - name: .
+  - uid: FlowerProject.GameManager.loseAction
+    name: loseAction
+    href: FlowerProject.GameManager.loseAction.html
+  spec.vb:
+  - uid: FlowerProject.GameManager
+    name: GameManager
+    href: FlowerProject.GameManager.html
+  - name: .
+  - uid: FlowerProject.GameManager.loseAction
+    name: loseAction
+    href: FlowerProject.GameManager.loseAction.html
+- uid: FlowerProject.Settings
+  commentId: T:FlowerProject.Settings
+  href: FlowerProject.Settings.html
+  name: Settings
+  nameWithType: Settings
+  fullName: FlowerProject.Settings
+- uid: FlowerProject.Settings.volumeChangeAction
+  commentId: T:FlowerProject.Settings.volumeChangeAction
+  parent: FlowerProject
+  href: FlowerProject.Settings.html
+  name: Settings.volumeChangeAction
+  nameWithType: Settings.volumeChangeAction
+  fullName: FlowerProject.Settings.volumeChangeAction
+  spec.csharp:
+  - uid: FlowerProject.Settings
+    name: Settings
+    href: FlowerProject.Settings.html
+  - name: .
+  - uid: FlowerProject.Settings.volumeChangeAction
+    name: volumeChangeAction
+    href: FlowerProject.Settings.volumeChangeAction.html
+  spec.vb:
+  - uid: FlowerProject.Settings
+    name: Settings
+    href: FlowerProject.Settings.html
+  - name: .
+  - uid: FlowerProject.Settings.volumeChangeAction
+    name: volumeChangeAction
+    href: FlowerProject.Settings.volumeChangeAction.html
+- uid: FlowerProject.Settings.difficultyChangeAction
+  commentId: T:FlowerProject.Settings.difficultyChangeAction
+  parent: FlowerProject
+  href: FlowerProject.Settings.html
+  name: Settings.difficultyChangeAction
+  nameWithType: Settings.difficultyChangeAction
+  fullName: FlowerProject.Settings.difficultyChangeAction
+  spec.csharp:
+  - uid: FlowerProject.Settings
+    name: Settings
+    href: FlowerProject.Settings.html
+  - name: .
+  - uid: FlowerProject.Settings.difficultyChangeAction
+    name: difficultyChangeAction
+    href: FlowerProject.Settings.difficultyChangeAction.html
+  spec.vb:
+  - uid: FlowerProject.Settings
+    name: Settings
+    href: FlowerProject.Settings.html
+  - name: .
+  - uid: FlowerProject.Settings.difficultyChangeAction
+    name: difficultyChangeAction
+    href: FlowerProject.Settings.difficultyChangeAction.html
+- uid: FlowerProject.Settings.returnPressedAction
+  commentId: T:FlowerProject.Settings.returnPressedAction
+  parent: FlowerProject
+  href: FlowerProject.Settings.html
+  name: Settings.returnPressedAction
+  nameWithType: Settings.returnPressedAction
+  fullName: FlowerProject.Settings.returnPressedAction
+  spec.csharp:
+  - uid: FlowerProject.Settings
+    name: Settings
+    href: FlowerProject.Settings.html
+  - name: .
+  - uid: FlowerProject.Settings.returnPressedAction
+    name: returnPressedAction
+    href: FlowerProject.Settings.returnPressedAction.html
+  spec.vb:
+  - uid: FlowerProject.Settings
+    name: Settings
+    href: FlowerProject.Settings.html
+  - name: .
+  - uid: FlowerProject.Settings.returnPressedAction
+    name: returnPressedAction
+    href: FlowerProject.Settings.returnPressedAction.html
+- uid: FlowerProject.Tile
+  commentId: T:FlowerProject.Tile
+  parent: FlowerProject
+  href: FlowerProject.Tile.html
+  name: Tile
+  nameWithType: Tile
+  fullName: FlowerProject.Tile
+- uid: FlowerProject
+  commentId: N:FlowerProject
+  href: FlowerProject.html
+  name: FlowerProject
+  nameWithType: FlowerProject
+  fullName: FlowerProject

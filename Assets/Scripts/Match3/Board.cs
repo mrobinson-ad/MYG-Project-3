@@ -8,6 +8,10 @@ using UnityEngine.UI;
 
 namespace FlowerProject
 {
+
+    /// <summary>
+    /// Class in charge of handling the match3 board
+    /// </summary>
     public sealed class Board : MonoBehaviour
     {
         #region Variable Declaration
@@ -22,14 +26,14 @@ namespace FlowerProject
         public int Width => Tiles.GetLength(0);
         public int Height => Tiles.GetLength(1);
 
-        public Item nullItem;
+        public Item nullItem; // Null item to set when tiles are empty after a match and before being refilled
 
-        public Tile selectedTile;
+        public Tile selectedTile; // currently selected tile
 
         public Button resetButton;
 
         private bool canMove = true;
-        private bool usingMinusDelete = false;
+        private bool usingMinusDelete = false; // temporary boolean that when true makes the Minus items not count towards the progress bar when removed
 
         public bool isStarting = true; // temporary bool for temporary board scramble powerup usage
 
@@ -60,6 +64,10 @@ namespace FlowerProject
             isStarting = false;
         }
 
+        /// <summary>
+        /// Populates the Tiles array with the tiles contained in the rows and populate them with a random Item from ItemDatabase
+        /// </summary>
+        /// <returns></returns>
         private async Task InitializeBoard()
         {
             int width = rows.Max(row => row.tiles.Length);
@@ -83,10 +91,13 @@ namespace FlowerProject
                     iconTransforms[x, height - 1 - y] = tile.icon.GetComponent<RectTransform>(); // Store the RectTransform
                 }
             }
-            if (CheckBoard())
+            if (CheckBoard()) // if there is a match reinitialize the board
                 ReinitializeBoard();
         }
 
+        /// <summary>
+        /// Currently refills all tiles with a new random item and does so until there are no matches but if !isStarting reduces lives and processes any match found (this case is triggered by the shuffle power)
+        /// </summary>
         public async void ReinitializeBoard()
         {
             if (!canMove)
@@ -110,6 +121,10 @@ namespace FlowerProject
             }
         }
 
+        /// <summary>
+        /// Checks for matches
+        /// </summary>
+        /// <returns></returns>
         public bool CheckBoard()
         {
             Debug.Log("Checking Board");
@@ -152,6 +167,11 @@ namespace FlowerProject
 
         #region Removing/Filling logic
 
+        /// <summary>
+        /// Handles the tasks that remove tiles, makes them fall down and spawn new ones
+        /// </summary>
+        /// <param name="tilesToRemove"></param>
+        /// <returns></returns>
         private async Task RemoveAndRefill(List<Tile> tilesToRemove)
         {
             await AnimateRemoval(tilesToRemove);
@@ -170,6 +190,11 @@ namespace FlowerProject
             }
         }
 
+        /// <summary>
+        /// Uses a DOTween sequence to scale up icons before removing them and a dictionary to keep track of their score in order to update the value only once when the animations have completed
+        /// </summary>
+        /// <param name="tilesToRemove"></param>
+        /// <returns></returns>
         private async Task AnimateRemoval(List<Tile> tilesToRemove)
         {
             // Dictionary to accumulate scores for each item type
@@ -210,6 +235,11 @@ namespace FlowerProject
             }
         }
 
+        /// <summary>
+        /// Checks for tiles with null items in order to determine where to spawn new ones
+        /// </summary>
+        /// <param name="emptyTiles"></param>
+        /// <returns></returns>
         private bool CheckForEmptyTiles(out List<Tile> emptyTiles)
         {
             emptyTiles = new List<Tile>();
@@ -228,6 +258,7 @@ namespace FlowerProject
             return emptyTiles.Count > 0;
         }
 
+    
         private async Task AnimateFallingIcons()
         {
             var moveTasks = new List<Task>();
@@ -263,6 +294,12 @@ namespace FlowerProject
             await Task.WhenAll(moveTasks);
         }
 
+        /// <summary>
+        /// Animates the icon moving falling from the tile above with a callback to ensure the position is reset correctly to the center of the tile when complete
+        /// </summary>
+        /// <param name="tileAbove"></param>
+        /// <param name="emptyTile"></param>
+        /// <returns></returns>
         private Task MoveIconToEmptyTile(Tile tileAbove, Tile emptyTile)
         {
             var iconAbove = tileAbove.icon.transform;
@@ -289,6 +326,11 @@ namespace FlowerProject
             return sequence.Play().AsyncWaitForCompletion();
         }
 
+        /// <summary>
+        /// Awaits SpawnItemAtTop for each empty tile
+        /// </summary>
+        /// <param name="emptyTiles"></param>
+        /// <returns></returns>
         private async Task SpawnItemsAtTop(List<Tile> emptyTiles)
         {
             foreach (Tile emptyTile in emptyTiles)
@@ -300,6 +342,12 @@ namespace FlowerProject
             }
         }
 
+        /// <summary>
+        /// Animates adding a new item at the target position
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
         private async Task SpawnItemAtTop(int x, int y)
         {
             Tile newItem = Tiles[x, y];
@@ -320,7 +368,11 @@ namespace FlowerProject
 
         #endregion
         #region Matching logic
-
+        /// <summary>
+        /// Checks for superMatches (>= 5) and returns MatchResult containing the tiles matched, their type and their value
+        /// </summary>
+        /// <param name="_matchedResults"></param>
+        /// <returns></returns>
         private MatchResult SuperMatch(MatchResult _matchedResults)
         {
             if (_matchedResults.direction == MatchDirection.Horizontal || _matchedResults.direction == MatchDirection.LongHorizontal)
@@ -379,6 +431,11 @@ namespace FlowerProject
             };
         }
 
+        /// <summary>
+        /// Checks for matches in horizontal or vertical lines of 3 or more and returns a MatchResult
+        /// </summary>
+        /// <param name="tile"></param>
+        /// <returns></returns>
         private MatchResult IsConnected(Tile tile)
         {
             List<Tile> connectedTiles = new();
@@ -447,6 +504,12 @@ namespace FlowerProject
             };
         }
 
+        /// <summary>
+        /// Checks if neighbour tiles in the specified direction and inside the bounds of the board have a matching itemType and add them to the list and stops upon finding a different type
+        /// </summary>
+        /// <param name="tile"></param>
+        /// <param name="direction"></param>
+        /// <param name="connectedTiles"></param>
         void CheckDirection(Tile tile, Vector2Int direction, List<Tile> connectedTiles)
         {
             ItemType itemType = tile.Item.itemType;
@@ -479,6 +542,10 @@ namespace FlowerProject
 
         #region Swapping logic
 
+        /// <summary>
+        /// If canMove is true then select a tile, deselect it or swap it depending on the case
+        /// </summary>
+        /// <param name="tile"></param>
         public void Select(Tile tile)
         {
             if (!canMove)
@@ -503,6 +570,11 @@ namespace FlowerProject
             }
         }
 
+        /// <summary>
+        /// If the tiles are adjacent swap them and check for matched or else triggers WrongSwap
+        /// </summary>
+        /// <param name="tile1"></param>
+        /// <param name="tile2"></param>
         private async void Swap(Tile tile1, Tile tile2)
         {
             if (!IsAdjacent(tile1, tile2))
@@ -517,6 +589,12 @@ namespace FlowerProject
             await ProcessMatches(tile1, tile2);
         }
 
+        /// <summary>
+        /// DOTween animation to swap icons and tupple to swap their content
+        /// </summary>
+        /// <param name="tile1"></param>
+        /// <param name="tile2"></param>
+        /// <returns></returns>
         public async Task DoSwap(Tile tile1, Tile tile2)
         {
             var icon1 = tile1.icon;
@@ -542,6 +620,12 @@ namespace FlowerProject
             (tile2.Item, tile1.Item) = (tile1.Item, tile2.Item);
         }
 
+        /// <summary>
+        /// Shakes the icons when an invalid swap was attempted
+        /// </summary>
+        /// <param name="tile1"></param>
+        /// <param name="tile2"></param>
+        /// <returns></returns>
         public async Task WrongSwap(Tile tile1, Tile tile2)
         {
             var sequence = DOTween.Sequence();
@@ -564,6 +648,10 @@ namespace FlowerProject
             }
         }
 
+        /// <summary>
+        /// Sets isMatched to false from the tiles to remove then await their removal, after a small delay check the board for matches again, only makes canMove true at the end
+        /// </summary>
+        /// <returns></returns>
         private async Task ProcessTurnOnMatchedBoard()
         {
             canMove = false;
@@ -586,6 +674,12 @@ namespace FlowerProject
             canMove = true;
         }
 
+        /// <summary>
+        /// Checks if the input tiles are adjacent
+        /// </summary>
+        /// <param name="currentTile"></param>
+        /// <param name="targetTile"></param>
+        /// <returns></returns>
         private bool IsAdjacent(Tile currentTile, Tile targetTile)
         {
             return Mathf.Abs(currentTile.x - targetTile.x) + Mathf.Abs(currentTile.y - targetTile.y) == 1;
@@ -595,6 +689,9 @@ namespace FlowerProject
 
         #region PowerUps Logic
 
+        /// <summary>
+        /// Removes Minus items (negative health) without affecting the progress bar and sets the power progress back to 0
+        /// </summary>
         public async void DeleteMinus()
         {
             usingMinusDelete = true;
@@ -624,6 +721,9 @@ namespace FlowerProject
 
     }
 
+    /// <summary>
+    /// Class that stores a list of connected tiles, the direction(type) of match, the item type and the value of the match
+    /// </summary>
     public class MatchResult
     {
         public List<Tile> connectedTiles;

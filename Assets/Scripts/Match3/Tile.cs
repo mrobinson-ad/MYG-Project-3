@@ -6,7 +6,10 @@ using DG.Tweening;
 using Unity.VisualScripting;
 
 namespace FlowerProject
-{
+{   
+    /// <summary>
+    /// Class for the tiles that make up the board with a reference to an Item Scriptable Object that makes up the content of the tile
+    /// </summary>
     public class Tile : MonoBehaviour
     {
         public int x;
@@ -32,7 +35,7 @@ namespace FlowerProject
 
         [SerializeField] private bool _isSelected = false;
 
-        public bool IsSelected
+        public bool IsSelected // When the tile is selected this is set to true and the scale of the icon increases
         {
             get => _isSelected;
 
@@ -56,7 +59,7 @@ namespace FlowerProject
         public Button button;
 
 
-        private void Start() => button.onClick.AddListener(() => Board.Instance.Select(this));
+        private void Start() => button.onClick.AddListener(() => Board.Instance.Select(this)); // Subscribe to the Select method from the Board class
 
     }
 }

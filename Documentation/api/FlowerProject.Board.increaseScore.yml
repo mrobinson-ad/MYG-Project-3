@@ -1,0 +1,64 @@
+### YamlMime:ManagedReference
+items:
+- uid: FlowerProject.Board.increaseScore
+  commentId: T:FlowerProject.Board.increaseScore
+  id: Board.increaseScore
+  parent: FlowerProject
+  children: []
+  langs:
+  - csharp
+  - vb
+  name: Board.increaseScore
+  nameWithType: Board.increaseScore
+  fullName: FlowerProject.Board.increaseScore
+  type: Delegate
+  source:
+    remote:
+      path: Assets/Scripts/Match3/Board.cs
+      branch: main
+      repo: https://github.com/mrobinson-ad/MYG-Project-3.git
+    id: increaseScore
+    path: ../Assets/Scripts/Match3/Board.cs
+    startLine: 43
+  assemblies:
+  - FlowerProject
+  namespace: FlowerProject
+  syntax:
+    content: public delegate void Board.increaseScore(float scoreIncrease, ItemType type)
+    parameters:
+    - id: scoreIncrease
+      type: System.Single
+    - id: type
+      type: ItemType
+    content.vb: Public Delegate Sub Board.increaseScore(scoreIncrease As Single, type As ItemType)
+references:
+- uid: FlowerProject
+  commentId: N:FlowerProject
+  href: FlowerProject.html
+  name: FlowerProject
+  nameWithType: FlowerProject
+  fullName: FlowerProject
+- uid: System.Single
+  commentId: T:System.Single
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.single
+  name: float
+  nameWithType: float
+  fullName: float
+  nameWithType.vb: Single
+  fullName.vb: Single
+  name.vb: Single
+- uid: ItemType
+  commentId: T:ItemType
+  href: ItemType.html
+  name: ItemType
+  nameWithType: ItemType
+  fullName: ItemType
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System

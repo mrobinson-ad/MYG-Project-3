@@ -1,0 +1,56 @@
+### YamlMime:ManagedReference
+items:
+- uid: FlowerProject.AudioManager.musicChangeAction
+  commentId: T:FlowerProject.AudioManager.musicChangeAction
+  id: AudioManager.musicChangeAction
+  parent: FlowerProject
+  children: []
+  langs:
+  - csharp
+  - vb
+  name: AudioManager.musicChangeAction
+  nameWithType: AudioManager.musicChangeAction
+  fullName: FlowerProject.AudioManager.musicChangeAction
+  type: Delegate
+  source:
+    remote:
+      path: Assets/Scripts/Managers/AudioManager.cs
+      branch: main
+      repo: https://github.com/mrobinson-ad/MYG-Project-3.git
+    id: musicChangeAction
+    path: ../Assets/Scripts/Managers/AudioManager.cs
+    startLine: 48
+  assemblies:
+  - FlowerProject
+  namespace: FlowerProject
+  syntax:
+    content: public delegate void AudioManager.musicChangeAction(string name)
+    parameters:
+    - id: name
+      type: System.String
+    content.vb: Public Delegate Sub AudioManager.musicChangeAction(name As String)
+references:
+- uid: FlowerProject
+  commentId: N:FlowerProject
+  href: FlowerProject.html
+  name: FlowerProject
+  nameWithType: FlowerProject
+  fullName: FlowerProject
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
