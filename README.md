@@ -92,4 +92,4 @@ This is the original Figma blockout made when creating the design documents for 
 As a part of a complexification of the project I worked on a match 3 prototype. All the current features are working so far but it is missing some polish, additional power ups and a proper Win/Lose implementation. I also need to figure out a system to fetch words and set the progress bar values in a balanced way.
 
 > [!IMPORTANT]
-> There are currently errors with the webGL build but I will post the itch.io page of the project as soon as I resolve them
+> You can try the app on my itch.io page and download it (android only) [Flowery Journey](https://babadulnek.itch.io/flowery-journey)
