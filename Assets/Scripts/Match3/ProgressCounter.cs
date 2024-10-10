@@ -122,11 +122,11 @@ namespace FlowerProject
         private List<Vector2> petalPos;
 
         private int lives = 7;
-        
+
         /// <summary>
         /// Lives property updates the lives display on change and triggers the Lose event when = 0
         /// </summary>
-        public int Lives 
+        public int Lives
         {
             get => lives;
             set
@@ -146,13 +146,13 @@ namespace FlowerProject
         #endregion
         private void Awake()
         {
-            if (Instance == null)
+            if (Instance != null && Instance != this)
             {
-                Instance = this;
+                Destroy(this);
             }
             else
             {
-                Destroy(gameObject);
+                Instance = this;
             }
             Board.OnIncreaseScore += OnIncreaseScore;
             root = gameUIDocument.rootVisualElement;
@@ -160,6 +160,12 @@ namespace FlowerProject
             petals.AddRange(root.Query<VisualElement>(className: "petal").ToList());
             petalPos = new List<Vector2>();
             StartCoroutine(CaptureInitialPositions());
+        }
+
+        void OnDestroy()
+        {
+            Board.OnIncreaseScore -= OnIncreaseScore;
+            StopAllCoroutines();
         }
         /// <summary>
         /// When the OnIncreaseScore event is triggered increase the value of the slider corresponding to the type by the float score
